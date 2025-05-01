@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AuthLayout from "./layouts/AuthLayout";
 import DashboardPage from "./pages/DashboardPage";
+import InvoiceDetailPage from "./pages/InvoiceDetailPage";
 
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>
@@ -14,6 +15,7 @@ createRoot(document.getElementById("root")!).render(
       <Route element={<AuthLayout />}>
         {/* desain layout dengan navbar + sesudah dapat auth */}
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/invoice/:invoiceId" element={<InvoiceDetailPage />} />
       </Route>
 
       {/* desain layout tanpa navbar + sebelum dapat auth */}
