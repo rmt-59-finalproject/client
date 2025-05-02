@@ -1,7 +1,7 @@
 // import { StrictMode } from 'react'
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AuthLayout from "./layouts/AuthLayout";
@@ -14,6 +14,8 @@ createRoot(document.getElementById("root")!).render(
   //TODO: IMPLEMENT INDEX ROUTES
   <BrowserRouter>
     <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
+
       <Route element={<AuthLayout />}>
         {/* desain layout dengan navbar + sesudah dapat auth */}
 
