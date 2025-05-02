@@ -38,7 +38,9 @@ export default function LoginPage() {
       if (!password) {
         throw { message: "Password required" };
       }
+      localStorage.setItem("Authorization", "Warehouse");
       console.log(email, password);
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
       toast.warning((error as Error).message);
@@ -46,7 +48,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-dvh w-full bg-blue-300">
+    <div className="flex flex-col justify-center items-center min-h-dvh w-full bg-gray-200">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle>Login ke Stockify</CardTitle>
