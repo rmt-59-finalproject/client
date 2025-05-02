@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function DriversPage() {
+export default function OutletPage() {
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
       <div className="w-7xl flex flex-col justify-center items-center">
         <div className="border border-gray-300 rounded-2xl flex flex-row items-center p-5 justify-between w-full ">
           <div>
-            <h1 className="text-2xl font-bold">All Drivers</h1>
+            <h1 className="text-2xl font-bold">All Outlets</h1>
           </div>
           <div className="flex gap-2">
-            <Button>Create New Driver</Button>
+            <Button>Create New Outlet</Button>
           </div>
         </div>
 
