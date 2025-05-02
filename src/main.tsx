@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage";
 import AuthLayout from "./layouts/AuthLayout";
 import DashboardPage from "./pages/DashboardPage";
 import InvoiceDetailPage from "./pages/InvoiceDetailPage";
+import { Toaster } from "./components/ui/sonner";
 
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>
@@ -24,6 +25,7 @@ createRoot(document.getElementById("root")!).render(
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
     </Routes>
+    <Toaster />
   </BrowserRouter>
   // </StrictMode>,
 );
