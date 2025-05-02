@@ -8,6 +8,7 @@ import AuthLayout from "./layouts/AuthLayout";
 import DashboardPage from "./pages/DashboardPage";
 import InvoiceDetailPage from "./pages/InvoiceDetailPage";
 import { Toaster } from "./components/ui/sonner";
+import DriversPage from "./pages/DriversPage";
 
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>
@@ -20,6 +21,7 @@ createRoot(document.getElementById("root")!).render(
         {/* desain layout dengan navbar + sesudah dapat auth */}
 
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/drivers" element={<DriversPage />} />
         <Route path="/invoices/:invoiceId" element={<InvoiceDetailPage />} />
       </Route>
 
