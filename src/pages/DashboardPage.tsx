@@ -72,8 +72,8 @@ export default function DashboardPage() {
           </div>
         </div>
         {/* Card Stats */}
-        <div className="w-full h-50 gap-5 p-5">
-          <div className=" flex flex-row ">
+        <div className="w-full h-50 p-5">
+          <div className=" flex  gap-5  flex-row ">
             <Card className="flex-1/3">
               <CardHeader>
                 <CardTitle>Total Inventory</CardTitle>
