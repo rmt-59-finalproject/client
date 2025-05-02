@@ -38,7 +38,9 @@ export default function LoginPage() {
       if (!password) {
         throw { message: "Password required" };
       }
+      localStorage.setItem("Authorization", "Warehouse");
       console.log(email, password);
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
       toast.warning((error as Error).message);
