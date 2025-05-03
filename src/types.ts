@@ -19,7 +19,7 @@ export type ItemOrder = {
   outletCheckTime: string | null;
 };
 
-export type OrderType = {
+export interface OrderType {
   _id: string;
   status: "requested" | "approved" | "in_transit" | "delivered" | "completed";
   createdAt: string;
@@ -35,4 +35,4 @@ export type OrderType = {
     role: "outlet";
   };
   items: ItemOrder[];
-};
+}
