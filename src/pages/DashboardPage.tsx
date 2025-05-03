@@ -14,7 +14,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
+import { http } from "@/helpers/axios";
+import { OrderType } from "@/types";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 const invoices = [
@@ -170,7 +172,22 @@ const invoices = [
 
 export default function DashboardPage() {
   const [role, useRole] = useState("warehouse");
+  const [orderData, setOrderData] = useState<OrderType[]>([]);
   const navigate = useNavigate();
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    try {
+      const data = await http.get("/orders");
+      console.log(data.data);
+      const dataResponse: OrderType[] = data.data;
+      setOrderData(dataResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   function navigateRequestOrder() {
     navigate("/request-order");
@@ -240,10 +257,6 @@ export default function DashboardPage() {
                 </TableCaption>
                 <TableHeader>
                   <TableRow>
-                    {/* <TableHead className="w-[100px]">Invoice</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Method</TableHead>
-                <TableHead className="text-right">Amount</TableHead> */}
                     <TableHead>Order ID</TableHead>
                     <TableHead>Outlet</TableHead>
                     <TableHead>Items</TableHead>
@@ -253,14 +266,12 @@ export default function DashboardPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {invoices.map((invoice) => (
-                    <TableRow key={invoice.orderId}>
-                      <TableCell className="font-base">
-                        {invoice.orderId}
-                      </TableCell>
-                      <TableCell>{invoice.outlet}</TableCell>
+                  {orderData.map((invoice) => (
+                    <TableRow key={invoice._id}>
+                      <TableCell className="font-base">{invoice._id}</TableCell>
+                      <TableCell>{invoice.outlet.username}</TableCell>
                       <TableCell>{invoice.items.length}</TableCell>
-                      <TableCell>{invoice.driver}</TableCell>
+                      <TableCell>{invoice.driver.username}</TableCell>
                       <TableCell>{invoice.status}</TableCell>
                       <TableCell>
                         <Button variant={"neutral"}>View</Button>
