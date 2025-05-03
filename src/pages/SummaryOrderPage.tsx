@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router";
 
 export default function SummaryOrderPage() {
   const location = useLocation();
-  let orderItems: OrderItem[] = location.state;
+  const orderItems: OrderItem[] = location.state;
   const navigate = useNavigate();
   useEffect(() => {
     console.log(orderItems, "<--- summaryPage");
@@ -34,31 +34,39 @@ export default function SummaryOrderPage() {
             </div> */}
         </div>
         {/*  */}
-        <div className="bg-blue-500 w-full p-5 max-w-6xl flex flex-col gap-2">
-          {orderItems.map((item) => {
-            return (
-              <Card key={item.id} className="w-full">
-                <div className="flex flex-row justify-between items-center">
-                  <CardContent>
-                    <div className="flex flex-col ">
-                      <h1 className="font-bold">{item.name}</h1>
-                      <h1 className="text-[12px]">
-                        {item.category} • In stock: {item.stock} {item.unit}
-                      </h1>
+        <div className=" w-full p-5 max-w-6xl justify-center items-center flex flex-col gap-2">
+          {orderItems.length > 0 ? (
+            <>
+              {orderItems.map((item) => {
+                return (
+                  <Card key={item.id} className="w-full">
+                    <div className="flex flex-row justify-between items-center">
+                      <CardContent>
+                        <div className="flex flex-col ">
+                          <h1 className="font-bold">{item.name}</h1>
+                          <h1 className="text-[12px]">
+                            {item.category} • In stock: {item.stock} {item.unit}
+                          </h1>
+                        </div>
+                      </CardContent>
+                      <CardContent>
+                        <h1>
+                          <span className="font-bold text-2xl">
+                            {item.quantity}
+                          </span>{" "}
+                          {item.unit}
+                        </h1>
+                      </CardContent>
                     </div>
-                  </CardContent>
-                  <CardContent>
-                    <h1>
-                      <span className="font-bold text-2xl">
-                        {item.quantity}
-                      </span>{" "}
-                      {item.unit}
-                    </h1>
-                  </CardContent>
-                </div>
-              </Card>
-            );
-          })}
+                  </Card>
+                );
+              })}
+            </>
+          ) : (
+            <div className="p-5 ">
+              <h1>You've not ordered yet, go back to add order.</h1>
+            </div>
+          )}
         </div>
       </div>
       <div className="fixed bottom-4 flex flex-col gap-2 justify-center items-center left-0 right-0 px-4">
@@ -69,7 +77,11 @@ export default function SummaryOrderPage() {
         >
           Back
         </Button>
-        <Button onClick={submitOrder} className="w-full max-w-6xl">
+        <Button
+          onClick={submitOrder}
+          disabled={orderItems.length === 0 ? true : false}
+          className="w-full max-w-6xl"
+        >
           Review Order
         </Button>
       </div>
