@@ -1,6 +1,18 @@
 import { useState } from "react";
 
-const initialInventory = [
+type InventoryItem = {
+  id: number;
+  name: string;
+  category: string;
+  stock: number;
+  unit: string;
+};
+
+type OrderItem = InventoryItem & {
+  quantity: number;
+};
+
+const initialInventory: InventoryItem[] = [
   {
     id: 1,
     name: "Premium Coffee Beans",
@@ -39,14 +51,14 @@ const initialInventory = [
 ];
 
 export default function InventoryOrder() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [orderItems, setOrderItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
 
   const filteredInventory = initialInventory.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleAdd = (item) => {
+  const handleAdd = (item: InventoryItem) => {
     setOrderItems((prev) => {
       const exists = prev.find((i) => i.id === item.id);
       if (exists) {
@@ -58,15 +70,15 @@ export default function InventoryOrder() {
     });
   };
 
-  const handleQuantityChange = (id, qty) => {
+  const handleQuantityChange = (id: number, qty: string) => {
     setOrderItems((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, quantity: parseInt(qty || 0) } : item
+        item.id === id ? { ...item, quantity: parseInt(qty || "0") } : item
       )
     );
   };
 
-  const handleRemove = (id) => {
+  const handleRemove = (id: number) => {
     setOrderItems((prev) => prev.filter((item) => item.id !== id));
   };
 
