@@ -1,0 +1,382 @@
+{
+  "orders": [
+    {
+      "_id": "order001",
+      "status": "delivered",
+      "items": [
+        {
+          "productId": "prod123",
+          "quantity": 2,
+          "checkedByDriver": true,
+          "driverCheckTime": "2025-05-03T08:00:00.000Z",
+          "checkedByOutlet": true,
+          "outletCheckTime": "2025-05-03T09:15:00.000Z"
+        },
+        {
+          "productId": "prod456",
+          "quantity": 1,
+          "checkedByDriver": true,
+          "driverCheckTime": "2025-05-03T08:05:00.000Z",
+          "checkedByOutlet": true,
+          "outletCheckTime": "2025-05-03T09:20:00.000Z"
+        }
+      ],
+      "createdAt": "2025-05-02T14:30:00.000Z",
+      "updatedAt": "2025-05-03T09:20:00.000Z",
+      "driver": {
+        "_id": "driverA",
+        "username": "agus_driver",
+        "role": "driver"
+      },
+      "outlet": {
+        "_id": "outletX",
+        "username": "toko_ceria",
+        "role": "outlet"
+      }
+    },
+    {
+      "_id": "order002",
+      "status": "in_transit",
+      "items": [
+        {
+          "productId": "prod789",
+          "quantity": 3,
+          "checkedByDriver": true,
+          "driverCheckTime": "2025-05-03T10:00:00.000Z",
+          "checkedByOutlet": false,
+          "outletCheckTime": null
+        }
+      ],
+      "createdAt": "2025-05-02T16:00:00.000Z",
+      "updatedAt": "2025-05-03T10:05:00.000Z",
+      "driver": {
+        "_id": "driverB",
+        "username": "budi_cepat",
+        "role": "driver"
+      },
+      "outlet": {
+        "_id": "outletY",
+        "username": "jaya_mart",
+        "role": "outlet"
+      }
+    },
+    {
+      "_id": "order003",
+      "status": "completed",
+      "items": [
+        {
+          "productId": "prod012",
+          "quantity": 5,
+          "checkedByDriver": true,
+          "driverCheckTime": "2025-05-01T11:00:00.000Z",
+          "checkedByOutlet": true,
+          "outletCheckTime": "2025-05-01T12:30:00.000Z"
+        },
+        {
+          "productId": "prod345",
+          "quantity": 2,
+          "checkedByDriver": true,
+          "driverCheckTime": "2025-05-01T11:10:00.000Z",
+          "checkedByOutlet": true,
+          "outletCheckTime": "2025-05-01T12:40:00.000Z"
+        }
+      ],
+      "createdAt": "2025-04-30T10:00:00.000Z",
+      "updatedAt": "2025-05-01T12:40:00.000Z",
+      "driver": {
+        "_id": "driverC",
+        "username": "citra_kirim",
+        "role": "driver"
+      },
+      "outlet": {
+        "_id": "outletZ",
+        "username": "super_murah",
+        "role": "outlet"
+      }
+    },
+    {
+      "_id": "order004",
+      "status": "requested",
+      "items": [
+        {
+          "productId": "prod678",
+          "quantity": 1,
+          "checkedByDriver": false,
+          "driverCheckTime": null,
+          "checkedByOutlet": false,
+          "outletCheckTime": null
+        }
+      ],
+      "createdAt": "2025-05-03T13:00:00.000Z",
+      "updatedAt": "2025-05-03T13:00:00.000Z",
+      "driver": {
+        "_id": "driverD",
+        "username": "dani_antar",
+        "role": "driver"
+      },
+      "outlet": {
+        "_id": "outletA",
+        "username": "laris_manis",
+        "role": "outlet"
+      }
+    },
+    {
+      "_id": "order005",
+      "status": "approved",
+      "items": [
+        {
+          "productId": "prod901",
+          "quantity": 4,
+          "checkedByDriver": false,
+          "driverCheckTime": null,
+          "checkedByOutlet": false,
+          "outletCheckTime": null
+        }
+      ],
+      "createdAt": "2025-05-03T11:30:00.000Z",
+      "updatedAt": "2025-05-03T11:45:00.000Z",
+      "driver": {
+        "_id": "driverE",
+        "username": "eka_logistik",
+        "role": "driver"
+      },
+      "outlet": {
+        "_id": "outletB",
+        "username": "makmur_jaya",
+        "role": "outlet"
+      }
+    },
+    {
+      "_id": "order006",
+      "status": "delivered",
+      "items": [
+        {
+          "productId": "prod234",
+          "quantity": 2,
+          "checkedByDriver": true,
+          "driverCheckTime": "2025-05-03T12:00:00.000Z",
+          "checkedByOutlet": true,
+          "outletCheckTime": "2025-05-03T13:10:00.000Z"
+        }
+      ],
+      "createdAt": "2025-05-02T18:00:00.000Z",
+      "updatedAt": "2025-05-03T13:10:00.000Z",
+      "driver": {
+        "_id": "driverF",
+        "username": "faisal_express",
+        "role": "driver"
+      },
+      "outlet": {
+        "_id": "outletC",
+        "username": "toko_abah",
+        "role": "outlet"
+      }
+    },
+    {
+      "_id": "order007",
+      "status": "in_transit",
+      "items": [
+        {
+          "productId": "prod567",
+          "quantity": 1,
+          "checkedByDriver": true,
+          "driverCheckTime": "2025-05-03T14:00:00.000Z",
+          "checkedByOutlet": false,
+          "outletCheckTime": null
+        },
+        {
+          "productId": "prod890",
+          "quantity": 3,
+          "checkedByDriver": true,
+          "driverCheckTime": "2025-05-03T14:05:00.000Z",
+          "checkedByOutlet": false,
+          "outletCheckTime": null
+        }
+      ],
+      "createdAt": "2025-05-03T09:00:00.000Z",
+      "updatedAt": "2025-05-03T14:05:00.000Z",
+      "driver": {
+        "_id": "driverG",
+        "username": "gina_antar",
+        "role": "driver"
+      },
+      "outlet": {
+        "_id": "outletD",
+        "username": "sumber_rejeki",
+        "role": "outlet"
+      }
+    },
+    {
+      "_id": "order008",
+      "status": "completed",
+      "items": [
+        {
+          "productId": "prod111",
+          "quantity": 2,
+          "checkedByDriver": true,
+          "driverCheckTime": "2025-05-02T07:00:00.000Z",
+          "checkedByOutlet": true,
+          "outletCheckTime": "2025-05-02T08:30:00.000Z"
+        }
+      ],
+      "createdAt": "2025-05-01T19:00:00.000Z",
+      "updatedAt": "2025-05-02T08:30:00.000Z",
+      "driver": {
+        "_id": "driverH",
+        "username": "hadi_cepat",
+        "role": "driver"
+      },
+      "outlet": {
+        "_id": "outletE",
+        "username": "aneka_mart",
+        "role": "outlet"
+      }
+    },
+    {
+      "_id": "order009",
+      "status": "requested",
+      "items": [
+        {
+          "productId": "prod444",
+          "quantity": 1,
+          "checkedByDriver": false,
+          "driverCheckTime": null,
+          "checkedByOutlet": false,
+          "outletCheckTime": null
+        },
+        {
+          "productId": "prod777",
+          "quantity": 2,
+          "checkedByDriver": false,
+          "driverCheckTime": null,
+          "checkedByOutlet": false,
+          "outletCheckTime": null
+        }
+      ],
+      "createdAt": "2025-05-03T15:00:00.000Z",
+      "updatedAt": "2025-05-03T15:00:00.000Z",
+      "driver": {
+        "_id": "driverI",
+        "username": "indah_kirim",
+        "role": "driver"
+      },
+      "outlet": {
+        "_id": "outletF",
+        "username": "toko_murah",
+        "role": "outlet"
+      }
+    },
+    {
+      "_id": "order010",
+      "status": "approved",
+      "items": [
+        {
+          "productId": "prod000",
+          "quantity": 3,
+          "checkedByDriver": false,
+          "driverCheckTime": null,
+          "checkedByOutlet": false,
+          "outletCheckTime": null
+        }
+      ],
+      "createdAt": "2025-05-03T14:30:00.000Z",
+      "updatedAt": "2025-05-03T14:40:00.000Z",
+      "driver": {
+        "_id": "driverJ",
+        "username": "joko_logistik",
+        "role": "driver"
+      },
+      "outlet": {
+        "_id": "outletG",
+        "username": "sentosa_jaya",
+        "role": "outlet"
+      }
+    },
+    {
+      "_id": "order011",
+      "status": "delivered",
+      "items": [
+        {
+          "productId": "prod321",
+          "quantity": 1,
+          "checkedByDriver": true,
+          "driverCheckTime": "2025-05-03T11:00:00.000Z",
+          "checkedByOutlet": true,
+          "outletCheckTime": "2025-05-03T12:15:00.000Z"
+        },
+        {
+          "productId": "prod654",
+          "quantity": 4,
+          "checkedByDriver": true,
+          "driverCheckTime": "2025-05-03T11:05:00.000Z",
+          "checkedByOutlet": true,
+          "outletCheckTime": "2025-05-03T12:20:00.000Z"
+        }
+      ],
+      "createdAt": "2025-05-02T20:00:00.000Z",
+      "updatedAt": "2025-05-03T12:20:00.000Z",
+      "driver": {
+        "_id": "driverK",
+        "username": "kiki_express",
+        "role": "driver"
+      },
+      "outlet": {
+        "_id": "outletH",
+        "username": "bumi_ayu",
+        "role": "outlet"
+      }
+    },
+    {
+      "_id": "order012",
+      "status": "in_transit",
+      "items": [
+        {
+          "productId": "prod987",
+          "quantity": 2,
+          "checkedByDriver": true,
+          "driverCheckTime": "2025-05-03T16:00:00.000Z",
+          "checkedByOutlet": false,
+          "outletCheckTime": null
+        }
+      ],
+      "createdAt": "2025-05-03T10:30:00.000Z",
+      "updatedAt": "2025-05-03T16:05:00.000Z",
+      "driver": {
+        "_id": "driverL",
+        "username": "lisa_antar",
+        "role": "driver"
+      },
+      "outlet": {
+        "_id": "outletI",
+        "username": "tunas_jaya",
+        "role": "outlet"
+      }
+    },
+    {
+      "_id": "order013",
+      "status": "completed",
+      "items": [
+        {
+          "productId": "prod222",
+          "quantity": 3,
+          "checkedByDriver": true,
+          "driverCheckTime": "2025-05-02T09:00:00.000Z",
+          "checkedByOutlet": true,
+          "outletCheckTime": "2025-05-02T10:45:00.000Z"
+        }
+      ],
+      "createdAt": "2025-05-01T21:00:00.000Z",
+      "updatedAt": "2025-05-02T10:45:00.000Z",
+      "driver": {
+        "_id": "driverM",
+        "username": "mario_cepat",
+        "role": "driver"
+      },
+      "outlet": {
+        "_id": "outletJ",
+        "username": "indah_permai",
+        "role": "outlet"
+      }
+    }
+  ]
+}

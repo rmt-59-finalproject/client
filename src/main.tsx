@@ -13,6 +13,7 @@ import OutletPage from "./pages/OutletPage";
 import CreateOrderPage from "./pages/CreateOrderPage";
 import InventoryOrder from "./pages/InventoryOrder";
 import SummaryOrderPage from "./pages/SummaryOrderPage";
+import DetailOrderPage from "./pages/DetailOrderPage";
 
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>
@@ -29,6 +30,8 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/outlets" element={<OutletPage />} />
         <Route path="/request-order" element={<CreateOrderPage />} />
         <Route path="/summary-order" element={<SummaryOrderPage />} />
+        <Route path="/orders" element={<></>} />
+        <Route path="/orders/:orderId" element={<DetailOrderPage />} />
         <Route path="/mockup" element={<InventoryOrder />} />
         <Route path="/invoices/:invoiceId" element={<InvoiceDetailPage />} />
       </Route>
