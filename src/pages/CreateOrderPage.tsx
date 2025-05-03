@@ -2,19 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState } from "react";
-type InventoryItem = {
-  id: number;
-  name: string;
-  category: string;
-  stock: number;
-  unit: string;
-};
-
-type OrderItem = InventoryItem & {
-  quantity: number;
-};
-
+import { InventoryItem, OrderItem } from "@/types";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 const initialInventory: InventoryItem[] = [
   {
     id: 1,
@@ -55,6 +45,20 @@ const initialInventory: InventoryItem[] = [
 
 export default function CreateOrderPage() {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const summaryOrderItems = location.state;
+
+  useEffect(() => {
+    handleOrderStateBeforeSummary();
+  }, []);
+
+  function handleOrderStateBeforeSummary() {
+    if (summaryOrderItems) {
+      console.log(summaryOrderItems, "<-- stateOrderFromSummaryPage");
+      setOrderItems(summaryOrderItems);
+    }
+  }
 
   function handleAdd(item: InventoryItem) {
     setOrderItems((prev) => {
@@ -79,7 +83,8 @@ export default function CreateOrderPage() {
   }
 
   function totalOrder() {
-    console.log(orderItems);
+    console.log(orderItems, "<--- totalOrder");
+    navigate("/summary-order", { state: orderItems });
   }
 
   return (
