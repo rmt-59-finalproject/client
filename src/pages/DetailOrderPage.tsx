@@ -1,8 +1,7 @@
 import TableDemo from "@/components/Table";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { http } from "@/helpers/axios";
-import { ItemOrder, OrderType } from "@/types";
+import { OrderType } from "@/types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
