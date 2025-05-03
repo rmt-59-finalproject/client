@@ -192,6 +192,10 @@ export default function DashboardPage() {
   function navigateRequestOrder() {
     navigate("/request-order");
   }
+
+  function navigateDetailOrder(id) {
+    navigate(`/orders/${id}`);
+  }
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="w-7xl">
@@ -274,7 +278,12 @@ export default function DashboardPage() {
                       <TableCell>{invoice.driver.username}</TableCell>
                       <TableCell>{invoice.status}</TableCell>
                       <TableCell>
-                        <Button variant={"neutral"}>View</Button>
+                        <Button
+                          variant={"neutral"}
+                          onClick={() => navigateDetailOrder(invoice._id)}
+                        >
+                          View
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
