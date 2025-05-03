@@ -9,7 +9,7 @@ import {
 import { ItemOrder } from "@/types";
 import { Checkbox } from "./ui/checkbox";
 
-export default function TableDemo({ data }: { data: ItemOrder[] }) {
+export default function TableDetailOrder({ data }: { data: ItemOrder[] }) {
   return (
     <Table>
       <TableHeader>

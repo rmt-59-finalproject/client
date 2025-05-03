@@ -1,4 +1,4 @@
-import TableDemo from "@/components/Table";
+import TableDetailOrder from "@/components/TableDetailOrder";
 import { Badge } from "@/components/ui/badge";
 import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
@@ -61,7 +61,7 @@ export default function DetailOrderPage() {
           <div className="p-1">
             <h1 className="px-5 pt-5 pb-5">Order Items</h1>
             <div className="flex flex-col gap-2">
-              <TableDemo data={detail?.items || []} />
+              <TableDetailOrder data={detail?.items || []} />
             </div>
           </div>
         </div>

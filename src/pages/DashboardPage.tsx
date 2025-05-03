@@ -1,3 +1,4 @@
+import TableHistoryOrder from "@/components/TableHistoryOrder";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -5,15 +6,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
 import { useEffect, useState } from "react";
@@ -41,10 +33,10 @@ export default function DashboardPage() {
   function navigateRequestOrder() {
     navigate("/request-order");
   }
-
-  function navigateDetailOrder(id: string) {
-    navigate(`/orders/${id}`);
+  function navigateOrderHistory() {
+    navigate("/orders");
   }
+
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="w-7xl">
@@ -52,11 +44,7 @@ export default function DashboardPage() {
           <>
             <div className="flex flex-row items-center px-5 pt-5 justify-between w-full ">
               <div>
-                <h1 className="text-2xl font-bold">Warehouse Dashboard</h1>
-              </div>
-              <div className="flex gap-2">
-                <Button variant="neutral">Activity Log</Button>
-                <Button>Create Order</Button>
+                <h1 className="text-2xl font-bold">Welcome {role}!</h1>
               </div>
             </div>
             {/* Card Stats */}
@@ -100,44 +88,11 @@ export default function DashboardPage() {
             {/*  */}
             <div className="px-5 pt-5 flex flex-row items-center justify-between">
               <h1 className="font-bold text-2xl">Recent Orders</h1>
-              <Button>All Order History</Button>
+              <Button onClick={navigateOrderHistory}>All Order History</Button>
             </div>
             {/* button create order */}
             <div className="p-5">
-              <Table>
-                <TableCaption className="text-foreground">
-                  A list of your outlets recent orders.
-                </TableCaption>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Order ID</TableHead>
-                    <TableHead>Outlet</TableHead>
-                    <TableHead>Items</TableHead>
-                    <TableHead>Driver</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {orderData.map((invoice) => (
-                    <TableRow key={invoice._id}>
-                      <TableCell className="font-base">{invoice._id}</TableCell>
-                      <TableCell>{invoice.outlet.username}</TableCell>
-                      <TableCell>{invoice.items.length}</TableCell>
-                      <TableCell>{invoice.driver.username}</TableCell>
-                      <TableCell>{invoice.status}</TableCell>
-                      <TableCell>
-                        <Button
-                          variant={"neutral"}
-                          onClick={() => navigateDetailOrder(invoice._id)}
-                        >
-                          View
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <TableHistoryOrder orderData={orderData} />
             </div>
           </>
         )}
