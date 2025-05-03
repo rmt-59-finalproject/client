@@ -10,6 +10,8 @@ import InvoiceDetailPage from "./pages/InvoiceDetailPage";
 import { Toaster } from "./components/ui/sonner";
 import DriverPage from "./pages/DriverPage";
 import OutletPage from "./pages/OutletPage";
+import CreateOrderPage from "./pages/CreateOrderPage";
+import InventoryOrder from "./pages/InventoryOrder";
 
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>
@@ -24,6 +26,8 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/drivers" element={<DriverPage />} />
         <Route path="/outlets" element={<OutletPage />} />
+        <Route path="/request-order" element={<CreateOrderPage />} />
+        <Route path="/mockup" element={<InventoryOrder />} />
         <Route path="/invoices/:invoiceId" element={<InvoiceDetailPage />} />
       </Route>
 
