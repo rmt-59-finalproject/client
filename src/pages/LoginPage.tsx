@@ -53,18 +53,18 @@ export default function LoginPage() {
         <CardHeader>
           <CardTitle>Login ke Stockify</CardTitle>
           <CardDescription>
-            Masukkan email untuk masuk ke akun kamu.
+            Masukkan username untuk masuk ke akun kamu.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={submitLogin}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Username</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
+                  id="username"
+                  type="text"
+                  placeholder="Masukkan username kamu disini"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -83,9 +83,6 @@ export default function LoginPage() {
             <div className="flex flex-col gap-2 mt-10">
               <Button type="submit" className="w-full">
                 Login
-              </Button>
-              <Button variant="neutral" className="w-full">
-                Login with Google
               </Button>
             </div>
           </form>
