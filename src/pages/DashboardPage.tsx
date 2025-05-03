@@ -21,7 +21,48 @@ const invoices = [
   {
     orderId: "ORD-5001",
     outlet: "Downtown Café",
-    items: "8 items",
+    items: [
+      {
+        id: 2,
+        name: "Organic Tea Assortment",
+        category: "Food & Beverage",
+        stock: 180,
+        unit: "boxes",
+        quantity: 5,
+      },
+      {
+        id: 1,
+        name: "Premium Coffee Beans",
+        category: "Food & Beverage",
+        stock: 250,
+        unit: "boxes",
+        quantity: 2,
+      },
+      {
+        id: 3,
+        name: "Ceramic Coffee Mugs",
+        category: "Kitchenware",
+        stock: 75,
+        unit: "units",
+        quantity: 1,
+      },
+      {
+        id: 4,
+        name: "Coffee Filters",
+        category: "Supplies",
+        stock: 120,
+        unit: "packs",
+        quantity: 1,
+      },
+      {
+        id: 5,
+        name: "Branded Tote Bags",
+        category: "Merchandise",
+        stock: 120,
+        unit: "units",
+        quantity: 1,
+      },
+    ],
     created: "Today, 9:30 AM",
     driver: "Not assigned",
     status: "Processing",
@@ -37,7 +78,24 @@ const invoices = [
   {
     orderId: "ORD-5003",
     outlet: "Harbor Coffee Shop",
-    items: "5 items",
+    items: [
+      {
+        id: 2,
+        name: "Organic Tea Assortment",
+        category: "Food & Beverage",
+        stock: 180,
+        unit: "boxes",
+        quantity: 4,
+      },
+      {
+        id: 1,
+        name: "Premium Coffee Beans",
+        category: "Food & Beverage",
+        stock: 250,
+        unit: "boxes",
+        quantity: 1,
+      },
+    ],
     created: "Yesterday, 4:45 PM",
     driver: "Maria Garcia",
     status: "In Transit",
@@ -45,7 +103,24 @@ const invoices = [
   {
     orderId: "ORD-5004",
     outlet: "Mountain View Café",
-    items: "10 items",
+    items: [
+      {
+        id: 2,
+        name: "Organic Tea Assortment",
+        category: "Food & Beverage",
+        stock: 180,
+        unit: "boxes",
+        quantity: 1,
+      },
+      {
+        id: 1,
+        name: "Premium Coffee Beans",
+        category: "Food & Beverage",
+        stock: 250,
+        unit: "boxes",
+        quantity: 1,
+      },
+    ],
     created: "Yesterday, 2:30 PM",
     driver: "David Wilson",
     status: "Delivered",
@@ -53,7 +128,40 @@ const invoices = [
   {
     orderId: "ORD-5005",
     outlet: "Sunset Café",
-    items: "7 items",
+    items: [
+      {
+        id: 1,
+        name: "Premium Coffee Beans",
+        category: "Food & Beverage",
+        stock: 250,
+        unit: "boxes",
+        quantity: 3,
+      },
+      {
+        id: 2,
+        name: "Organic Tea Assortment",
+        category: "Food & Beverage",
+        stock: 180,
+        unit: "boxes",
+        quantity: 3,
+      },
+      {
+        id: 3,
+        name: "Ceramic Coffee Mugs",
+        category: "Kitchenware",
+        stock: 75,
+        unit: "units",
+        quantity: 3,
+      },
+      {
+        id: 4,
+        name: "Coffee Filters",
+        category: "Supplies",
+        stock: 120,
+        unit: "packs",
+        quantity: 1,
+      },
+    ],
     created: "Yesterday, 10:15 AM",
     driver: "Sarah Johnson",
     status: "Issue Reported",
@@ -61,7 +169,7 @@ const invoices = [
 ];
 
 export default function DashboardPage() {
-  const [role, useRole] = useState("outlet");
+  const [role, useRole] = useState("warehouse");
   const navigate = useNavigate();
 
   function navigateRequestOrder() {
@@ -151,7 +259,7 @@ export default function DashboardPage() {
                         {invoice.orderId}
                       </TableCell>
                       <TableCell>{invoice.outlet}</TableCell>
-                      <TableCell>{invoice.items}</TableCell>
+                      <TableCell>{invoice.items.length}</TableCell>
                       <TableCell>{invoice.driver}</TableCell>
                       <TableCell>{invoice.status}</TableCell>
                       <TableCell>
