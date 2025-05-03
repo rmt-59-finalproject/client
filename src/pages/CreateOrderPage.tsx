@@ -2,19 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState } from "react";
-type InventoryItem = {
-  id: number;
-  name: string;
-  category: string;
-  stock: number;
-  unit: string;
-};
-
-type OrderItem = InventoryItem & {
-  quantity: number;
-};
-
+import { InventoryItem, OrderItem } from "@/types";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 const initialInventory: InventoryItem[] = [
   {
     id: 1,
@@ -55,6 +45,20 @@ const initialInventory: InventoryItem[] = [
 
 export default function CreateOrderPage() {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const summaryOrderItems = location.state;
+
+  useEffect(() => {
+    handleOrderStateBeforeSummary();
+  }, []);
+
+  function handleOrderStateBeforeSummary() {
+    if (summaryOrderItems) {
+      console.log(summaryOrderItems, "<-- stateOrderFromSummaryPage");
+      setOrderItems(summaryOrderItems);
+    }
+  }
 
   function handleAdd(item: InventoryItem) {
     setOrderItems((prev) => {
@@ -79,7 +83,8 @@ export default function CreateOrderPage() {
   }
 
   function totalOrder() {
-    console.log(orderItems);
+    console.log(orderItems, "<--- totalOrder");
+    navigate("/summary-order", { state: orderItems });
   }
 
   return (
@@ -99,7 +104,7 @@ export default function CreateOrderPage() {
         <h1>Inventory</h1>
         <Input />
       </div>
-      <ScrollArea className="h-80 max-w-6xl  w-full">
+      <ScrollArea className="h-80 max-w-6xl w-full">
         <div className="p-5 w-full flex flex-col gap-2 min-h-screen">
           {initialInventory.map((item) => {
             return (
@@ -133,42 +138,50 @@ export default function CreateOrderPage() {
       {/*  */}
       {orderItems.length > 0 && (
         <div className="w-full max-w-6xl">
-          <ScrollArea className="h-84 w-full ">
-            <div className="p-5 w-full flex flex-col gap-2 min-h-screen">
-              {orderItems.map((item) => (
-                <Card key={item.id} className="w-full">
-                  <div className="flex flex-row justify-between items-center">
-                    <CardContent className="flex flex-col">
-                      <h1 className="font-bold">{item.name}</h1>
-                      <div>
-                        <label className="text-sm text-gray-600">
-                          Quantity
-                        </label>
-                        <Input
-                          type="number"
-                          value={item.quantity}
-                          min="1"
-                          onChange={(e) =>
-                            handleQuantityChange(item.id, e.target.value)
-                          }
-                          className="w-20 border rounded px-2 py-1 text-center mt-1"
-                        />
-                      </div>
-                    </CardContent>
-                    <CardContent>
-                      <Button onClick={() => handleRemove(item.id)}>
-                        Remove
-                      </Button>
-                    </CardContent>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </ScrollArea>
+          <div className="p-5 w-full flex flex-col gap-2 min-h-screen">
+            {orderItems.map((item) => (
+              <Card key={item.id} className="w-full">
+                <div className="flex flex-row justify-between items-center">
+                  <CardContent className="flex flex-col">
+                    <h1 className="font-bold">{item.name}</h1>
+                    <div>
+                      <label className="text-sm text-gray-600">Quantity</label>
+                      <Input
+                        type="number"
+                        value={item.quantity}
+                        min="1"
+                        onChange={(e) =>
+                          handleQuantityChange(item.id, e.target.value)
+                        }
+                        className="w-20 border rounded px-2 py-1 text-center mt-1"
+                      />
+                    </div>
+                  </CardContent>
+                  <CardContent>
+                    <Button onClick={() => handleRemove(item.id)}>
+                      Remove
+                    </Button>
+                  </CardContent>
+                </div>
+              </Card>
+            ))}
+          </div>
         </div>
       )}
+
+      {orderItems.length === 0 && (
+        <>
+          <div className="flex flex-row justify-center items-center p-5 w-full">
+            <h1>Your order bag is empty.</h1>
+          </div>
+        </>
+      )}
       <div className="fixed bottom-4 flex justify-center items-center left-0 right-0 px-4">
-        <Button onClick={totalOrder} className="w-full max-w-6xl">
+        <Button
+          onClick={totalOrder}
+          disabled={orderItems.length === 0 && true}
+          className="w-full max-w-6xl"
+        >
           Review Order
         </Button>
       </div>
