@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { http } from "@/helpers/axios";
-import { OrderType } from "@/types";
+import { ItemOrder, OrderType } from "@/types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
@@ -24,30 +24,97 @@ export default function DetailOrderPage() {
     }
   }
   return (
-    <div className="flex flex-col justify-start items-center bg-amber-500 min-h-screen">
-      <div className="w-7xl">
-        <div className="flex flex-row items-center px-5 pt-5 justify-between bg-amber-400 w-full ">
+    <div className="flex flex-col justify-start items-center min-h-screen w-full">
+      <div className="w-full max-w-7xl">
+        <div className="flex flex-row items-center px-5 pt-5 justify-between w-full ">
           <div>
             <h1 className="text-2xl font-bold">Order Request Details</h1>
             <h1 className="text-lg opacity-50">
               Provide information about your order request
             </h1>
           </div>
-          <div className="flex gap-2">
-            <Button variant="neutral">Activity Log</Button>
-            <Button>Create Order</Button>
-          </div>
         </div>
       </div>
-      <div className="p-5 w-full max-w-7xl">
-        <Card>
-          <div>
-            <CardContent>
-              <h1>Order Id</h1>
-              <h1>{detail._id}</h1>
-            </CardContent>
+      <div className="p-2.5 w-full max-w-7xl">
+        <div className=" p-2.5 rounded-2xl border border-gray-400">
+          <div className="px-5 pt-5">
+            <h1>Order Id</h1>
+            <h1 className="text-lg font-bold">{detail?._id}</h1>
           </div>
-        </Card>
+          <div className="px-5 pt-5">
+            <h1>Outlet Owner</h1>
+            <h1 className="text-lg font-bold">{detail?.outlet?.username}</h1>
+          </div>
+          <div className="px-5 pt-5">
+            <h1>Order assigned to driver:</h1>
+            <h1 className="text-lg font-bold">{detail?.driver?.username}</h1>
+          </div>
+          <div className="px-5 pt-5">
+            <h1>Order Create Date</h1>
+            <h1 className="text-lg font-bold">{detail?.createdAt}</h1>
+          </div>
+          <div className="px-5 pt-5">
+            <h1>Status Order</h1>
+
+            <Badge>{detail?.status}</Badge>
+          </div>
+          <div className="p-1">
+            <h1 className="px-5 pt-5 pb-5">Order Items</h1>
+            <div className="flex flex-col gap-2">
+              {detail?.items?.map((el: ItemOrder) => {
+                return (
+                  <Card key={el.productId}>
+                    <CardContent>
+                      <div className="p-2">
+                        <h1>Product Id</h1>
+                        <h1 className="text-lg font-bold">{el.productId}</h1>
+                      </div>
+                      <div className="p-2">
+                        <h1>Product Quantity</h1>
+                        <h1 className="text-lg font-bold">{el.quantity}</h1>
+                      </div>
+                      <div className="p-2">
+                        <h1>Driver Checked Status:</h1>
+
+                        <Badge>
+                          {!el.checkedByDriver ? "false" : "true"}{" "}
+                          {el.checkedByDriver && `on ${el.driverCheckTime}`}
+                        </Badge>
+                      </div>
+                      {/* {el.checkedByDriver && (
+                      <>
+                        <div className="p-2">
+                          <h1>Driver Check Time:</h1>
+                          <h1 className="text-lg font-bold">
+                            {el.driverCheckTime}
+                          </h1>
+                        </div>
+                      </>
+                    )} */}
+                      <div className="p-2">
+                        <h1>Outlet Checked Status:</h1>
+                        <Badge>
+                          {!el.checkedByOutlet ? "false" : "true"}{" "}
+                          {el.checkedByOutlet && `on ${el.outletCheckTime}`}
+                        </Badge>
+                      </div>
+                      {/* {el.checkedByOutlet && (
+                      <>
+                        <div className="p-2">
+                          <h1>Outlet Check Time:</h1>
+                          <h1 className="text-lg font-bold">
+                            {el.outletCheckTime}
+                          </h1>
+                        </div>
+                      </>
+                    )} */}
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
