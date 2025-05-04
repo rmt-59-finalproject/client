@@ -14,6 +14,7 @@ import { Toaster } from "sonner";
 import AssignOrderPage from "./pages/warehouse/AssignOrderPage";
 import VerifyOrderDriver from "./pages/driver/VerifyOrderDriver";
 import LandingPageDriver from "./pages/driver/LandingPageDriver";
+import LandingPageOutlet from "./pages/outlet/LandingPageOutlet";
 
 const App = () => {
   return (
@@ -26,7 +27,7 @@ const App = () => {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/driver" element={<LandingPageDriver />} />
-          <Route path="/outlet" element={<DashboardPage />} />
+          <Route path="/outlet" element={<LandingPageOutlet />} />
           <Route path="/all-drivers" element={<DriverPage />} />
           <Route path="/all-outlets" element={<OutletPage />} />
           <Route path="/request-order" element={<CreateOrderPage />} />
