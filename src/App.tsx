@@ -13,6 +13,7 @@ import RegisterPage from "./pages/RegisterPage";
 import { Toaster } from "sonner";
 import AssignOrderPage from "./pages/warehouse/AssignOrderPage";
 import VerifyOrderDriver from "./pages/driver/VerifyOrderDriver";
+import LandingPageDriver from "./pages/driver/LandingPageDriver";
 
 const App = () => {
   return (
@@ -24,8 +25,10 @@ const App = () => {
           {/* desain layout dengan navbar + sesudah dapat auth */}
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/drivers" element={<DriverPage />} />
-          <Route path="/outlets" element={<OutletPage />} />
+          <Route path="/driver" element={<LandingPageDriver />} />
+          <Route path="/outlet" element={<DashboardPage />} />
+          <Route path="/all-drivers" element={<DriverPage />} />
+          <Route path="/all-outlets" element={<OutletPage />} />
           <Route path="/request-order" element={<CreateOrderPage />} />
           <Route path="/summary-order" element={<SummaryOrderPage />} />
           <Route path="/orders" element={<AllOrderPage />} />
