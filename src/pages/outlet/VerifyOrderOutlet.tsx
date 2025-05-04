@@ -5,7 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
-import { Check, CheckCircle2, MapPin, Store, Truck } from "lucide-react";
+import { Check, CheckCircle2, MapPin, Store } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 //
@@ -47,7 +47,7 @@ export default function VerifyOrderOutlet() {
     }
   }
 
-  async function submitVerification(id) {
+  async function submitVerification(id: string) {
     try {
       // logic verify
       console.log(id);
