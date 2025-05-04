@@ -41,7 +41,7 @@ export default function LandingPageOutlet() {
     }
   }
   function navigateDriverOrder() {
-    navigate("/driver-orders");
+    navigate("/outlet-orders");
   }
 
   function navigateVerifyOutlet(id: string) {

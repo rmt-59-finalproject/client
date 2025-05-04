@@ -17,6 +17,7 @@ import LandingPageDriver from "./pages/driver/LandingPageDriver";
 import LandingPageOutlet from "./pages/outlet/LandingPageOutlet";
 import VerifyOrderOutlet from "./pages/outlet/VerifyOrderOutlet";
 import OrderDetailStatusPage from "./pages/outlet/SummaryStatusPage";
+import AllRequestOutlet from "./pages/outlet/AllRequestOutlet";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/orders" element={<AllOrderPage />} />
           <Route path="/assign" element={<AssignOrderPage />} />
           <Route path="/driver-orders" element={<AllOrderDriver />} />
+          <Route path="/outlet-orders" element={<AllRequestOutlet />} />
           <Route path="/orders/:orderId" element={<DetailOrderPage />} />
           <Route
             path="/status-order/:orderId"

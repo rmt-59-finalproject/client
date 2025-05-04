@@ -4,11 +4,12 @@ import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
 import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 export default function OrderDetailStatusPage() {
   const [data, setData] = useState<OrderType[]>([]);
   const params = useParams();
+  const navigate = useNavigate();
 
   const { orderId } = params;
   useEffect(() => {
@@ -23,6 +24,10 @@ export default function OrderDetailStatusPage() {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function navigateHome() {
+    navigate("/outlet");
   }
   return (
     <>
@@ -108,6 +113,7 @@ export default function OrderDetailStatusPage() {
             // onClick={totalOrder}
             // disabled={orderItems.length === 0 && true}
             className="w-full max-w-6xl"
+            onClick={navigateHome}
           >
             Done
           </Button>
