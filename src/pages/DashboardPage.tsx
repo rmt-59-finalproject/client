@@ -9,6 +9,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
 import { useEffect, useState } from "react";
@@ -16,9 +24,9 @@ import { useNavigate } from "react-router";
 
 export default function DashboardPage() {
   // set role = driver | warehouse | outlet
-  const [role, useRole] = useState("warehouse");
+  const [role, useRole] = useState("driver");
   // set username driver kalo role === driver
-  const [usernameDriver, setUsernameDriver] = useState("dani_antar");
+  const [usernameDriver, setUsernameDriver] = useState("budi_cepat");
 
   const [orderData, setOrderData] = useState<OrderType[]>([]);
   const navigate = useNavigate();
@@ -37,7 +45,7 @@ export default function DashboardPage() {
       }
 
       if (role === "driver") {
-        uri = `/orders?driver.username=${usernameDriver}`;
+        uri = `/orders?status=in_transit&driver.username=${usernameDriver}`;
         const data = await http.get(uri);
         console.log(data.data);
         const dataResponse: OrderType[] = data.data;
@@ -57,6 +65,10 @@ export default function DashboardPage() {
 
   function navigateDriverOrder() {
     navigate("/driver-orders");
+  }
+
+  function navigateVerifyDriver(id: string) {
+    navigate(`/verify-driver/${id}`);
   }
 
   return (
@@ -159,49 +171,65 @@ export default function DashboardPage() {
               {orderData.length > 0 ? (
                 // ADA ORDERAN
                 <>
-                  {orderData.map((order) => {
-                    return (
-                      <Card key={order._id}>
-                        <CardContent>
-                          <div>
-                            <div className="flex flex-col justify-center items-center">
-                              <div className="flex flex-row justify-between items-ccnter w-full">
-                                <h2 className="text-lg font-semibold text-gray-900 mb-1">
-                                  {order?._id} - {order?.outlet?.username}{" "}
-                                </h2>
-                                <Badge>{order?.status}</Badge>
+                  <div className="flex flex-col gap-2">
+                    {orderData?.map((el) => {
+                      return (
+                        <Card key={el?._id}>
+                          <CardHeader>
+                            <div className="flex flex-row w-full justify-between items-center">
+                              <h1>{el?._id}</h1>
+                              <Badge>{el?.status}</Badge>
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="flex flex-row justify-between items-center">
+                              <div>
+                                <h1 className="text-lg font-bold">Outlet</h1>
+                                <h1>{el?.outlet?.username}</h1>
                               </div>
-
-                              <p className="text-sm text-gray-500 mb-3">
-                                {order?.items?.length} items • Order created at{" "}
-                                {order?.createdAt}
-                              </p>
+                              <div>
+                                <h1 className="text-lg font-bold">
+                                  Date Requested
+                                </h1>
+                                <h1>{el?.createdAt}</h1>
+                              </div>
                             </div>
-                            <div className="mb-4">
-                              <p className="text-sm font-medium text-gray-700 mb-2">
-                                Order Items:
-                              </p>
-                              <ul className="text-sm text-gray-800 space-y-1">
-                                {order?.items?.map((el) => {
-                                  return (
-                                    <div key={el?.productId}>
-                                      <li className="flex justify-between">
-                                        <span>{el?.productId}</span>
-                                        <span>{el?.quantity}</span>
-                                      </li>
-                                    </div>
-                                  );
-                                })}
-                              </ul>
+                            <div className="p-5">
+                              <h1>items</h1>
+                              <Table>
+                                <TableHeader>
+                                  <TableRow>
+                                    <TableHead>Product</TableHead>
+                                    <TableHead>Quantity</TableHead>
+                                  </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                  {el?.items?.map((el) => {
+                                    return (
+                                      <TableRow key={el.productId}>
+                                        <TableCell className="font-base">
+                                          {el.productId}
+                                        </TableCell>
+                                        <TableCell>{el.quantity}</TableCell>
+                                      </TableRow>
+                                    );
+                                  })}
+                                </TableBody>
+                              </Table>
                             </div>
-                          </div>
-                        </CardContent>
-                        <CardFooter>
-                          <Button className="w-full">Verify Delivery</Button>
-                        </CardFooter>
-                      </Card>
-                    );
-                  })}
+                          </CardContent>
+                          <CardFooter>
+                            <Button
+                              onClick={() => navigateVerifyDriver(el?._id)}
+                              className="w-full"
+                            >
+                              Verify Items
+                            </Button>
+                          </CardFooter>
+                        </Card>
+                      );
+                    })}
+                  </div>
                 </>
               ) : (
                 // GAADA ORDERAN

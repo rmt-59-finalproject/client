@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { Toaster } from "sonner";
 import AssignOrderPage from "./pages/AssignOrderPage";
+import VerifyOrderDriver from "./pages/VerifyOrderDriver";
 
 const App = () => {
   return (
@@ -31,6 +32,10 @@ const App = () => {
           <Route path="/assign" element={<AssignOrderPage />} />
           <Route path="/driver-orders" element={<AllOrderDriver />} />
           <Route path="/orders/:orderId" element={<DetailOrderPage />} />
+          <Route
+            path="/verify-driver/:orderId"
+            element={<VerifyOrderDriver />}
+          />
         </Route>
 
         {/* desain layout tanpa navbar + sebelum dapat auth */}
