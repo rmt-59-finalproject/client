@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
+// halaman all driver role warehouse
 export default function DriverPage() {
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">

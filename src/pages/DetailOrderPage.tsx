@@ -5,6 +5,7 @@ import { OrderType } from "@/types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
+// deetail orderan diklik dari /dashboard atau /orders
 export default function DetailOrderPage() {
   const [detail, setDetail] = useState<OrderType>({});
   const params = useParams();

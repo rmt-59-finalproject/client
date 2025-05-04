@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
@@ -32,15 +32,15 @@ export default function LoginPage() {
   function submitLogin(e: React.FormEvent<HTMLFormElement>) {
     try {
       e.preventDefault();
-      if (!email) {
+      if (!username) {
         throw { message: "Email required" };
       }
       if (!password) {
         throw { message: "Password required" };
       }
-      localStorage.setItem("Authorization", "Warehouse");
-      console.log(email, password);
-      navigate("/dashboard");
+      // localStorage.setItem("Authorization", "Warehouse");
+      console.log({ username, password });
+      // navigate("/dashboard");
     } catch (error) {
       console.log(error);
       toast.warning((error as Error).message);
@@ -65,7 +65,7 @@ export default function LoginPage() {
                   id="username"
                   type="text"
                   placeholder="Masukkan username kamu disini"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
               <div className="grid gap-2">

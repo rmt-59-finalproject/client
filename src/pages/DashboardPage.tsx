@@ -16,9 +16,10 @@ import { useNavigate } from "react-router";
 
 export default function DashboardPage() {
   // set role = driver | warehouse | outlet
-  const [role, useRole] = useState("driver");
+  const [role, useRole] = useState("warehouse");
   // set username driver kalo role === driver
   const [usernameDriver, setUsernameDriver] = useState("dani_antar");
+
   const [orderData, setOrderData] = useState<OrderType[]>([]);
   const navigate = useNavigate();
   useEffect(() => {

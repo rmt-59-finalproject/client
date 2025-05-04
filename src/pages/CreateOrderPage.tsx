@@ -2,57 +2,35 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { http } from "@/helpers/axios";
 import { InventoryItem, OrderItem } from "@/types";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-const initialInventory: InventoryItem[] = [
-  {
-    id: 1,
-    name: "Premium Coffee Beans",
-    category: "Food & Beverage",
-    stock: 250,
-    unit: "boxes",
-  },
-  {
-    id: 2,
-    name: "Organic Tea Assortment",
-    category: "Food & Beverage",
-    stock: 180,
-    unit: "boxes",
-  },
-  {
-    id: 3,
-    name: "Ceramic Coffee Mugs",
-    category: "Kitchenware",
-    stock: 75,
-    unit: "units",
-  },
-  {
-    id: 4,
-    name: "Coffee Filters",
-    category: "Supplies",
-    stock: 120,
-    unit: "packs",
-  },
-  {
-    id: 5,
-    name: "Branded Tote Bags",
-    category: "Merchandise",
-    stock: 120,
-    unit: "units",
-  },
-];
 
+// ini adalah halaman request order dari outlet
 export default function CreateOrderPage() {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+  const [inventories, setInventories] = useState<InventoryItem[]>([]);
+
   const navigate = useNavigate();
   const location = useLocation();
   const summaryOrderItems = location.state;
 
   useEffect(() => {
     handleOrderStateBeforeSummary();
+    fetchInventories();
   }, []);
 
+  async function fetchInventories() {
+    try {
+      const data = await http.get("/inventories");
+      console.log(data.data);
+      const inventoryJson = data.data;
+      setInventories(inventoryJson);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   function handleOrderStateBeforeSummary() {
     if (summaryOrderItems) {
       console.log(summaryOrderItems, "<-- stateOrderFromSummaryPage");
@@ -62,24 +40,24 @@ export default function CreateOrderPage() {
 
   function handleAdd(item: InventoryItem) {
     setOrderItems((prev) => {
-      const exists = prev.find((i) => i.id === item.id);
+      const exists = prev.find((i) => i._id === item._id);
       if (exists) {
         return prev.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+          i._id === item._id ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
       return [...prev, { ...item, quantity: 1 }];
     });
   }
-  function handleQuantityChange(id: number, qty: string) {
+  function handleQuantityChange(_id: string, qty: string) {
     setOrderItems((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, quantity: parseInt(qty || "0") } : item
+        item._id === _id ? { ...item, quantity: parseInt(qty || "0") } : item
       )
     );
   }
-  function handleRemove(id: number) {
-    setOrderItems((prev) => prev.filter((item) => item.id !== id));
+  function handleRemove(_id: string) {
+    setOrderItems((prev) => prev.filter((item) => item._id !== _id));
   }
 
   function totalOrder() {
@@ -106,9 +84,9 @@ export default function CreateOrderPage() {
       </div>
       <ScrollArea className="h-80 max-w-6xl w-full">
         <div className="p-5 w-full flex flex-col gap-2 min-h-screen">
-          {initialInventory.map((item) => {
+          {inventories.map((item) => {
             return (
-              <Card key={item.id} className="w-full">
+              <Card key={item._id} className="w-full">
                 <div className="flex flex-row justify-between items-center">
                   <CardContent>
                     <div className="flex flex-col">
@@ -140,7 +118,7 @@ export default function CreateOrderPage() {
         <div className="w-full max-w-6xl">
           <div className="p-5 w-full flex flex-col gap-2 min-h-screen">
             {orderItems.map((item) => (
-              <Card key={item.id} className="w-full">
+              <Card key={item._id} className="w-full">
                 <div className="flex flex-row justify-between items-center">
                   <CardContent className="flex flex-col">
                     <h1 className="font-bold">{item.name}</h1>
@@ -151,14 +129,14 @@ export default function CreateOrderPage() {
                         value={item.quantity}
                         min="1"
                         onChange={(e) =>
-                          handleQuantityChange(item.id, e.target.value)
+                          handleQuantityChange(item._id, e.target.value)
                         }
                         className="w-20 border rounded px-2 py-1 text-center mt-1"
                       />
                     </div>
                   </CardContent>
                   <CardContent>
-                    <Button onClick={() => handleRemove(item.id)}>
+                    <Button onClick={() => handleRemove(item._id)}>
                       Remove
                     </Button>
                   </CardContent>

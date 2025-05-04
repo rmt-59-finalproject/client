@@ -3,6 +3,7 @@ import { OrderType } from "@/types";
 import { useEffect, useState } from "react";
 import TableHistoryOrder from "@/components/TableHistoryOrder";
 
+// Ini adalah halaman All Order dari Warehouse
 export default function AllOrderPage() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
 
