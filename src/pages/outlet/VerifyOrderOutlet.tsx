@@ -7,7 +7,7 @@ import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
 import { Check, CheckCircle2, MapPin, Store, Truck } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 //
 import {
   Dialog,
@@ -31,6 +31,7 @@ import { Textarea } from "@/components/ui/textarea";
 export default function VerifyOrderOutlet() {
   const [detail, setDetail] = useState<OrderType[]>([]);
   const params = useParams();
+  const navigate = useNavigate();
   const { orderId } = params;
   useEffect(() => {
     fetchDetailOrder();
@@ -41,6 +42,17 @@ export default function VerifyOrderOutlet() {
       const data = await http.get(`/orders?_id=${orderId}`);
       console.log(data.data);
       setDetail(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function submitVerification(id) {
+    try {
+      // logic verify
+      console.log(id);
+
+      navigate(`/status-order/${id}`);
     } catch (error) {
       console.log(error);
     }
@@ -227,7 +239,10 @@ export default function VerifyOrderOutlet() {
                 </div>
               </div>
               <DialogFooter>
-                <Button className="w-full">
+                <Button
+                  onClick={() => submitVerification(detail[0]._id)}
+                  className="w-full"
+                >
                   <CheckCircle2 className="mr-2 h-4 w-4" />
                   Complete Verification
                 </Button>
