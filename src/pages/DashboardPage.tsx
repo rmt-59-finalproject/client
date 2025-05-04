@@ -1,4 +1,5 @@
 import TableHistoryOrder from "@/components/TableHistoryOrder";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -142,41 +143,49 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className=" min-h-screen p-4 max-w-6xl font-bold text-lg w-full">
-              <Card>
-                <CardContent>
-                  <div>
-                    <div className="flex flex-col justify-center items-center">
-                      <h2 className="text-lg font-semibold text-gray-900 mb-1">
-                        {orderData[0]?._id} - {orderData[0]?.outlet?.username}
-                      </h2>
-                      <p className="text-sm text-gray-500 mb-3">
-                        {orderData[0]?.items?.length} items • Order created at{" "}
-                        {orderData[0]?.createdAt}
-                      </p>
-                    </div>
-                    <div className="mb-4">
-                      <p className="text-sm font-medium text-gray-700 mb-2">
-                        Order Items:
-                      </p>
-                      <ul className="text-sm text-gray-800 space-y-1">
-                        {orderData[0]?.items?.map((el) => {
-                          return (
-                            <div key={el?.productId}>
-                              <li className="flex justify-between">
-                                <span>{el?.productId}</span>
-                                <span>{el?.quantity}</span>
-                              </li>
-                            </div>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button className="w-full">Verify Delivery</Button>
-                </CardFooter>
-              </Card>
+              {orderData.map((order) => {
+                return (
+                  <Card key={order._id}>
+                    <CardContent>
+                      <div>
+                        <div className="flex flex-col justify-center items-center">
+                          <div className="flex flex-row justify-between items-ccnter w-full">
+                            <h2 className="text-lg font-semibold text-gray-900 mb-1">
+                              {order?._id} - {order?.outlet?.username}{" "}
+                            </h2>
+                            <Badge>{order?.status}</Badge>
+                          </div>
+
+                          <p className="text-sm text-gray-500 mb-3">
+                            {order?.items?.length} items • Order created at{" "}
+                            {order?.createdAt}
+                          </p>
+                        </div>
+                        <div className="mb-4">
+                          <p className="text-sm font-medium text-gray-700 mb-2">
+                            Order Items:
+                          </p>
+                          <ul className="text-sm text-gray-800 space-y-1">
+                            {order?.items?.map((el) => {
+                              return (
+                                <div key={el?.productId}>
+                                  <li className="flex justify-between">
+                                    <span>{el?.productId}</span>
+                                    <span>{el?.quantity}</span>
+                                  </li>
+                                </div>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button className="w-full">Verify Delivery</Button>
+                    </CardFooter>
+                  </Card>
+                );
+              })}
             </div>
           </div>
         </>
