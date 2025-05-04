@@ -11,6 +11,7 @@ import DetailOrderPage from "./pages/DetailOrderPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { Toaster } from "sonner";
+import AssignOrderPage from "./pages/AssignOrderPage";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/request-order" element={<CreateOrderPage />} />
           <Route path="/summary-order" element={<SummaryOrderPage />} />
           <Route path="/orders" element={<AllOrderPage />} />
+          <Route path="/assign" element={<AssignOrderPage />} />
           <Route path="/driver-orders" element={<AllOrderDriver />} />
           <Route path="/orders/:orderId" element={<DetailOrderPage />} />
         </Route>
