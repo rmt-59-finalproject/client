@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/table";
 import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
+import { CheckCircle2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -43,8 +44,8 @@ export default function LandingPageOutlet() {
     navigate("/driver-orders");
   }
 
-  function navigateVerifyDriver(id: string) {
-    navigate(`/verify-driver/${id}`);
+  function navigateVerifyOutlet(id: string) {
+    navigate(`/verify-outlet/${id}`);
   }
   return (
     <>
@@ -61,7 +62,7 @@ export default function LandingPageOutlet() {
                 </h1>
                 <div className="flex flex-row justify-between items-center w-full">
                   <h1 className="text-lg opacity-70">
-                    Check here, Your orders are on track!
+                    Check here, Your orders are incoming!
                   </h1>
                   <Button onClick={navigateDriverOrder}>All Orders</Button>
                 </div>
@@ -121,10 +122,11 @@ export default function LandingPageOutlet() {
                         </CardContent>
                         <CardFooter>
                           <Button
-                            onClick={() => navigateVerifyDriver(el?._id)}
+                            onClick={() => navigateVerifyOutlet(el?._id)}
                             className="w-full"
                           >
-                            Verify Items
+                            <CheckCircle2 />
+                            Verify Delivery
                           </Button>
                         </CardFooter>
                       </Card>

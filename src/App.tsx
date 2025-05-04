@@ -15,6 +15,7 @@ import AssignOrderPage from "./pages/warehouse/AssignOrderPage";
 import VerifyOrderDriver from "./pages/driver/VerifyOrderDriver";
 import LandingPageDriver from "./pages/driver/LandingPageDriver";
 import LandingPageOutlet from "./pages/outlet/LandingPageOutlet";
+import VerifyOrderOutlet from "./pages/outlet/VerifyOrderOutlet";
 
 const App = () => {
   return (
@@ -36,6 +37,10 @@ const App = () => {
           <Route path="/assign" element={<AssignOrderPage />} />
           <Route path="/driver-orders" element={<AllOrderDriver />} />
           <Route path="/orders/:orderId" element={<DetailOrderPage />} />
+          <Route
+            path="/verify-outlet/:orderId"
+            element={<VerifyOrderOutlet />}
+          />
           <Route
             path="/verify-driver/:orderId"
             element={<VerifyOrderDriver />}
