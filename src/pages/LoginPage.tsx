@@ -1,71 +1,90 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { http } from "@/helpers/axios";
+import axios from "axios";
+
+interface User {
+  username: string;
+  password: string;
+}
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState<User>({
+    username: "",
+    password: "",
+  });
   const navigate = useNavigate();
+
   useEffect(() => {
-    checkTokenOnLocalStorage();
-  }, []);
-  function checkTokenOnLocalStorage() {
-    const token = localStorage.getItem("Authorization");
-    if (token) {
-      console.log("ada token di localStorage");
-      navigate("/dashboard"); //contoh
+    const role = sessionStorage.getItem("role");
+    if (role === "warehouse") {
+      navigate("/dashboard");
+    } else if (role === "driver" || role === "outlet") {
+      navigate(`/${role}`);
     }
+  }, []);
 
-    console.log("tidak ada token di localStorage");
-  }
-
-  function submitLogin(e: React.FormEvent<HTMLFormElement>) {
+  async function submitLogin(e: React.FormEvent<HTMLFormElement>) {
     try {
       e.preventDefault();
-      if (!username) {
-        throw { message: "Email required" };
+
+      const {
+        data: {
+          message,
+          data: { name, role, username },
+        },
+      } = await http({
+        url: "/login",
+        method: "POST",
+        data: user,
+        withCredentials: true,
+      });
+
+      toast.success(message);
+      sessionStorage.setItem("username", username);
+      sessionStorage.setItem("name", name);
+      sessionStorage.setItem("role", role);
+
+      if (role === "warehouse") {
+        navigate("/dashboard");
+      } else if (role === "driver" || role === "outlet") {
+        navigate(`/${role}`);
       }
-      if (!password) {
-        throw { message: "Password required" };
-      }
-      // localStorage.setItem("Authorization", "Warehouse");
-      console.log({ username, password });
-      // navigate("/dashboard");
     } catch (error) {
-      console.log(error);
-      toast.warning((error as Error).message);
+      if (axios.isAxiosError(error) && error.response) {
+        toast.warning(error.response.data.message);
+      } else {
+        toast.error("An unexpected error occurred.");
+        console.error(error);
+      }
     }
   }
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-dvh w-full bg-gray-200">
-      <Card className="w-full max-w-sm">
+    <div className="font-[family-name:Space_Mono] bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')] flex flex-col justify-center items-center min-h-dvh w-full bg-gray-100">
+      <Card className="w-full max-w-sm z-10">
         <CardHeader>
-          <CardTitle>Login ke Stockify</CardTitle>
-          <CardDescription>
-            Masukkan username untuk masuk ke akun kamu.
-          </CardDescription>
+          <CardTitle className="text-center text-2xl font-bold">
+            STOCKIFY
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={submitLogin}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Username</Label>
+                <Label htmlFor="username">Username</Label>
                 <Input
                   id="username"
                   type="text"
-                  placeholder="Masukkan username kamu disini"
-                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="johndoe"
+                  onChange={(e) =>
+                    setUser((prev) => ({ ...prev, username: e.target.value }))
+                  }
                 />
               </div>
               <div className="grid gap-2">
@@ -76,7 +95,9 @@ export default function LoginPage() {
                   id="password"
                   type="password"
                   placeholder="******"
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) =>
+                    setUser((prev) => ({ ...prev, password: e.target.value }))
+                  }
                 />
               </div>
             </div>
