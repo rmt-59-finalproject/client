@@ -18,7 +18,7 @@ export default function DashboardPage() {
   // set role = driver | warehouse | outlet
   const [role, useRole] = useState("driver");
   // set username driver kalo role === driver
-  const [usernameDriver, setUsernameDriver] = useState("dani_antaraja");
+  const [usernameDriver, setUsernameDriver] = useState("dani_antar");
   const [orderData, setOrderData] = useState<OrderType[]>([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -52,6 +52,10 @@ export default function DashboardPage() {
   }
   function navigateOrderHistory() {
     navigate("/orders");
+  }
+
+  function navigateDriverOrder() {
+    navigate("/driver-orders");
   }
 
   return (
@@ -136,11 +140,17 @@ export default function DashboardPage() {
           <div className="flex flex-col justify-start items-center min-h-screen w-full ">
             <div className="flex flex-col max-w-6xl justify-center items-center w-full">
               <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
-                <div>
+                <div className="w-full">
                   <h1 className="text-2xl font-bold">
                     {" "}
                     Welcome {usernameDriver}!
                   </h1>
+                  <div className="flex flex-row justify-between items-center w-full">
+                    <h1 className="text-lg opacity-70">
+                      Here is today's missions:
+                    </h1>
+                    <Button onClick={navigateDriverOrder}>All Orders</Button>
+                  </div>
                 </div>
               </div>
             </div>
