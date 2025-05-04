@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
@@ -32,15 +32,15 @@ export default function LoginPage() {
   function submitLogin(e: React.FormEvent<HTMLFormElement>) {
     try {
       e.preventDefault();
-      if (!email) {
+      if (!username) {
         throw { message: "Email required" };
       }
       if (!password) {
         throw { message: "Password required" };
       }
-      localStorage.setItem("Authorization", "Warehouse");
-      console.log(email, password);
-      navigate("/dashboard");
+      // localStorage.setItem("Authorization", "Warehouse");
+      console.log({ username, password });
+      // navigate("/dashboard");
     } catch (error) {
       console.log(error);
       toast.warning((error as Error).message);
@@ -53,19 +53,19 @@ export default function LoginPage() {
         <CardHeader>
           <CardTitle>Login ke Stockify</CardTitle>
           <CardDescription>
-            Masukkan email untuk masuk ke akun kamu.
+            Masukkan username untuk masuk ke akun kamu.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={submitLogin}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Username</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  onChange={(e) => setEmail(e.target.value)}
+                  id="username"
+                  type="text"
+                  placeholder="Masukkan username kamu disini"
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
               <div className="grid gap-2">
@@ -83,9 +83,6 @@ export default function LoginPage() {
             <div className="flex flex-col gap-2 mt-10">
               <Button type="submit" className="w-full">
                 Login
-              </Button>
-              <Button variant="neutral" className="w-full">
-                Login with Google
               </Button>
             </div>
           </form>

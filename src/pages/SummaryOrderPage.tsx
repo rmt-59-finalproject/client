@@ -39,7 +39,7 @@ export default function SummaryOrderPage() {
             <>
               {orderItems.map((item) => {
                 return (
-                  <Card key={item.id} className="w-full">
+                  <Card key={item._id} className="w-full">
                     <div className="flex flex-row justify-between items-center">
                       <CardContent>
                         <div className="flex flex-col ">

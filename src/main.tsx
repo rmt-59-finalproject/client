@@ -1,19 +1,19 @@
 // import { StrictMode } from 'react'
-import { createRoot } from "react-dom/client";
-import "./index.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
+import { createRoot } from "react-dom/client";
+import { Toaster } from "./components/ui/sonner";
+import "./index.css";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import AuthLayout from "./layouts/AuthLayout";
 import DashboardPage from "./pages/DashboardPage";
-import InvoiceDetailPage from "./pages/InvoiceDetailPage";
-import { Toaster } from "./components/ui/sonner";
 import DriverPage from "./pages/DriverPage";
 import OutletPage from "./pages/OutletPage";
 import CreateOrderPage from "./pages/CreateOrderPage";
-import InventoryOrder from "./pages/InventoryOrder";
 import SummaryOrderPage from "./pages/SummaryOrderPage";
 import DetailOrderPage from "./pages/DetailOrderPage";
+import AllOrderPage from "./pages/AllOrderPage";
+import AllOrderDriver from "./pages/AllOrderDriver";
 
 createRoot(document.getElementById("root")!).render(
   // <StrictMode>
@@ -30,10 +30,9 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/outlets" element={<OutletPage />} />
         <Route path="/request-order" element={<CreateOrderPage />} />
         <Route path="/summary-order" element={<SummaryOrderPage />} />
-        <Route path="/orders" element={<></>} />
+        <Route path="/orders" element={<AllOrderPage />} />
+        <Route path="/driver-orders" element={<AllOrderDriver />} />
         <Route path="/orders/:orderId" element={<DetailOrderPage />} />
-        <Route path="/mockup" element={<InventoryOrder />} />
-        <Route path="/invoices/:invoiceId" element={<InvoiceDetailPage />} />
       </Route>
 
       {/* desain layout tanpa navbar + sebelum dapat auth */}

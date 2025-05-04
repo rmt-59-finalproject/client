@@ -1,9 +1,11 @@
 export type InventoryItem = {
-  id: number;
+  _id: string;
   name: string;
   category: string;
   stock: number;
   unit: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OrderItem = InventoryItem & {

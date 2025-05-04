@@ -378,5 +378,187 @@
         "role": "outlet"
       }
     }
+  ],
+  "inventories": [
+    {
+      "_id": "1",
+      "name": "Beras Premium 5kg",
+      "stock": 120,
+      "unit": "sak",
+      "category": "Sembako",
+      "createdAt": "2025-05-01T10:00:00Z",
+      "updatedAt": "2025-05-03T14:30:00Z"
+    },
+    {
+      "_id": "2",
+      "name": "Minyak Goreng 2L",
+      "stock": 85,
+      "unit": "botol",
+      "category": "Sembako",
+      "createdAt": "2025-04-28T09:00:00Z",
+      "updatedAt": "2025-05-02T08:00:00Z"
+    },
+    {
+      "_id": "3",
+      "name": "Gula Pasir 1kg",
+      "stock": 200,
+      "unit": "pak",
+      "category": "Sembako",
+      "createdAt": "2025-04-20T12:00:00Z",
+      "updatedAt": "2025-05-01T13:00:00Z"
+    },
+    {
+      "_id": "4",
+      "name": "Telur Ayam 1kg",
+      "stock": 150,
+      "unit": "kg",
+      "category": "Daging & Telur",
+      "createdAt": "2025-04-25T07:00:00Z",
+      "updatedAt": "2025-05-04T06:00:00Z"
+    },
+    {
+      "_id": "5",
+      "name": "Daging Sapi 1kg",
+      "stock": 50,
+      "unit": "kg",
+      "category": "Daging & Telur",
+      "createdAt": "2025-04-22T08:00:00Z",
+      "updatedAt": "2025-05-03T09:00:00Z"
+    },
+    {
+      "_id": "6",
+      "name": "Air Mineral 600ml",
+      "stock": 500,
+      "unit": "botol",
+      "category": "Minuman",
+      "createdAt": "2025-05-01T10:00:00Z",
+      "updatedAt": "2025-05-04T11:00:00Z"
+    },
+    {
+      "_id": "7",
+      "name": "Teh Botol 350ml",
+      "stock": 300,
+      "unit": "botol",
+      "category": "Minuman",
+      "createdAt": "2025-04-30T14:00:00Z",
+      "updatedAt": "2025-05-02T16:00:00Z"
+    },
+    {
+      "_id": "8",
+      "name": "Roti Tawar",
+      "stock": 100,
+      "unit": "bungkus",
+      "category": "Roti & Kue",
+      "createdAt": "2025-05-01T06:00:00Z",
+      "updatedAt": "2025-05-01T10:00:00Z"
+    },
+    {
+      "_id": "9",
+      "name": "Kue Brownies",
+      "stock": 40,
+      "unit": "pak",
+      "category": "Roti & Kue",
+      "createdAt": "2025-04-29T11:00:00Z",
+      "updatedAt": "2025-05-03T13:00:00Z"
+    },
+    {
+      "_id": "10",
+      "name": "Sabun Mandi Cair 400ml",
+      "stock": 60,
+      "unit": "botol",
+      "category": "Kebutuhan Rumah",
+      "createdAt": "2025-04-28T10:00:00Z",
+      "updatedAt": "2025-05-01T09:00:00Z"
+    },
+    {
+      "_id": "11",
+      "name": "Sampo 200ml",
+      "stock": 70,
+      "unit": "botol",
+      "category": "Kebutuhan Rumah",
+      "createdAt": "2025-04-30T07:30:00Z",
+      "updatedAt": "2025-05-02T10:00:00Z"
+    },
+    {
+      "_id": "12",
+      "name": "Pasta Gigi 100gr",
+      "stock": 90,
+      "unit": "tube",
+      "category": "Kebutuhan Rumah",
+      "createdAt": "2025-04-26T09:00:00Z",
+      "updatedAt": "2025-05-04T08:00:00Z"
+    },
+    {
+      "_id": "13",
+      "name": "Tisu Gulung 2 Ply",
+      "stock": 150,
+      "unit": "roll",
+      "category": "Kebutuhan Rumah",
+      "createdAt": "2025-04-25T08:00:00Z",
+      "updatedAt": "2025-05-03T09:00:00Z"
+    },
+    {
+      "_id": "14",
+      "name": "Detergen Bubuk 1kg",
+      "stock": 80,
+      "unit": "pak",
+      "category": "Kebutuhan Rumah",
+      "createdAt": "2025-04-27T10:00:00Z",
+      "updatedAt": "2025-05-02T11:00:00Z"
+    },
+    {
+      "_id": "15",
+      "name": "Sayur Bayam 1 ikat",
+      "stock": 120,
+      "unit": "ikat",
+      "category": "Sayuran",
+      "createdAt": "2025-05-03T06:00:00Z",
+      "updatedAt": "2025-05-04T07:00:00Z"
+    },
+    {
+      "_id": "16",
+      "name": "Wortel 1kg",
+      "stock": 95,
+      "unit": "kg",
+      "category": "Sayuran",
+      "createdAt": "2025-05-02T09:00:00Z",
+      "updatedAt": "2025-05-04T06:30:00Z"
+    },
+    {
+      "_id": "17",
+      "name": "Kentang 1kg",
+      "stock": 110,
+      "unit": "kg",
+      "category": "Sayuran",
+      "createdAt": "2025-04-30T10:00:00Z",
+      "updatedAt": "2025-05-01T12:00:00Z"
+    },
+    {
+      "_id": "18",
+      "name": "Apel Fuji 1kg",
+      "stock": 75,
+      "unit": "kg",
+      "category": "Buah",
+      "createdAt": "2025-05-01T11:00:00Z",
+      "updatedAt": "2025-05-03T13:00:00Z"
+    },
+    {
+      "_id": "19",
+      "name": "Pisang Cavendish 1 sisir",
+      "stock": 60,
+      "unit": "sisir",
+      "category": "Buah",
+      "createdAt": "2025-05-02T08:00:00Z",
+      "updatedAt": "2025-05-03T10:00:00Z"
+    },
+    {
+      "_id": "20",
+      "name": "Jeruk Mandarin 1kg",
+      "stock": 100,
+      "unit": "kg",
+      "category": "Buah",
+      "createdAt": "2025-05-01T09:30:00Z",
+      "updatedAt": "2025-05-04T10:00:00Z"
+    }
   ]
 }
