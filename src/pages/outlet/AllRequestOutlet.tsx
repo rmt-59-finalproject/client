@@ -1,13 +1,5 @@
 import { CardOrderComponent } from "@/components/CardOrder";
 import { FilterHistoryOrder } from "@/components/FilterHistoryOrder";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
 
