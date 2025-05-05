@@ -86,7 +86,7 @@ export default function VerifyOrderOutlet() {
             <div className="p-5 w-full">
               {detail?.items?.map((el) => {
                 return (
-                  <Card key={el?.id}>
+                  <Card key={el?._id}>
                     <CardHeader>
                       <div className="w-full flex justify-between items-center">
                         <div className="w-full flex gap-5 items-center">
@@ -249,7 +249,7 @@ export default function VerifyOrderOutlet() {
               </div>
               <DialogFooter>
                 <Button
-                  onClick={() => submitVerification(detail[0]._id)}
+                  onClick={() => submitVerification(detail._id)}
                   className="w-full"
                 >
                   <CheckCircle2 className="mr-2 h-4 w-4" />
