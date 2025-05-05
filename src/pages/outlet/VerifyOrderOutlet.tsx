@@ -52,7 +52,7 @@ export default function VerifyOrderOutlet() {
       // logic verify
       console.log(id);
 
-      navigate(`/status-order/${id}`);
+      navigate(`/status-outlet/${id}`);
     } catch (error) {
       console.log(error);
     }

@@ -6,7 +6,7 @@ import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
-export default function OrderDetailStatusPage() {
+export default function SummaryStatusPageOutlet() {
   const [data, setData] = useState<OrderType[]>([]);
   const params = useParams();
   const navigate = useNavigate();
