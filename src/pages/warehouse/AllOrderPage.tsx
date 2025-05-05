@@ -2,17 +2,21 @@ import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
 import { useEffect, useState } from "react";
 import TableHistoryOrder from "@/components/TableHistoryOrder";
+import { FilterHistoryOrder } from "@/components/FilterHistoryOrder";
 
 // Ini adalah halaman All Order dari Warehouse
 export default function AllOrderPage() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [filter]);
   async function fetchData() {
     try {
-      const data = await http.get("/orders");
+      const data = await http.get(`/orders?status=${filter}`, {
+        withCredentials: true,
+      });
       console.log(data.data);
       const dataResponse: OrderType[] = data.data;
       setOrderData(dataResponse);
@@ -31,9 +35,10 @@ export default function AllOrderPage() {
               Your all outlet orders history place.
             </h1>
           </div>
+          <FilterHistoryOrder setFilter={(val) => setFilter(val)} />
         </div>
         <div className="p-5">
-          <TableHistoryOrder orderData={orderData} />
+          {orderData && <TableHistoryOrder orderData={orderData} />}
         </div>
       </div>
     </div>

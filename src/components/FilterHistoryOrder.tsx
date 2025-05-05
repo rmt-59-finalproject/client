@@ -12,10 +12,11 @@ export function FilterHistoryOrder({ setFilter }) {
     <>
       <Select onValueChange={setFilter}>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Requested" />
+          <SelectValue placeholder="All Orders" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
+            <SelectItem value=" ">All Orders</SelectItem>
             <SelectItem value="requested">Requested</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
             <SelectItem value="in_transit">In Transit</SelectItem>
