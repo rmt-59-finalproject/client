@@ -1,14 +1,22 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { http } from "@/helpers/axios";
-import { OrderStatus, OrderType } from "@/types";
-import { Check, CheckCircle2, MapPin, Store, Truck } from "lucide-react";
+import type { OrderStatus, OrderType } from "@/types";
+import {
+  AlertCircle,
+  Check,
+  CheckCircle2,
+  MapPin,
+  Store,
+  Truck,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-//
 import {
   Dialog,
   DialogClose,
@@ -28,36 +36,137 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { BadgeStatusColor } from "@/components/BadgeStatusColor";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+// Tambahkan interface untuk item yang diverifikasi
+interface VerifiedItem {
+  isChecked: boolean;
+  quantity: number;
+  name: string;
+  unit: string;
+  _id: string;
+  isQuantityMatch: boolean; // Tambahkan properti untuk mengecek kesamaan quantity
+}
+
 export default function VerifyOrderDriver() {
   const [detail, setDetail] = useState<OrderType>({});
+  // Tambahkan state untuk melacak item yang diverifikasi
+  const [verifiedItems, setVerifiedItems] = useState<
+    Record<string, VerifiedItem>
+  >({});
+  // State untuk mengecek apakah semua item sudah diverifikasi
+  const [allVerified, setAllVerified] = useState(false);
+  // State untuk mengecek apakah semua quantity sesuai
+  const [allQuantityMatch, setAllQuantityMatch] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
   const { orderId } = params;
+
   useEffect(() => {
     fetchDetailOrder();
   }, []);
+
+  // Tambahkan useEffect untuk memeriksa apakah semua item sudah diverifikasi
+  useEffect(() => {
+    if (detail?.items && detail.items.length > 0) {
+      // Inisialisasi verifiedItems jika belum ada
+      if (Object.keys(verifiedItems).length === 0) {
+        const initialVerified: Record<string, VerifiedItem> = {};
+        detail.items.forEach((item) => {
+          initialVerified[item._id] = {
+            isChecked: false,
+            quantity: item.quantity,
+            name: item.name,
+            unit: item.unit,
+            _id: item._id,
+            isQuantityMatch: true, // Default ke true karena awalnya quantity diset sama dengan expected
+          };
+        });
+        setVerifiedItems(initialVerified);
+      }
+
+      // Periksa apakah semua item sudah diverifikasi
+      const allChecked = detail.items.every(
+        (item) => verifiedItems[item._id]?.isChecked
+      );
+      setAllVerified(allChecked);
+
+      // Periksa apakah semua quantity sesuai dengan expected
+      const quantityMatch = detail.items.every((item) => {
+        const verifiedItem = verifiedItems[item._id];
+        return verifiedItem?.isQuantityMatch;
+      });
+      setAllQuantityMatch(quantityMatch);
+    }
+  }, [detail, verifiedItems]);
 
   async function fetchDetailOrder() {
     try {
       const data = await http.get(`/driver/orders/${orderId}`, {
         withCredentials: true,
       });
-      console.log(data.data);
+      console.log(data.data, "<---- fetch detail");
       setDetail(data.data);
     } catch (error) {
       console.log(error);
     }
   }
 
+  // Fungsi untuk menangani verifikasi item
+  const handleVerifyItem = (
+    itemId: string,
+    isChecked: boolean,
+    actualQuantity: number
+  ) => {
+    setVerifiedItems((prev) => {
+      const item = prev[itemId];
+      if (!item) return prev;
+
+      // Cari item asli untuk mendapatkan expected quantity
+      const originalItem = detail.items?.find((i) => i._id === itemId);
+      const expectedQuantity = originalItem?.quantity || 0;
+
+      // Cek apakah actual quantity sama dengan expected
+      const isQuantityMatch = actualQuantity === expectedQuantity;
+
+      return {
+        ...prev,
+        [itemId]: {
+          ...item,
+          isChecked,
+          quantity: actualQuantity,
+          isQuantityMatch,
+        },
+      };
+    });
+  };
+
   async function submitVerification(id: string) {
     try {
-      // logic verif
-      console.log(id);
+      // Persiapkan data yang akan dikirim ke server
+      const verifiedData = {
+        orderId: id,
+        items: Object.values(verifiedItems).map((item) => ({
+          itemId: item._id,
+          isVerified: item.isChecked,
+          actualQuantity: item.quantity,
+          isQuantityMatch: item.isQuantityMatch,
+        })),
+        allQuantityMatch,
+      };
+
+      // Kirim data ke server (uncomment dan sesuaikan dengan endpoint Anda)
+      // await http.post('/driver/verify-order', verifiedData, {
+      //   withCredentials: true,
+      // });
+
+      console.log("Verified data:", verifiedData);
       navigate(`/status-driver/${id}`);
     } catch (error) {
       console.log(error);
     }
   }
+
   return (
     <>
       <>
@@ -68,6 +177,19 @@ export default function VerifyOrderDriver() {
                 <h1 className="text-2xl font-bold">Verify Items</h1>
               </div>
             </div>
+
+            {/* Alert untuk mengingatkan bahwa quantity harus sama */}
+            <div className="p-5 w-full">
+              <Alert variant="warning">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Perhatian</AlertTitle>
+                <AlertDescription>
+                  Pastikan jumlah Actual Quantity sama dengan Expected Quantity
+                  untuk verifikasi yang valid.
+                </AlertDescription>
+              </Alert>
+            </div>
+
             <div className="p-5 w-full">
               <Card>
                 <CardContent>
@@ -83,23 +205,47 @@ export default function VerifyOrderDriver() {
             </div>
             <div className="p-5 w-full">
               {detail?.items?.map((el) => {
+                const verifiedItem = verifiedItems[el?._id];
+                const isItemVerified = verifiedItem?.isChecked || false;
+                const itemQuantity = verifiedItem?.quantity || el?.quantity;
+                const isQuantityMatch = verifiedItem?.isQuantityMatch;
+
                 return (
-                  <Card key={el?._id}>
+                  <Card
+                    key={el?._id}
+                    className={!isQuantityMatch ? "border-red-500" : ""}
+                  >
                     <CardHeader>
                       <div className="w-full flex justify-between items-center">
                         <div className="w-full flex gap-5 items-center">
                           <Checkbox
-                            id="id"
-                            // checked={isChecked}
-                            // onCheckedChange={handleCheck}
+                            id={`item-${el?._id}`}
+                            checked={isItemVerified}
+                            onCheckedChange={(checked) => {
+                              // Hanya bisa dicentang jika quantity sesuai
+                              if (checked === true && !isQuantityMatch) {
+                                alert(
+                                  `Actual quantity untuk ${el?.name} harus sama dengan expected quantity (${el?.quantity} ${el?.unit})`
+                                );
+                                return;
+                              }
+                              handleVerifyItem(
+                                el?._id,
+                                checked === true,
+                                itemQuantity
+                              );
+                            }}
                             className="h-5 w-5 border-2 border-black"
+                            disabled={!isQuantityMatch} // Disable checkbox jika quantity tidak sesuai
                           />
                           <h1>{el?.name}</h1>
                         </div>
 
-                        <Badge className="bg-green-500 text-white px-3 py-1 rounded-md flex items-center gap-1">
-                          <Check className="h-4 w-4" /> Verified
-                        </Badge>
+                        {isItemVerified && (
+                          <Badge className="bg-green-500 text-white px-3 py-1 rounded-md flex items-center gap-1">
+                            <Check className="h-4 w-4" /> Verified
+                          </Badge>
+                        )}
                       </div>
                     </CardHeader>
                     <CardContent>
@@ -114,13 +260,29 @@ export default function VerifyOrderDriver() {
                           <h1>Actual Quantity</h1>
                           <div className="flex gap-2 items-center">
                             <Input
-                              id="id"
+                              id={`quantity-${el?._id}`}
                               type="number"
-                              className="border-2 border-black"
+                              className={`border-2 ${
+                                !isQuantityMatch
+                                  ? "border-red-500 bg-red-50"
+                                  : "border-black"
+                              }`}
                               min={0}
+                              value={itemQuantity}
+                              onChange={(e) => {
+                                const newQuantity =
+                                  Number.parseInt(e.target.value) || 0;
+                                handleVerifyItem(el?._id, false, newQuantity); // Reset isChecked ke false saat quantity berubah
+                              }}
                             />
                             <span>{el?.unit}</span>
                           </div>
+                          {!isQuantityMatch && (
+                            <p className="text-red-500 text-sm mt-1">
+                              Harus sama dengan expected: {el?.quantity}{" "}
+                              {el?.unit}
+                            </p>
+                          )}
                         </div>
                       </div>
                     </CardContent>
@@ -132,7 +294,7 @@ export default function VerifyOrderDriver() {
           <div className="fixed bottom-4 flex justify-center items-center left-0 right-0 px-4">
             <Dialog>
               <DialogTrigger asChild>
-                <Button>
+                <Button disabled={!allVerified || !allQuantityMatch}>
                   <CheckCircle2 />
                   Complete Verification for {detail?.outlet?.name}
                 </Button>
@@ -141,8 +303,8 @@ export default function VerifyOrderDriver() {
                 <DialogHeader>
                   <DialogTitle>Order Check Summary</DialogTitle>
                   <DialogDescription>
-                    Let's verify that all items for Downtown Café have been
-                    verified and are ready for delivery.
+                    Let's verify that all items for {detail?.outlet?.name} have
+                    been verified and are ready for delivery.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="-mx-6 max-h-[500px] overflow-y-auto px-6 text-sm">
@@ -156,14 +318,16 @@ export default function VerifyOrderDriver() {
                     <CardContent>
                       <div className="flex flex-col gap-2">
                         <div className="flex items-center gap-2">
-                          <h2 className="text-2xl font-bold">A</h2>
+                          <h2 className="text-2xl font-bold">
+                            {detail?.outlet?.name}
+                          </h2>
                           <BadgeStatusColor
                             status={detail?.status as OrderStatus}
                           />
                         </div>
                         <p className="text-gray-600 flex items-center gap-1">
                           <MapPin className="h-4 w-4" />
-                          <span>Order #100</span>
+                          <span>Order #{detail?._id}</span>
                         </p>
                       </div>
                     </CardContent>
@@ -177,11 +341,15 @@ export default function VerifyOrderDriver() {
                       <div className="flex flex-row w-full items-center justify-between gap-4 mb-4">
                         <div>
                           <p className="text-sm font-medium">Driver</p>
-                          <p className="text-lg font-bold">Agus</p>
+                          <p className="text-lg font-bold">
+                            {detail?.driver?.name || "N/A"}
+                          </p>
                         </div>
                         <div>
                           <p className="text-sm font-medium">Outlet</p>
-                          <p className="text-lg font-bold">Outlet</p>
+                          <p className="text-lg font-bold">
+                            {detail?.outlet?.name || "N/A"}
+                          </p>
                         </div>
                       </div>
                     </CardContent>
@@ -190,7 +358,8 @@ export default function VerifyOrderDriver() {
                   <div className="mb-6">
                     <h2 className="text-xl font-bold mb-4">Verified Items</h2>
                     <p className="text-muted-foreground mb-4">
-                      All items for <span className="font-bold">Outlet</span>{" "}
+                      All items for{" "}
+                      <span className="font-bold">{detail?.outlet?.name}</span>{" "}
                       have been verified and are ready for delivery.
                     </p>
 
@@ -205,21 +374,36 @@ export default function VerifyOrderDriver() {
                         <TableHeader>
                           <TableRow>
                             <TableHead>Product</TableHead>
-                            <TableHead>Quantity</TableHead>
+                            <TableHead>Expected</TableHead>
+                            <TableHead>Actual</TableHead>
                             <TableHead>Status</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
-                          <TableRow>
-                            <TableCell>Premium Coffee Beans</TableCell>
-                            <TableCell>5 boxes</TableCell>
-                            <TableCell>
-                              {" "}
-                              <span className="inline-flex items-center gap-1 text-green-950">
-                                <Check className="h-4 w-4" /> Verified
-                              </span>
-                            </TableCell>
-                          </TableRow>
+                          {detail?.items?.map((item) => {
+                            const verifiedItem = verifiedItems[item._id];
+                            return (
+                              <TableRow key={item._id}>
+                                <TableCell>{item.name}</TableCell>
+                                <TableCell>
+                                  {item.quantity} {item.unit}
+                                </TableCell>
+                                <TableCell>
+                                  {verifiedItem?.quantity || item.quantity}{" "}
+                                  {item.unit}
+                                </TableCell>
+                                <TableCell>
+                                  {verifiedItem?.isChecked ? (
+                                    <span className="inline-flex items-center gap-1 text-green-950">
+                                      <Check className="h-4 w-4" /> Verified
+                                    </span>
+                                  ) : (
+                                    "Not Verified"
+                                  )}
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
                         </TableBody>
                       </Table>
                     </Card>
@@ -231,7 +415,7 @@ export default function VerifyOrderDriver() {
                     className="w-full btn-neobrutalism"
                   >
                     <Truck className="mr-2 h-4 w-4" />
-                    Start Delivery to Outlet Name
+                    Start Delivery to {detail?.outlet?.name}
                   </Button>
                   <DialogClose asChild>
                     <Button variant={"neutral"}>Close</Button>
