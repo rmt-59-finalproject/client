@@ -23,9 +23,13 @@ export default function CreateOrderPage() {
 
   async function fetchInventories() {
     try {
-      const data = await http.get("/inventories");
-      console.log(data.data);
-      const inventoryJson = data.data;
+      const data = await http.get("/inventory?search=", {
+        withCredentials: true,
+      });
+      console.log(data.data.products);
+      const inventoryJson = data.data.products;
+      console.log(inventoryJson);
+
       setInventories(inventoryJson);
     } catch (error) {
       console.log(error);
