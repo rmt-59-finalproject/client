@@ -16,7 +16,6 @@ export function FilterHistoryOrder({ setFilter }) {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem value=" ">All Orders</SelectItem>
             <SelectItem value="requested">Requested</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
             <SelectItem value="in_transit">In Transit</SelectItem>

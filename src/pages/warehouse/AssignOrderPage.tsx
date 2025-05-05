@@ -1,5 +1,5 @@
 import { http } from "@/helpers/axios";
-import { OrderStatus, OrderType } from "@/types";
+import { OrderStatus, OrderType, UserType } from "@/types";
 import { useEffect, useState } from "react";
 import {
   Select,
@@ -32,9 +32,11 @@ export default function AssignOrderPage() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
   const [selectedDriver, setSelectedDriver] = useState("");
   const [filter, setFilter] = useState("requested");
+  const [driver, setDriver] = useState<UserType[]>([]);
 
   useEffect(() => {
     fetchData();
+    getDriver();
   }, [filter]);
   async function fetchData() {
     try {
@@ -50,7 +52,22 @@ export default function AssignOrderPage() {
     }
   }
 
-  async function submitRequest(id) {
+  async function getDriver() {
+    try {
+      const data = await http.get("/users", {
+        params: {
+          role: "driver",
+        },
+        withCredentials: true,
+      });
+      console.log(data.data);
+      setDriver(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function submitRequest(id: string) {
     // PATCH THIS STATUS FROM REQUESTED TO APPROVED
     try {
       console.log(id);
@@ -65,6 +82,27 @@ export default function AssignOrderPage() {
       );
       console.log(data);
       fetchData();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function submitDriver(orderId: string) {
+    try {
+      // PATCH THIS TO DRIVER ID
+      console.log(selectedDriver, orderId);
+      const data = await http.patch(
+        `orders/${orderId}/driver`,
+        {
+          driverId: selectedDriver,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
+      fetchData();
+      setSelectedDriver("");
     } catch (error) {
       console.log(error);
     }
@@ -182,13 +220,13 @@ export default function AssignOrderPage() {
                           <div className="flex flex-row justify-between items-center">
                             <div>
                               <h1 className="text-lg font-bold">Outlet</h1>
-                              <h1>{el?.outlet?.username}</h1>
+                              <h1>{el?.outlet?.name}</h1>
                             </div>
                             <div>
                               <h1 className="text-lg font-bold">
                                 Date Requested
                               </h1>
-                              <h1>{el?.createdAt}</h1>
+                              <h1>{formatDate(el?.createdAt)}</h1>
                             </div>
                           </div>
                           <div className="p-5">
@@ -198,16 +236,18 @@ export default function AssignOrderPage() {
                                 <TableRow>
                                   <TableHead>Product</TableHead>
                                   <TableHead>Quantity</TableHead>
+                                  <TableHead>Unit</TableHead>
                                 </TableRow>
                               </TableHeader>
                               <TableBody>
                                 {el?.items?.map((el) => {
                                   return (
-                                    <TableRow key={el.productId}>
+                                    <TableRow key={el._id}>
                                       <TableCell className="font-base">
-                                        {el.productId}
+                                        {el.name}
                                       </TableCell>
                                       <TableCell>{el.quantity}</TableCell>
+                                      <TableCell>{el.unit}</TableCell>
                                     </TableRow>
                                   );
                                 })}
@@ -225,16 +265,20 @@ export default function AssignOrderPage() {
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectGroup>
-                                  <SelectItem value="Agus">Agus</SelectItem>
-                                  <SelectItem value="Maulana">
-                                    Maulana
-                                  </SelectItem>
+                                  {driver.map((el) => {
+                                    return (
+                                      <SelectItem key={el._id} value={el._id}>
+                                        {el.name}
+                                      </SelectItem>
+                                    );
+                                  })}
                                 </SelectGroup>
                               </SelectContent>
                             </Select>
                             <Button
                               className="w-1/2"
-                              disabled={!selectedDriver}
+                              onClick={() => submitDriver(el._id)}
+                              // disabled={!selectedDriver}
                             >
                               Assign Order to the Driver
                             </Button>

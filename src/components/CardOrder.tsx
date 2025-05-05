@@ -44,7 +44,6 @@ export const CardOrderComponent: React.FC<CardOrder> = ({
           </div>
         </div>
         <div className="p-5">
-          <h1>items</h1>
           <Table>
             <TableHeader>
               <TableRow>
