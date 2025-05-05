@@ -187,14 +187,35 @@ export default function VerifyOrderDriver() {
         return data;
       }
 
+      let submittedBool = false;
+
       itemsAndBooleanChecked.map(async (el) => {
         const submitted = await submitPerItem(el.productId, el.status);
-        console.log(submitted);
+        if (submitted.status === 200) {
+          submittedBool = true;
+        }
+        console.log(submitted.data.message, submittedBool);
         return;
       });
 
+      //UBAH STATUS DARI IN_TRANSIT KE DELIVERED
+      const changeStatus = await http.patch(
+        `/orders/${orderId}`,
+        {
+          status: "delivered",
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log(
+        changeStatus.data.message,
+        "<---- cek status apakah berhasil berubah?"
+      );
+
       console.log("Verified data:", verifiedData);
-      // navigate(`/status-driver/${id}`);
+      navigate(`/status-driver/${id}`);
     } catch (error) {
       console.log(error);
     }
