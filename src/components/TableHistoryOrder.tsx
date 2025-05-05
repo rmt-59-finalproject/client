@@ -9,7 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { OrderType } from "@/types";
+import { OrderStatus, OrderType } from "@/types";
+import { BadgeStatusColor } from "./BadgeStatusColor";
 
 export default function TableHistoryOrder({
   orderData,
@@ -43,7 +44,10 @@ export default function TableHistoryOrder({
             <TableCell>{invoice.outlet.username}</TableCell>
             <TableCell>{invoice.items.length}</TableCell>
             <TableCell>{invoice.driver.username}</TableCell>
-            <TableCell>{invoice.status}</TableCell>
+            <TableCell>
+              <BadgeStatusColor status={invoice.status as OrderStatus} />
+            </TableCell>
+
             <TableCell>
               <Button
                 variant={"neutral"}

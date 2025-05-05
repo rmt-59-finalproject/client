@@ -1,3 +1,5 @@
+import { LucideProps } from "lucide-react";
+
 export type InventoryItem = {
   _id: string;
   name: string;
@@ -38,3 +40,19 @@ export interface OrderType {
   };
   items: ItemOrder[];
 }
+
+export type NavType = {
+  title: string;
+  url: string;
+  icon: React.ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
+  >;
+  isActive: boolean;
+};
+
+export type OrderStatus =
+  | "required"
+  | "approved"
+  | "in_transit"
+  | "delivered"
+  | "completed";

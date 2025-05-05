@@ -1,13 +1,14 @@
+import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 import TableDetailOrder from "@/components/TableDetailOrder";
 import { Badge } from "@/components/ui/badge";
 import { http } from "@/helpers/axios";
-import { OrderType } from "@/types";
+import { OrderStatus, OrderType } from "@/types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 // deetail orderan diklik dari /dashboard atau /orders
 export default function DetailOrderPage() {
-  const [detail, setDetail] = useState<OrderType>({});
+  const [detail, setDetail] = useState<OrderType[]>([]);
   const params = useParams();
   const { orderId } = params;
   useEffect(() => {
@@ -18,7 +19,7 @@ export default function DetailOrderPage() {
     try {
       const data = await http(`/orders?_id=${orderId}`);
       console.log(data.data[0], "<-- fetchDetail");
-      const responseData: OrderType = data.data[0];
+      const responseData: OrderType[] = data?.data;
       setDetail(responseData);
     } catch (error) {
       console.log(error);
@@ -40,29 +41,28 @@ export default function DetailOrderPage() {
         <div className=" p-2.5 rounded-2xl border border-gray-400 bg-gray-300">
           <div className="px-5 pt-5">
             <h1>Order Id</h1>
-            <h1 className="text-lg font-bold">{detail?._id}</h1>
+            <h1 className="text-lg font-bold">{detail[0]?._id}</h1>
           </div>
           <div className="px-5 pt-5">
             <h1>Outlet Owner</h1>
-            <h1 className="text-lg font-bold">{detail?.outlet?.username}</h1>
+            <h1 className="text-lg font-bold">{detail[0]?.outlet?.username}</h1>
           </div>
           <div className="px-5 pt-5">
             <h1>Order assigned to driver:</h1>
-            <h1 className="text-lg font-bold">{detail?.driver?.username}</h1>
+            <h1 className="text-lg font-bold">{detail[0]?.driver?.username}</h1>
           </div>
           <div className="px-5 pt-5">
             <h1>Order Create Date</h1>
-            <h1 className="text-lg font-bold">{detail?.createdAt}</h1>
+            <h1 className="text-lg font-bold">{detail[0]?.createdAt}</h1>
           </div>
           <div className="px-5 pt-5">
             <h1>Status Order</h1>
-
-            <Badge>{detail?.status}</Badge>
+            <BadgeStatusColor status={detail[0]?.status as OrderStatus} />
           </div>
           <div className="p-1">
             <h1 className="px-5 pt-5 pb-5">Order Items</h1>
             <div className="flex flex-col gap-2">
-              <TableDetailOrder data={detail?.items || []} />
+              <TableDetailOrder data={detail[0]?.items || []} />
             </div>
           </div>
         </div>

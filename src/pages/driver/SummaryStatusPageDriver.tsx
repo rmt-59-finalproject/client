@@ -1,7 +1,8 @@
+import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { http } from "@/helpers/axios";
-import { OrderType } from "@/types";
+import { OrderStatus, OrderType } from "@/types";
 import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -48,7 +49,8 @@ export default function SummaryStatusPageDriver() {
           <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6">
             <CardHeader className="border-b-4 border-black flex flex-row items-center justify-between">
               <CardTitle className="text-xl">Order #{data[0]?._id}</CardTitle>
-              {/* <StatusBadge status={order.status} /> */}
+              <BadgeStatusColor status={"delivered" as OrderStatus} />
+              {/* UBAH INI JADI DINAMIS */}
             </CardHeader>
             <CardContent className="pt-6">
               <div className="flex w-full flex-row justify-between items-center gap-4 mb-4">

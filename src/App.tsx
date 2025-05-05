@@ -35,7 +35,6 @@ const App = () => {
           <Route path="/all-outlets" element={<OutletPage />} />
           <Route path="/orders" element={<AllOrderPage />} />
           <Route path="/assign" element={<AssignOrderPage />} />
-          <Route path="/request-order" element={<CreateOrderPage />} />{" "}
           <Route path="/orders/:orderId" element={<DetailOrderPage />} />{" "}
           {/* DRIVER ROUTE */}
           <Route path="/driver" element={<LandingPageDriver />} />
@@ -49,6 +48,7 @@ const App = () => {
             element={<VerifyOrderDriver />}
           />
           {/* OUTLET ROUTE */}
+          <Route path="/request-order" element={<CreateOrderPage />} />{" "}
           <Route path="/outlet" element={<LandingPageOutlet />} />
           <Route path="/summary-order" element={<SummaryOrderPage />} />{" "}
           <Route path="/outlet-orders" element={<AllRequestOutlet />} />{" "}
