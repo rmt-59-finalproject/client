@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from "react-router";
 export default function CreateOrderPage() {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [inventories, setInventories] = useState<InventoryItem[]>([]);
+  const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,11 +20,11 @@ export default function CreateOrderPage() {
   useEffect(() => {
     handleOrderStateBeforeSummary();
     fetchInventories();
-  }, []);
+  }, [search]);
 
   async function fetchInventories() {
     try {
-      const data = await http.get("/inventory?search=", {
+      const data = await http.get(`/inventory?search=${search}`, {
         withCredentials: true,
       });
       console.log(data.data.products);
@@ -84,7 +85,7 @@ export default function CreateOrderPage() {
       </div>
       <div className=" px-5 py-2.5 max-w-6xl font-bold text-lg w-full">
         <h1>Inventory</h1>
-        <Input />
+        <Input onChange={(e) => setSearch(e.target.value)} />
       </div>
       <ScrollArea className="h-80 max-w-6xl w-full">
         <div className="p-5 w-full flex flex-col gap-2 min-h-screen">
