@@ -1,6 +1,5 @@
 import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 import TableDetailOrder from "@/components/TableDetailOrder";
-import { Badge } from "@/components/ui/badge";
 import { http } from "@/helpers/axios";
 import { formatDate } from "@/lib/utils";
 import { OrderStatus, OrderType } from "@/types";

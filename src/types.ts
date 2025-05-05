@@ -68,3 +68,10 @@ export type OrderStatus =
   | "delivered"
   | "completed"
   | "rejected";
+
+export type UserType = {
+  _id: string;
+  username: string;
+  name: string;
+  role: string;
+};

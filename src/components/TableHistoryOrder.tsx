@@ -3,7 +3,6 @@ import { Button } from "./ui/button";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -11,7 +10,6 @@ import {
 } from "./ui/table";
 import { OrderStatus, OrderType } from "@/types";
 import { BadgeStatusColor } from "./BadgeStatusColor";
-import { http } from "@/helpers/axios";
 
 export default function TableHistoryOrder({
   orderData,
