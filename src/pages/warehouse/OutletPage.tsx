@@ -1,17 +1,11 @@
 import CardDriverAndOutlet from "@/components/CardDriverAndOutlet";
-import { Button } from "@/components/ui/button";
 import { http } from "@/helpers/axios";
+import { UserType } from "@/types";
 import { useEffect, useState } from "react";
 
-type DriverType = {
-  _id: string;
-  username: string;
-  name: string;
-  role: string;
-};
 // halaman all driver role warehouse
 export default function OutletPage() {
-  const [data, setData] = useState<DriverType[]>([]);
+  const [data, setData] = useState<UserType[]>([]);
   useEffect(() => {
     getDriver();
   }, []);
