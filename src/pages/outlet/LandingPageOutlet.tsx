@@ -16,6 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { http } from "@/helpers/axios";
+import { formatDate } from "@/lib/utils";
 import { OrderStatus, OrderType } from "@/types";
 import { CheckCircle2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -23,17 +24,27 @@ import { useNavigate } from "react-router";
 
 export default function LandingPageOutlet() {
   //   const [role, useRole] = useState("driver");
-  const [usernameOutlet, setUsernameOutlet] = useState("toko_ceria");
+  const [usernameOutlet, setUsernameOutlet] = useState("");
+  const [nameOutlet, setNameOutlet] = useState("");
 
   const [orderData, setOrderData] = useState<OrderType[]>([]);
   const navigate = useNavigate();
   useEffect(() => {
     fetchData();
+    getCredential();
   }, []);
+  function getCredential() {
+    const usernameSession = sessionStorage.getItem("username");
+    const nameSession = sessionStorage.getItem("name");
+    setUsernameOutlet(usernameSession as string);
+    setNameOutlet(nameSession as string);
+  }
   async function fetchData() {
     try {
-      const uri = `/orders?status=delivered&outlet.username=${usernameOutlet}`;
-      const data = await http.get(uri);
+      const uri = `/outlet/orders?status=delivered`;
+      const data = await http.get(uri, {
+        withCredentials: true,
+      });
       console.log(data.data);
       const dataResponse: OrderType[] = data.data;
       setOrderData(dataResponse);
@@ -57,10 +68,7 @@ export default function LandingPageOutlet() {
           <div className="flex flex-col max-w-6xl justify-center items-center w-full">
             <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
               <div className="w-full">
-                <h1 className="text-2xl font-bold">
-                  {" "}
-                  Welcome Outlet {usernameOutlet}!
-                </h1>
+                <h1 className="text-2xl font-bold"> Welcome {nameOutlet}!</h1>
                 <div className="flex flex-row justify-between items-center w-full">
                   <h1 className="text-lg opacity-70">
                     Check here, Your orders are incoming!
@@ -90,13 +98,13 @@ export default function LandingPageOutlet() {
                           <div className="flex flex-row justify-between items-center">
                             <div>
                               <h1 className="text-lg font-bold">Outlet</h1>
-                              <h1>{el?.outlet?.username}</h1>
+                              <h1>{el?.outlet?.name}</h1>
                             </div>
                             <div>
                               <h1 className="text-lg font-bold">
                                 Date Requested
                               </h1>
-                              <h1>{el?.createdAt}</h1>
+                              <h1>{formatDate(el?.createdAt)}</h1>
                             </div>
                           </div>
                           <div className="p-5">
@@ -111,9 +119,9 @@ export default function LandingPageOutlet() {
                               <TableBody>
                                 {el?.items?.map((el) => {
                                   return (
-                                    <TableRow key={el.productId}>
+                                    <TableRow key={el.name}>
                                       <TableCell className="font-base">
-                                        {el.productId}
+                                        {el.name}
                                       </TableCell>
                                       <TableCell>{el.quantity}</TableCell>
                                     </TableRow>
