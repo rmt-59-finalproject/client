@@ -1,9 +1,6 @@
-import { BadgeStatusColor } from "@/components/BadgeStatusColor";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { CardOrderComponent } from "@/components/CardOrder";
 import { http } from "@/helpers/axios";
-import { OrderStatus, OrderType } from "@/types";
+import { OrderType } from "@/types";
 import { useEffect, useState } from "react";
 
 // Ini adalah halaman All Order dari Outlet yang login
@@ -12,12 +9,16 @@ export default function AllRequestOutlet() {
   useEffect(() => {
     fetchData();
   }, []);
-  const usernameOutlet = "toko_ceria";
 
   async function fetchData() {
     try {
-      const uri = `/orders?outlet.username=${usernameOutlet}`;
-      const data = await http.get(uri);
+      const uri = `/outlet/orders`;
+      const data = await http.get(uri, {
+        params: {
+          status: "completed",
+        },
+        withCredentials: true,
+      });
       console.log(data.data);
       const dataResponse: OrderType[] = data.data;
       setOrderData(dataResponse);
@@ -41,47 +42,11 @@ export default function AllRequestOutlet() {
             <>
               {orderData.map((order) => {
                 return (
-                  <Card key={order._id}>
-                    <CardContent>
-                      <div>
-                        <div className="flex flex-col justify-center items-center">
-                          <div className="flex flex-row justify-between items-ccnter w-full">
-                            <h2 className="text-lg font-semibold text-gray-900 mb-1">
-                              {order?._id} - {order?.outlet?.username}{" "}
-                            </h2>
-                            <BadgeStatusColor
-                              status={order?.status as OrderStatus}
-                            />
-                          </div>
-
-                          <p className="text-sm text-gray-500 mb-3">
-                            {order?.items?.length} items • Order created at{" "}
-                            {order?.createdAt}
-                          </p>
-                        </div>
-                        <div className="mb-4">
-                          <p className="text-sm font-medium text-gray-700 mb-2">
-                            Order Items:
-                          </p>
-                          <ul className="text-sm text-gray-800 space-y-1">
-                            {order?.items?.map((el) => {
-                              return (
-                                <div key={el?.productId}>
-                                  <li className="flex justify-between">
-                                    <span>{el?.productId}</span>
-                                    <span>{el?.quantity}</span>
-                                  </li>
-                                </div>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      </div>
-                    </CardContent>
-                    <CardFooter>
-                      <Button className="w-full">Detail Request</Button>
-                    </CardFooter>
-                  </Card>
+                  <CardOrderComponent
+                    // click={() => navigateVerifyOutlet(el._id)}
+                    nameButton={"Detail Order"}
+                    el={order}
+                  />
                 );
               })}
             </>
