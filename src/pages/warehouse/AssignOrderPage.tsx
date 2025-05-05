@@ -1,5 +1,5 @@
 import { http } from "@/helpers/axios";
-import { OrderType } from "@/types";
+import { OrderStatus, OrderType } from "@/types";
 import { useEffect, useState } from "react";
 import {
   Select,
@@ -9,7 +9,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 
 import {
   Card,
@@ -26,6 +25,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 // Ini adalah halaman All Order dari Warehouse
 export default function AssignOrderPage() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
@@ -84,7 +84,9 @@ export default function AssignOrderPage() {
                         <CardHeader>
                           <div className="flex flex-row w-full justify-between items-center">
                             <h1>{el?._id}</h1>
-                            <Badge>{el?.status}</Badge>
+                            <BadgeStatusColor
+                              status={el?.status as OrderStatus}
+                            />
                           </div>
                         </CardHeader>
                         <CardContent>
@@ -144,7 +146,9 @@ export default function AssignOrderPage() {
                         <CardHeader>
                           <div className="flex flex-row w-full justify-between items-center">
                             <h1>{el?._id}</h1>
-                            <Badge>{el?.status}</Badge>
+                            <BadgeStatusColor
+                              status={el?.status as OrderStatus}
+                            />
                           </div>
                         </CardHeader>
                         <CardContent>

@@ -13,7 +13,7 @@ export function BadgeStatusColor({ status }: StatusBadgeProps) {
     <Badge
       className={`${colorClass} uppercase font-bold text-xs px-3 py-1 rounded-md`}
     >
-      {status.replace("_", " ")}
+      {status?.replace("_", " ")}
     </Badge>
   );
 }
