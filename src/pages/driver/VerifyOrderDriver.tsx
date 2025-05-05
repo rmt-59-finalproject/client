@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { http } from "@/helpers/axios";
-import { OrderType } from "@/types";
+import { OrderStatus, OrderType } from "@/types";
 import { Check, CheckCircle2, MapPin, Store, Truck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -76,9 +76,7 @@ export default function VerifyOrderDriver() {
                       <h1>Delivery Recipient</h1>
                       <h1>{detail?._id}</h1>
                     </div>
-                    <h1 className="py-2.5 text-2xl">
-                      {detail?.outlet?.username}
-                    </h1>
+                    <h1 className="py-2.5 text-2xl">{detail?.outlet?.name}</h1>
                   </div>
                 </CardContent>
               </Card>
@@ -136,7 +134,7 @@ export default function VerifyOrderDriver() {
               <DialogTrigger asChild>
                 <Button>
                   <CheckCircle2 />
-                  Complete Verification for Delta Mart
+                  Complete Verification for {detail?.outlet.name}
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-lg">
