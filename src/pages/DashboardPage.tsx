@@ -28,7 +28,13 @@ export default function DashboardPage() {
       const data = await http.get(uri, { withCredentials: true });
       console.log(data.data);
       const dataResponse: OrderType[] = data.data;
-      setOrderData(dataResponse);
+      // map dataResponse only until index 6
+      const mappedItem = dataResponse.slice(0, 6).map((item) => {
+        return item;
+      });
+      console.log(mappedItem, "mapped");
+
+      setOrderData(mappedItem);
     } catch (error) {
       console.log(error);
     }
