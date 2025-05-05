@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
 export default function SummaryStatusPageDriver() {
-  const [data, setData] = useState<OrderType[]>([]);
+  const [data, setData] = useState<OrderType>({});
   const params = useParams();
   const navigate = useNavigate();
 
@@ -18,8 +18,10 @@ export default function SummaryStatusPageDriver() {
   }, []);
   async function fetchData() {
     try {
-      const uri = `/orders?_id=${orderId}`;
-      const data = await http.get(uri);
+      const uri = `/driver/orders/${orderId}`;
+      const data = await http.get(uri, {
+        withCredentials: true,
+      });
       console.log(data.data);
       setData(data.data);
     } catch (error) {
@@ -48,19 +50,19 @@ export default function SummaryStatusPageDriver() {
         <div className=" min-h-screen p-4 max-w-6xl font-bold text-lg w-full">
           <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6">
             <CardHeader className="border-b-4 border-black flex flex-row items-center justify-between">
-              <CardTitle className="text-xl">Order #{data[0]?._id}</CardTitle>
-              <BadgeStatusColor status={"delivered" as OrderStatus} />
+              <CardTitle className="text-xl">Order #{data?._id}</CardTitle>
+              <BadgeStatusColor status={data?.status as OrderStatus} />
               {/* UBAH INI JADI DINAMIS */}
             </CardHeader>
             <CardContent className="pt-6">
               <div className="flex w-full flex-row justify-between items-center gap-4 mb-4">
                 <div>
                   <p className="text-sm font-medium">Driver</p>
-                  <p className="font-bold">{data[0]?.driver?.username}</p>
+                  <p className="font-bold">{data?.driver?.name}</p>
                 </div>
                 <div>
                   <p className="text-sm font-medium">Outlet</p>
-                  <p className="font-bold">{data[0]?.outlet?.username}</p>
+                  <p className="font-bold">{data?.outlet?.name}</p>
                 </div>
               </div>
             </CardContent>
@@ -90,14 +92,14 @@ export default function SummaryStatusPageDriver() {
                     </tr>
                   </thead>
                   <tbody>
-                    {data[0]?.items?.map((item) => (
+                    {data?.items?.map((item) => (
                       <tr
-                        key={item.productId}
+                        key={item._id}
                         className="border-b border-black last:border-b-0"
                       >
-                        <td className="px-4 py-3">{item.productId}</td>
+                        <td className="px-4 py-3">{item.name}</td>
                         <td className="px-4 py-3 text-right">
-                          {item.quantity} unit
+                          {item.quantity} {item.unit}
                         </td>
                         <td className="px-4 py-3 text-center">
                           <span className="inline-flex items-center gap-1 text-green-500">
