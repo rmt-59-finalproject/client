@@ -1,8 +1,34 @@
+import CardDriverAndOutlet from "@/components/CardDriverAndOutlet";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { http } from "@/helpers/axios";
+import { useEffect, useState } from "react";
 
+type DriverType = {
+  _id: string;
+  username: string;
+  name: string;
+  role: string;
+};
 // halaman all driver role warehouse
 export default function DriverPage() {
+  const [data, setData] = useState<DriverType[]>([]);
+  useEffect(() => {
+    getDriver();
+  }, []);
+  async function getDriver() {
+    try {
+      const data = await http.get("/users", {
+        params: {
+          role: "driver",
+        },
+        withCredentials: true,
+      });
+      console.log(data.data);
+      setData(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">
       <div className="w-7xl flex flex-col justify-center items-center">
@@ -10,65 +36,20 @@ export default function DriverPage() {
           <div>
             <h1 className="text-2xl font-bold">All Drivers</h1>
           </div>
-          <div className="flex gap-2">
-            <Button>Create New Driver</Button>
-          </div>
         </div>
 
         {/*  */}
         <div className="border border-gray-300 rounded-2xl mt-10 w-4xl p-5">
           <div className="flex flex-col gap-5">
-            <Card>
-              <CardContent>
-                <div className="flex items-center p-4 w-full ">
-                  <div className="w-16 rounded-full flex items-center justify-center text-lg font-semibold text-gray-700 overflow-hidden">
-                    <img
-                      src={"https://github.com/shadcn.png"}
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                  </div>
-                  <div className="ml-10">
-                    <h2 className="text-lg font-medium text-gray-900">
-                      Ipsum Dolor
-                    </h2>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent>
-                <div className="flex items-center p-4 w-full ">
-                  <div className="w-16 rounded-full flex items-center justify-center text-lg font-semibold text-gray-700 overflow-hidden">
-                    <img
-                      src={"https://github.com/shadcn.png"}
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                  </div>
-                  <div className="ml-10">
-                    <h2 className="text-lg font-medium text-gray-900">
-                      Lorem Ipsum
-                    </h2>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent>
-                <div className="flex items-center p-4 w-full ">
-                  <div className="w-16 rounded-full flex items-center justify-center text-lg font-semibold text-gray-700 overflow-hidden">
-                    <img
-                      src={"https://github.com/shadcn.png"}
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                  </div>
-                  <div className="ml-10">
-                    <h2 className="text-lg font-medium text-gray-900">
-                      Dolor Lorem
-                    </h2>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            {data?.map((el) => {
+              return (
+                <CardDriverAndOutlet
+                  key={el?._id}
+                  name={el?.name}
+                  logo={"https://github.com/shadcn.png"}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
