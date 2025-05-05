@@ -134,7 +134,7 @@ export default function VerifyOrderDriver() {
               <DialogTrigger asChild>
                 <Button>
                   <CheckCircle2 />
-                  Complete Verification for {detail?.outlet.name}
+                  Complete Verification for {detail?.outlet?.name}
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-lg">

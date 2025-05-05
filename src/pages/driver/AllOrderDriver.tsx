@@ -2,6 +2,7 @@ import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { http } from "@/helpers/axios";
+import { formatDate } from "@/lib/utils";
 import { OrderStatus, OrderType } from "@/types";
 import { useEffect, useState } from "react";
 
@@ -24,8 +25,10 @@ export default function AllOrderDriver() {
 
   async function fetchData() {
     try {
-      const uri = `/orders?driver.username=${usernameDriver}`;
-      const data = await http.get(uri);
+      const uri = `/driver/orders?status=delivered`;
+      const data = await http.get(uri, {
+        withCredentials: true,
+      });
       console.log(data.data);
       const dataResponse: OrderType[] = data.data;
       setOrderData(dataResponse);
@@ -52,19 +55,27 @@ export default function AllOrderDriver() {
                   <Card key={order._id}>
                     <CardContent>
                       <div>
-                        <div className="flex flex-col justify-center items-center">
+                        <div className="flex flex-col justify-center items-start">
                           <div className="flex flex-row justify-between items-ccnter w-full">
-                            <h2 className="text-lg font-semibold text-gray-900 mb-1">
-                              {order?._id} - {order?.outlet?.username}{" "}
-                            </h2>
-                            <BadgeStatusColor
-                              status={order?.status as OrderStatus}
-                            />
+                            <div className="flex flex-col w-full">
+                              {" "}
+                              <div className="w-full flex flex-row justify-between items-center">
+                                <h2 className="text-lg font-semibold text-gray-900 mb-1">
+                                  {order?._id}{" "}
+                                </h2>
+                                <BadgeStatusColor
+                                  status={order?.status as OrderStatus}
+                                />
+                              </div>
+                              <h2 className="text-lg font-semibold text-gray-900 mb-1">
+                                {order?.outlet?.name}{" "}
+                              </h2>
+                            </div>
                           </div>
 
                           <p className="text-sm text-gray-500 mb-3">
                             {order?.items?.length} items • Order created at{" "}
-                            {order?.createdAt}
+                            {formatDate(order?.createdAt)}
                           </p>
                         </div>
                         <div className="mb-4">
@@ -74,9 +85,9 @@ export default function AllOrderDriver() {
                           <ul className="text-sm text-gray-800 space-y-1">
                             {order?.items?.map((el) => {
                               return (
-                                <div key={el?.productId}>
+                                <div key={el?.name}>
                                   <li className="flex justify-between">
-                                    <span>{el?.productId}</span>
+                                    <span>{el?.name}</span>
                                     <span>{el?.quantity}</span>
                                   </li>
                                 </div>
@@ -87,7 +98,7 @@ export default function AllOrderDriver() {
                       </div>
                     </CardContent>
                     <CardFooter>
-                      <Button className="w-full">Verify Delivery</Button>
+                      <Button className="w-full">Detail Order</Button>
                     </CardFooter>
                   </Card>
                 );
