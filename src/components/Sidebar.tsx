@@ -48,7 +48,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     getRole();
   }, []);
   function getRole() {
-    const roleSession = "driver";
+    const roleSession = "outlet";
     console.log(roleSession);
     setRole(roleSession as string);
   }
