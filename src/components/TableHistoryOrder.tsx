@@ -27,9 +27,6 @@ export default function TableHistoryOrder({
   }
   return (
     <Table>
-      <TableCaption className="text-foreground">
-        A list of your outlets recent orders.
-      </TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Order ID</TableHead>
