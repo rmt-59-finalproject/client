@@ -48,7 +48,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     getRole();
   }, []);
   function getRole() {
-    const roleSession = "outlet";
+    const roleSession = "warehouse";
     console.log(roleSession);
     setRole(roleSession as string);
   }

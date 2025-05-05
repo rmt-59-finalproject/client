@@ -11,6 +11,7 @@ import {
 } from "./ui/table";
 import { OrderStatus, OrderType } from "@/types";
 import { BadgeStatusColor } from "./BadgeStatusColor";
+import { http } from "@/helpers/axios";
 
 export default function TableHistoryOrder({
   orderData,
@@ -39,11 +40,11 @@ export default function TableHistoryOrder({
       </TableHeader>
       <TableBody>
         {orderData.map((invoice) => (
-          <TableRow key={invoice._id}>
-            <TableCell className="font-base">{invoice._id}</TableCell>
-            <TableCell>{invoice.outlet.username}</TableCell>
-            <TableCell>{invoice.items.length}</TableCell>
-            <TableCell>{invoice.driver.username}</TableCell>
+          <TableRow key={invoice?._id}>
+            <TableCell className="font-base">{invoice?._id}</TableCell>
+            <TableCell>{invoice?.outlet?.name}</TableCell>
+            <TableCell>{invoice?.items?.length}</TableCell>
+            <TableCell>{invoice?.driver?.name}</TableCell>
             <TableCell>
               <BadgeStatusColor status={invoice.status as OrderStatus} />
             </TableCell>
