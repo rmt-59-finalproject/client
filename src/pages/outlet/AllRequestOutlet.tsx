@@ -59,6 +59,7 @@ export default function AllRequestOutlet() {
                 return (
                   <CardOrderComponent
                     // click={() => navigateVerifyOutlet(el._id)}
+                    key={order._id}
                     nameButton={"Detail Order"}
                     el={order}
                   />

@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { OrderItem } from "@/types";
+import { http } from "@/helpers/axios";
+import { InventoryItem, OrderItem } from "@/types";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 
@@ -12,8 +13,41 @@ export default function SummaryOrderPage() {
     console.log(orderItems, "<--- summaryPage");
   }, []);
 
-  function submitOrder() {
-    console.log(location.state, "submitOrderClicked");
+  type RequestType = {
+    _id: string;
+    name: string;
+    stock: number;
+    unit: string;
+    category: string;
+    createdAt: string;
+    updatedAt: string;
+    quantity: number;
+  };
+  async function submitOrder() {
+    try {
+      const totalOrder: RequestType[] = location.state;
+      console.log(totalOrder, "submitOrderClicked");
+      const orders = totalOrder.map((el) => {
+        return { productId: el._id, quantity: el.quantity };
+      });
+      console.log(orders);
+
+      const items = orders;
+
+      const data = await http({
+        method: "POST",
+        data: { items },
+        withCredentials: true,
+        url: "/orders",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(data);
+      navigate("/outlet-orders");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function backEditOrder() {
