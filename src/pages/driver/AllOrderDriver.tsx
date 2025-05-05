@@ -1,8 +1,8 @@
-import { Badge } from "@/components/ui/badge";
+import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { http } from "@/helpers/axios";
-import { OrderType } from "@/types";
+import { OrderStatus, OrderType } from "@/types";
 import { useEffect, useState } from "react";
 
 // Ini adalah halaman All Order dari Driver yang login
@@ -48,7 +48,9 @@ export default function AllOrderDriver() {
                             <h2 className="text-lg font-semibold text-gray-900 mb-1">
                               {order?._id} - {order?.outlet?.username}{" "}
                             </h2>
-                            <Badge>{order?.status}</Badge>
+                            <BadgeStatusColor
+                              status={order?.status as OrderStatus}
+                            />
                           </div>
 
                           <p className="text-sm text-gray-500 mb-3">

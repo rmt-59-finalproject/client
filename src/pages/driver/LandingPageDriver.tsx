@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/badge";
+import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { http } from "@/helpers/axios";
-import { OrderType } from "@/types";
+import { OrderStatus, OrderType } from "@/types";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -79,7 +79,9 @@ export default function LandingPageDriver() {
                         <CardHeader>
                           <div className="flex flex-row w-full justify-between items-center">
                             <h1>{el?._id}</h1>
-                            <Badge>{el?.status}</Badge>
+                            <BadgeStatusColor
+                              status={el?.status as OrderStatus}
+                            />
                           </div>
                         </CardHeader>
                         <CardContent>

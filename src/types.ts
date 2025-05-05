@@ -49,3 +49,10 @@ export type NavType = {
   >;
   isActive: boolean;
 };
+
+export type OrderStatus =
+  | "required"
+  | "approved"
+  | "in_transit"
+  | "delivered"
+  | "completed";
