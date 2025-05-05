@@ -42,7 +42,7 @@ export default function LandingPageDriver() {
       const uri = `/driver/orders`;
       const data = await http.get(uri, {
         params: {
-          status: "approved",
+          status: "in_transit",
         },
         withCredentials: true,
       });
@@ -100,7 +100,7 @@ export default function LandingPageDriver() {
                           <div className="flex flex-row justify-between items-center">
                             <div>
                               <h1 className="text-lg font-bold">Outlet</h1>
-                              <h1>{el?.outlet?.username}</h1>
+                              <h1>{el?.outlet?.name}</h1>
                             </div>
                             <div>
                               <h1 className="text-lg font-bold">
@@ -110,7 +110,6 @@ export default function LandingPageDriver() {
                             </div>
                           </div>
                           <div className="p-5">
-                            <h1>items</h1>
                             <Table>
                               <TableHeader>
                                 <TableRow>
