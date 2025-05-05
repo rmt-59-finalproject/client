@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { BadgeStatusColor } from "@/components/BadgeStatusColor";
+import { formatDate } from "@/lib/utils";
 // Ini adalah halaman All Order dari Warehouse
 export default function AssignOrderPage() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
@@ -37,11 +38,33 @@ export default function AssignOrderPage() {
   }, [filter]);
   async function fetchData() {
     try {
-      const data = await http.get(`/orders?status=${filter}`);
+      const data = await http.get(`/orders?status=${filter}`, {
+        withCredentials: true,
+      });
       console.log(data.data);
       console.log(filter);
       const dataResponse: OrderType[] = data.data;
       setOrderData(dataResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function submitRequest(id) {
+    // PATCH THIS STATUS FROM REQUESTED TO APPROVED
+    try {
+      console.log(id);
+      const data = await http.patch(
+        `/orders/${id}`,
+        {
+          status: "approved",
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
+      fetchData();
     } catch (error) {
       console.log(error);
     }
@@ -93,30 +116,29 @@ export default function AssignOrderPage() {
                           <div className="flex flex-row justify-between items-center">
                             <div>
                               <h1 className="text-lg font-bold">Outlet</h1>
-                              <h1>{el?.outlet?.username}</h1>
+                              <h1>{el?.outlet?.name}</h1>
                             </div>
                             <div>
                               <h1 className="text-lg font-bold">
                                 Date Requested
                               </h1>
-                              <h1>{el?.createdAt}</h1>
+                              <h1>{formatDate(el?.createdAt)}</h1>
                             </div>
                           </div>
                           <div className="p-5">
-                            <h1>items</h1>
                             <Table>
                               <TableHeader>
                                 <TableRow>
-                                  <TableHead>Product</TableHead>
+                                  <TableHead>Product Name</TableHead>
                                   <TableHead>Quantity</TableHead>
                                 </TableRow>
                               </TableHeader>
                               <TableBody>
                                 {el?.items?.map((el) => {
                                   return (
-                                    <TableRow key={el.productId}>
+                                    <TableRow key={el.name}>
                                       <TableCell className="font-base">
-                                        {el.productId}
+                                        {el.name}
                                       </TableCell>
                                       <TableCell>{el.quantity}</TableCell>
                                     </TableRow>
@@ -127,7 +149,12 @@ export default function AssignOrderPage() {
                           </div>
                         </CardContent>
                         <CardFooter>
-                          <Button className="w-full">
+                          <Button
+                            onClick={() => {
+                              submitRequest(el._id);
+                            }}
+                            className="w-full"
+                          >
                             Accept Request Order
                           </Button>
                         </CardFooter>
