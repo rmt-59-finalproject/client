@@ -155,13 +155,46 @@ export default function VerifyOrderDriver() {
         allQuantityMatch,
       };
 
+      const orderId = id;
+      const itemsAndBooleanChecked = verifiedData.items.map((el) => {
+        return {
+          productId: el.itemId,
+          status: el.isVerified,
+        };
+      });
+
+      console.log({ orderId, itemsAndBooleanChecked });
+
       // Kirim data ke server (uncomment dan sesuaikan dengan endpoint Anda)
       // await http.post('/driver/verify-order', verifiedData, {
       //   withCredentials: true,
       // });
 
+      async function submitPerItem(productId: string, status: boolean) {
+        console.log({ productId, status }, "<------ yang dikirim ke API");
+
+        const data = await http.patch(
+          `/driver/orders/${id}`,
+          {
+            productId: productId,
+            status: status,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+
+        return data;
+      }
+
+      itemsAndBooleanChecked.map(async (el) => {
+        const submitted = await submitPerItem(el.productId, el.status);
+        console.log(submitted);
+        return;
+      });
+
       console.log("Verified data:", verifiedData);
-      navigate(`/status-driver/${id}`);
+      // navigate(`/status-driver/${id}`);
     } catch (error) {
       console.log(error);
     }
