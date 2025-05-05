@@ -1,21 +1,33 @@
 import { CardOrderComponent } from "@/components/CardOrder";
+import { FilterHistoryOrder } from "@/components/FilterHistoryOrder";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
+
 import { useEffect, useState } from "react";
 
 // Ini adalah halaman All Order dari Outlet yang login
 export default function AllRequestOutlet() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
+  const [filter, setFilter] = useState("requested");
+
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [filter]);
 
   async function fetchData() {
     try {
       const uri = `/outlet/orders`;
       const data = await http.get(uri, {
         params: {
-          status: "completed",
+          status: filter,
         },
         withCredentials: true,
       });
@@ -35,6 +47,9 @@ export default function AllRequestOutlet() {
               <h1 className="text-2xl font-bold">Request History</h1>
             </div>
           </div>
+        </div>
+        <div className="p-5">
+          <FilterHistoryOrder setFilter={(val) => setFilter(val)} />
         </div>
         <div className=" min-h-screen p-4 max-w-6xl font-bold text-lg w-full">
           {orderData.length > 0 ? (
