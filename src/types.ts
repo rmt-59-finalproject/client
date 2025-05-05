@@ -15,8 +15,11 @@ export type OrderItem = InventoryItem & {
 };
 
 export type ItemOrder = {
-  productId: string;
+  _id: string;
+  name: string;
   quantity: number;
+  unit: string;
+  category: string;
   checkedByDriver: boolean;
   driverCheckTime: string | null;
   checkedByOutlet: boolean;
@@ -25,19 +28,27 @@ export type ItemOrder = {
 
 export interface OrderType {
   _id: string;
-  status: "requested" | "approved" | "in_transit" | "delivered" | "completed";
-  createdAt: string;
-  updatedAt: string;
   driver: {
     _id: string;
     username: string;
-    role: "driver";
+    name: string;
+    role: string;
   };
   outlet: {
     _id: string;
     username: string;
-    role: "outlet";
+    name: string;
+    role: string;
   };
+  status:
+    | "requested"
+    | "approved"
+    | "in_transit"
+    | "delivered"
+    | "completed"
+    | "rejected";
+  createdAt: string;
+  updatedAt: string;
   items: ItemOrder[];
 }
 
@@ -55,4 +66,5 @@ export type OrderStatus =
   | "approved"
   | "in_transit"
   | "delivered"
-  | "completed";
+  | "completed"
+  | "rejected";

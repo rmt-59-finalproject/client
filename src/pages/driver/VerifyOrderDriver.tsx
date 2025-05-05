@@ -27,8 +27,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 export default function VerifyOrderDriver() {
-  const [detail, setDetail] = useState<OrderType[]>([]);
+  const [detail, setDetail] = useState<OrderType>({});
   const params = useParams();
   const navigate = useNavigate();
   const { orderId } = params;
@@ -38,7 +39,9 @@ export default function VerifyOrderDriver() {
 
   async function fetchDetailOrder() {
     try {
-      const data = await http.get(`/orders?_id=${orderId}`);
+      const data = await http.get(`/driver/orders/${orderId}`, {
+        withCredentials: true,
+      });
       console.log(data.data);
       setDetail(data.data);
     } catch (error) {
@@ -71,19 +74,19 @@ export default function VerifyOrderDriver() {
                   <div>
                     <div className="w-full flex justify-between items-center">
                       <h1>Delivery Recipient</h1>
-                      <h1>{detail[0]?._id}</h1>
+                      <h1>{detail?._id}</h1>
                     </div>
                     <h1 className="py-2.5 text-2xl">
-                      {detail[0]?.outlet?.username}
+                      {detail?.outlet?.username}
                     </h1>
                   </div>
                 </CardContent>
               </Card>
             </div>
             <div className="p-5 w-full">
-              {detail[0]?.items?.map((el) => {
+              {detail?.items?.map((el) => {
                 return (
-                  <Card key={el?.productId}>
+                  <Card key={el?._id}>
                     <CardHeader>
                       <div className="w-full flex justify-between items-center">
                         <div className="w-full flex gap-5 items-center">
@@ -93,7 +96,7 @@ export default function VerifyOrderDriver() {
                             // onCheckedChange={handleCheck}
                             className="h-5 w-5 border-2 border-black"
                           />
-                          <h1>{el?.productId}</h1>
+                          <h1>{el?.name}</h1>
                         </div>
 
                         <Badge className="bg-green-500 text-white px-3 py-1 rounded-md flex items-center gap-1">
@@ -105,7 +108,9 @@ export default function VerifyOrderDriver() {
                       <div className="flex w-full justify-between items-center">
                         <div className="flex flex-col">
                           <h1>Expected</h1>
-                          <h1>{el?.quantity} unit?</h1>
+                          <h1>
+                            {el?.quantity} {el?.unit}
+                          </h1>
                         </div>
                         <div className="flex flex-col">
                           <h1>Actual Quantity</h1>
@@ -116,7 +121,7 @@ export default function VerifyOrderDriver() {
                               className="border-2 border-black"
                               min={0}
                             />
-                            <span>unit?</span>
+                            <span>{el?.unit}</span>
                           </div>
                         </div>
                       </div>
@@ -154,7 +159,9 @@ export default function VerifyOrderDriver() {
                       <div className="flex flex-col gap-2">
                         <div className="flex items-center gap-2">
                           <h2 className="text-2xl font-bold">A</h2>
-                          {/* <StatusBadge status={order.status} /> */}
+                          <BadgeStatusColor
+                            status={detail?.status as OrderStatus}
+                          />
                         </div>
                         <p className="text-gray-600 flex items-center gap-1">
                           <MapPin className="h-4 w-4" />
@@ -222,7 +229,7 @@ export default function VerifyOrderDriver() {
                 </div>
                 <DialogFooter>
                   <Button
-                    onClick={() => submitVerification(detail[0]._id)}
+                    onClick={() => submitVerification(detail?._id)}
                     className="w-full btn-neobrutalism"
                   >
                     <Truck className="mr-2 h-4 w-4" />
