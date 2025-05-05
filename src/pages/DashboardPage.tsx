@@ -13,19 +13,39 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function DashboardPage() {
+  const [requested, setRequested] = useState(0);
+  const [completed, setCompleted] = useState(0);
   const [orderData, setOrderData] = useState<OrderType[]>([]);
   const navigate = useNavigate();
   useEffect(() => {
     fetchData();
+    countStat();
   }, []);
 
   async function fetchData() {
     try {
       const uri = "/orders";
-      const data = await http.get(uri);
+      const data = await http.get(uri, { withCredentials: true });
       console.log(data.data);
       const dataResponse: OrderType[] = data.data;
       setOrderData(dataResponse);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function countStat() {
+    try {
+      const dataRequest = await http.get(`orders?status=requested`, {
+        withCredentials: true,
+      });
+      const dataCompleted = await http.get(`orders?status=completed`, {
+        withCredentials: true,
+      });
+      console.log(dataRequest.data, "-< requested");
+      setRequested(dataRequest.data.length);
+      console.log(dataCompleted.data, "-< completed");
+      setCompleted(dataCompleted.data.length);
     } catch (error) {
       console.log(error);
     }
@@ -53,33 +73,23 @@ export default function DashboardPage() {
               <div className=" flex  gap-5  flex-row ">
                 <Card className="flex-1/3">
                   <CardHeader>
-                    <CardTitle>Total Inventory</CardTitle>
+                    <CardTitle>Requested Orders</CardTitle>
                     <CardDescription>
-                      <h1 className="text-5xl font-bold">1,248</h1>
+                      <h1 className="text-5xl font-bold">{requested}</h1>
                       <h1 className="text-sm mt-2 opacity-80">
-                        +12 items added today
+                        these orders require attention
                       </h1>
                     </CardDescription>
                   </CardHeader>
                 </Card>
                 <Card className="flex-1/3">
                   <CardHeader>
-                    <CardTitle>Pending Orders</CardTitle>
+                    <CardTitle>Completed Orders</CardTitle>
                     <CardDescription>
-                      <h1 className="text-5xl font-bold">23</h1>
+                      <h1 className="text-5xl font-bold">{completed}</h1>
                       <h1 className="text-sm mt-2 opacity-80">
-                        2 require attention
-                      </h1>
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-                <Card className="flex-1/3">
-                  <CardHeader>
-                    <CardTitle>Delivered Today</CardTitle>
-                    <CardDescription>
-                      <h1 className="text-5xl font-bold">32</h1>
-                      <h1 className="text-sm mt-2 opacity-80">
-                        + 8 from yesterday
+                        {" "}
+                        these orders completed to outlet
                       </h1>
                     </CardDescription>
                   </CardHeader>
