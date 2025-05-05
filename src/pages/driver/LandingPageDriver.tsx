@@ -15,23 +15,38 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { http } from "@/helpers/axios";
+import { formatDate } from "@/lib/utils";
 import { OrderStatus, OrderType } from "@/types";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function LandingPageDriver() {
   //   const [role, useRole] = useState("driver");
-  const [usernameDriver, setUsernameDriver] = useState("budi_cepat");
-
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [orderData, setOrderData] = useState<OrderType[]>([]);
   const navigate = useNavigate();
   useEffect(() => {
     fetchData();
+    getSessionData();
   }, []);
+
+  function getSessionData() {
+    const usernameSession = sessionStorage.getItem("username");
+    const nameSession = sessionStorage.getItem("name");
+    setUsername(usernameSession as string);
+    setName(nameSession as string);
+  }
   async function fetchData() {
     try {
-      const uri = `/orders?status=in_transit&driver.username=${usernameDriver}`;
-      const data = await http.get(uri);
+      const uri = `/driver/orders`;
+      const data = await http.get(uri, {
+        params: {
+          status: "approved",
+        },
+        withCredentials: true,
+      });
+      console.log(data);
       console.log(data.data);
       const dataResponse: OrderType[] = data.data;
       setOrderData(dataResponse);
@@ -55,10 +70,7 @@ export default function LandingPageDriver() {
           <div className="flex flex-col max-w-6xl justify-center items-center w-full">
             <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
               <div className="w-full">
-                <h1 className="text-2xl font-bold">
-                  {" "}
-                  Welcome {usernameDriver}!
-                </h1>
+                <h1 className="text-2xl font-bold"> Welcome {name}!</h1>
                 <div className="flex flex-row justify-between items-center w-full">
                   <h1 className="text-lg opacity-70">
                     Here is today's missions:
@@ -94,7 +106,7 @@ export default function LandingPageDriver() {
                               <h1 className="text-lg font-bold">
                                 Date Requested
                               </h1>
-                              <h1>{el?.createdAt}</h1>
+                              <h1>{formatDate(el?.createdAt)}</h1>
                             </div>
                           </div>
                           <div className="p-5">
@@ -109,11 +121,13 @@ export default function LandingPageDriver() {
                               <TableBody>
                                 {el?.items?.map((el) => {
                                   return (
-                                    <TableRow key={el.productId}>
+                                    <TableRow key={el._id}>
                                       <TableCell className="font-base">
-                                        {el.productId}
+                                        {el.name}
                                       </TableCell>
-                                      <TableCell>{el.quantity}</TableCell>
+                                      <TableCell>
+                                        {el.quantity} {el.unit}
+                                      </TableCell>
                                     </TableRow>
                                   );
                                 })}

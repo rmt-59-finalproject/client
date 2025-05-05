@@ -8,10 +8,19 @@ import { useEffect, useState } from "react";
 // Ini adalah halaman All Order dari Driver yang login
 export default function AllOrderDriver() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   useEffect(() => {
     fetchData();
+    getSessionData();
   }, []);
-  const usernameDriver = "dani_antar";
+
+  function getSessionData() {
+    const usernameSession = sessionStorage.getItem("username");
+    const nameSession = sessionStorage.getItem("name");
+    setUsername(usernameSession as string);
+    setName(nameSession as string);
+  }
 
   async function fetchData() {
     try {
