@@ -1,22 +1,7 @@
-import { BadgeStatusColor } from "@/components/BadgeStatusColor";
+import { CardOrderComponent } from "@/components/CardOrder";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { http } from "@/helpers/axios";
-import { formatDate } from "@/lib/utils";
-import { OrderStatus, OrderType } from "@/types";
+import { OrderType } from "@/types";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -87,62 +72,12 @@ export default function LandingPageDriver() {
                 <div className="flex flex-col gap-2">
                   {orderData?.map((el) => {
                     return (
-                      <Card key={el?._id}>
-                        <CardHeader>
-                          <div className="flex flex-row w-full justify-between items-center">
-                            <h1>{el?._id}</h1>
-                            <BadgeStatusColor
-                              status={el?.status as OrderStatus}
-                            />
-                          </div>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="flex flex-row justify-between items-center">
-                            <div>
-                              <h1 className="text-lg font-bold">Outlet</h1>
-                              <h1>{el?.outlet?.name}</h1>
-                            </div>
-                            <div>
-                              <h1 className="text-lg font-bold">
-                                Date Requested
-                              </h1>
-                              <h1>{formatDate(el?.createdAt)}</h1>
-                            </div>
-                          </div>
-                          <div className="p-5">
-                            <Table>
-                              <TableHeader>
-                                <TableRow>
-                                  <TableHead>Product</TableHead>
-                                  <TableHead>Quantity</TableHead>
-                                </TableRow>
-                              </TableHeader>
-                              <TableBody>
-                                {el?.items?.map((el) => {
-                                  return (
-                                    <TableRow key={el._id}>
-                                      <TableCell className="font-base">
-                                        {el.name}
-                                      </TableCell>
-                                      <TableCell>
-                                        {el.quantity} {el.unit}
-                                      </TableCell>
-                                    </TableRow>
-                                  );
-                                })}
-                              </TableBody>
-                            </Table>
-                          </div>
-                        </CardContent>
-                        <CardFooter>
-                          <Button
-                            onClick={() => navigateVerifyDriver(el?._id)}
-                            className="w-full"
-                          >
-                            Verify Items
-                          </Button>
-                        </CardFooter>
-                      </Card>
+                      <CardOrderComponent
+                        key={el._id}
+                        el={el}
+                        nameButton={"Verify Items"}
+                        click={() => navigateVerifyDriver(el?._id)}
+                      />
                     );
                   })}
                 </div>
