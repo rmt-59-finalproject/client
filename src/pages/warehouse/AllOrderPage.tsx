@@ -1,5 +1,5 @@
 import { http } from "@/helpers/axios";
-import { OrderType } from "@/types";
+import { OrderStatus, OrderType } from "@/types";
 import { useEffect, useState } from "react";
 import TableHistoryOrder from "@/components/TableHistoryOrder";
 import { FilterHistoryOrder } from "@/components/FilterHistoryOrder";
@@ -35,7 +35,9 @@ export default function AllOrderPage() {
               Your all outlet orders history place.
             </h1>
           </div>
-          <FilterHistoryOrder setFilter={(val) => setFilter(val)} />
+          <FilterHistoryOrder
+            setFilter={(val: OrderStatus) => setFilter(val)}
+          />
         </div>
         <div className="p-5">
           {orderData && <TableHistoryOrder orderData={orderData} />}

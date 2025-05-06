@@ -49,7 +49,27 @@ interface VerifiedItem {
 }
 
 export default function VerifyOrderDriver() {
-  const [detail, setDetail] = useState<OrderType>({});
+  const [detail, setDetail] = useState<OrderType>({
+    _id: "",
+    orderId: "",
+    driver: {
+      _id: "",
+      username: "",
+      name: "",
+      role: "driver",
+    },
+    outlet: {
+      _id: "",
+      username: "",
+      name: "",
+      role: "outlet",
+    },
+    status: "requested", // Assign a valid default value from the allowed types
+    notes: "",
+    createdAt: "",
+    updatedAt: "",
+    items: [], // Use an empty array without a semicolon
+  });
   // Tambahkan state untuk melacak item yang diverifikasi
   const [verifiedItems, setVerifiedItems] = useState<
     Record<string, VerifiedItem>
@@ -233,7 +253,7 @@ export default function VerifyOrderDriver() {
 
             {/* Alert untuk mengingatkan bahwa quantity harus sama */}
             <div className="p-5 w-full">
-              <Alert variant="warning">
+              <Alert>
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle>Perhatian</AlertTitle>
                 <AlertDescription>

@@ -8,7 +8,27 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
 export default function SummaryStatusPageDriver() {
-  const [data, setData] = useState<OrderType>({});
+  const [data, setData] = useState<OrderType>({
+    _id: "",
+    orderId: "",
+    driver: {
+      _id: "",
+      username: "",
+      name: "",
+      role: "driver",
+    },
+    outlet: {
+      _id: "",
+      username: "",
+      name: "",
+      role: "outlet",
+    },
+    status: "requested", // Assign a valid default value from the allowed types
+    notes: "",
+    createdAt: "",
+    updatedAt: "",
+    items: [], // Use an empty array without a semicolon
+  });
   const params = useParams();
   const navigate = useNavigate();
 
