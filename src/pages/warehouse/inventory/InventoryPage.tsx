@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -13,18 +13,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, RefreshCw, Trash2, Edit } from "lucide-react";
-// import AddInventoryForm from "@/components/add-inventory-form";
-// import UpdateStockForm from "@/components/update-stock-form";
-// import DeleteConfirmDialog from "@/components/delete-confirm-dialog";
-// import { useToast } from "@/components/ui/use-toast";
+import { Search, RefreshCw, Trash2, Edit } from "lucide-react";
 import { InventoryItem } from "@/types";
 import { http } from "@/helpers/axios";
-// export default function InventoryPage() {
-//   return (
+import { toast } from "sonner";
+import DialogAddModal from "./DialogAddModal";
+import DialogDeleteModal from "./DialogDeleteModal";
+import DialogEditStock from "./DialogEditStock";
 
-//   );
-// }
 export default function InventoryPage() {
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
   const [metadata, setMetadata] = useState({});
@@ -36,10 +32,8 @@ export default function InventoryPage() {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
-  //   const { toast } = useToast();
 
   const fetchInventory = async () => {
-    // setLoading(true);
     try {
       const uri = `/inventory?limit=${limit}&page=${page}&search=${searchQuery}`;
       const response = await http.get(uri, {
@@ -51,25 +45,12 @@ export default function InventoryPage() {
       setInventoryItems(response.data.data || []);
     } catch (error) {
       console.log(error);
-
-      //   toast({
-      //     title: "Error",
-      //     description: "Failed to load inventory items",
-      //     variant: "destructive",
-      //   });
     }
-    //  finally {
-    //   setLoading(false);
-    // }
   };
 
   useEffect(() => {
     fetchInventory();
   }, [page, limit, searchQuery]);
-
-  const handleAddItem = () => {
-    setShowAddForm(true);
-  };
 
   const handleUpdateStock = (item: InventoryItem) => {
     setSelectedItem(item);
@@ -102,10 +83,7 @@ export default function InventoryPage() {
   const handleDeleteSuccess = () => {
     setShowDeleteDialog(false);
     fetchInventory();
-    toast({
-      title: "Success",
-      description: "Item deleted successfully",
-    });
+    toast.success("Item deleted successfully");
   };
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
@@ -120,9 +98,7 @@ export default function InventoryPage() {
         <div className="flex flex-row items-center px-5 pt-5 justify-between w-full ">
           <div className="flex flex-row justify-between items-center w-full">
             <h1 className="text-2xl font-bold">Manajemen Inventori</h1>
-            <Button onClick={handleAddItem}>
-              <Plus className="mr-2 h-4 w-4" /> Tambah Item
-            </Button>
+            <DialogAddModal />
           </div>
         </div>
         <div className="container mx-auto py-8">
@@ -187,21 +163,8 @@ export default function InventoryPage() {
                             <TableCell>{item.unit}</TableCell>
                             <TableCell className="text-right">
                               <div className="flex justify-end gap-2">
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  onClick={() => handleUpdateStock(item)}
-                                >
-                                  <Edit className="h-4 w-4" />
-                                </Button>
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  className="text-destructive"
-                                  onClick={() => handleDeleteItem(item)}
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </Button>
+                                <DialogEditStock />
+                                <DialogDeleteModal />
                               </div>
                             </TableCell>
                           </TableRow>
