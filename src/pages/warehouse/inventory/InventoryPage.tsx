@@ -163,7 +163,7 @@ export default function InventoryPage() {
                             <TableCell>{item.unit}</TableCell>
                             <TableCell className="text-right">
                               <div className="flex justify-end gap-2">
-                                <DialogEditStock />
+                                <DialogEditStock id={item._id} />
                                 <DialogDeleteModal />
                               </div>
                             </TableCell>

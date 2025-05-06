@@ -23,8 +23,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { http } from "@/helpers/axios";
 
-export default function DialogEditStock() {
+export default function DialogEditStock({ id }: { id: string }) {
   const formSchema = z.object({
     stock: z.string(),
   });
@@ -36,8 +37,22 @@ export default function DialogEditStock() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      console.log(values);
+      const data = await http.patch(
+        `/inventory/${id}`,
+        {
+          stock: Number(values.stock),
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
