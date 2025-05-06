@@ -22,8 +22,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { http } from "@/helpers/axios";
+import { useNavigate } from "react-router";
 
 export default function DialogEditStock() {
+  const navigate = useNavigate();
   const formSchema = z.object({
     name: z.string(),
     stock: z.string(),
@@ -41,8 +44,27 @@ export default function DialogEditStock() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      console.log(values);
+      const { name, stock, unit, category } = values;
+      const data = await http.post(
+        "/inventory",
+        {
+          name,
+          stock: Number(stock),
+          unit,
+          category,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(data.data);
+      navigate("/inventories");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
