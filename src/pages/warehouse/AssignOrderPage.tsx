@@ -1,5 +1,7 @@
+"use client";
+
 import { http } from "@/helpers/axios";
-import { OrderStatus, OrderType, UserType } from "@/types";
+import type { OrderStatus, OrderType, UserType } from "@/types";
 import { useEffect, useState } from "react";
 import {
   Select,
@@ -30,7 +32,9 @@ import { formatDate } from "@/lib/utils";
 // Ini adalah halaman All Order dari Warehouse
 export default function AssignOrderPage() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
-  const [selectedDriver, setSelectedDriver] = useState("");
+  const [selectedDrivers, setSelectedDrivers] = useState<
+    Record<string, string>
+  >({});
   const [filter, setFilter] = useState("requested");
   const [driver, setDriver] = useState<UserType[]>([]);
 
@@ -87,14 +91,14 @@ export default function AssignOrderPage() {
     }
   }
 
-  async function submitDriver(orderId: string) {
+  async function submitDriver(orderId: string, driverId: string) {
     try {
       // PATCH THIS TO DRIVER ID
-      console.log(selectedDriver, orderId);
+      console.log(driverId, orderId);
       const data = await http.patch(
         `orders/${orderId}/driver`,
         {
-          driverId: selectedDriver,
+          driverId: driverId,
         },
         {
           withCredentials: true,
@@ -122,7 +126,11 @@ export default function AssignOrderPage() {
       );
 
       fetchData();
-      setSelectedDriver("");
+      setSelectedDrivers((prev) => {
+        const newState = { ...prev };
+        delete newState[orderId];
+        return newState;
+      });
     } catch (error) {
       console.log(error);
     }
@@ -278,7 +286,12 @@ export default function AssignOrderPage() {
                         <CardFooter>
                           <div className="flex flex-row w-full gap-2 justify-between items-center">
                             <Select
-                              onValueChange={(val) => setSelectedDriver(val)}
+                              onValueChange={(val) => {
+                                setSelectedDrivers((prev) => ({
+                                  ...prev,
+                                  [el._id]: val,
+                                }));
+                              }}
                             >
                               <SelectTrigger className="w-1/2">
                                 <SelectValue placeholder="Select driver" />
@@ -297,8 +310,10 @@ export default function AssignOrderPage() {
                             </Select>
                             <Button
                               className="w-1/2"
-                              onClick={() => submitDriver(el._id)}
-                              // disabled={!selectedDriver}
+                              onClick={() =>
+                                submitDriver(el._id, selectedDrivers[el._id])
+                              }
+                              disabled={!selectedDrivers[el._id]}
                             >
                               Assign Order to the Driver
                             </Button>
