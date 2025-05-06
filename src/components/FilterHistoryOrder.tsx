@@ -19,7 +19,7 @@ export function FilterHistoryOrder({
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="All Orders" />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="font-[family-name:Space_Mono]">
           <SelectGroup>
             <SelectItem value="requested">Requested</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>

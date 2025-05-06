@@ -20,7 +20,7 @@ export default function AuthLayout() {
   }
   return (
     <>
-      <div className="flex flex-col bg-gray-200 min-h-dvh w-full">
+      <div className="font-[family-name:Space_Mono]  flex flex-col min-h-dvh w-full">
         <SidebarProvider>
           {/* sidebar */}
           <AppSidebar />

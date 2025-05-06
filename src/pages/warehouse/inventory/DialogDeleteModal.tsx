@@ -39,7 +39,7 @@ export default function DialogDeleteModal({ id }: { id: string }) {
             <Trash2 className="h-4 w-4" />
           </Button>
         </AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent className="font-[family-name:Space_Mono]">
           <AlertDialogHeader>
             <AlertDialogTitle>Anda yakin?</AlertDialogTitle>
             <AlertDialogDescription>
