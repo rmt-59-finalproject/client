@@ -10,9 +10,20 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { http } from "@/helpers/axios";
 import { Trash2 } from "lucide-react";
 
-export default function DialogDeleteModal() {
+export default function DialogDeleteModal({ id }: { id: string }) {
+  async function handleDelete() {
+    try {
+      const data = await http.delete(`/inventory/${id}`, {
+        withCredentials: true,
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
       <AlertDialog>
@@ -31,7 +42,9 @@ export default function DialogDeleteModal() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={handleDelete}>
+              Continue
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
