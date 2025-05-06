@@ -1,6 +1,7 @@
 import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { http } from "@/helpers/axios";
 import { OrderStatus, OrderType } from "@/types";
 import { Check } from "lucide-react";
@@ -70,7 +71,7 @@ export default function SummaryStatusPageOutlet() {
           <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6">
             <CardHeader className="border-b-4 border-black flex flex-row items-center justify-between">
               <CardTitle className="text-xl">
-                Order #{data?.orderId || data?._id}
+                Order {data?.orderId || data?._id}
               </CardTitle>
               <BadgeStatusColor status={data?.status as OrderStatus} />
               {/* UBAH INI JADI DINAMIS */}
@@ -103,8 +104,6 @@ export default function SummaryStatusPageOutlet() {
                 <div className="flex items-center gap-2">
                   <Check className="h-5 w-5" />
                   <p className="font-bold">Delivery {data?.status}</p>
-
-                  <p className="font-bold">Notes {data?.notes}</p>
                 </div>
               </div>
               <div className="p-0">
@@ -147,7 +146,20 @@ export default function SummaryStatusPageOutlet() {
               </div>
             </CardContent>
           </Card>
+          {data?.notes && (
+            <div className="p-5 w-full">
+              <Card>
+                <CardContent>
+                  <div>
+                    <h1 className="pb-5">Catatan untuk orderan ini</h1>
+                    <Textarea disabled value={data?.notes} />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
+
         <div className="fixed bottom-4 flex justify-center items-center left-0 right-0 px-4">
           <Button
             // onClick={totalOrder}

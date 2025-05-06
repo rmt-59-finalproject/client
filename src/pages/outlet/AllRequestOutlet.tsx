@@ -4,15 +4,21 @@ import { http } from "@/helpers/axios";
 import { OrderStatus, OrderType } from "@/types";
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 // Ini adalah halaman All Order dari Outlet yang login
 export default function AllRequestOutlet() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
   const [filter, setFilter] = useState("requested");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
   }, [filter]);
+
+  function navigateDetail(id) {
+    navigate(`/orders/${id}`);
+  }
 
   async function fetchData() {
     try {
@@ -41,9 +47,7 @@ export default function AllRequestOutlet() {
           </div>
         </div>
         <div className="p-5">
-          <FilterHistoryOrder
-            setFilter={(val: OrderStatus) => setFilter(val)}
-          />
+          <FilterHistoryOrder setFilter={setFilter} />
         </div>
         <div className=" min-h-screen p-4 max-w-6xl font-bold text-lg w-full">
           {orderData.length > 0 ? (
@@ -56,6 +60,7 @@ export default function AllRequestOutlet() {
                     key={order._id}
                     nameButton={"Detail Order"}
                     el={order}
+                    click={() => navigateDetail(order._id)}
                   />
                 );
               })}

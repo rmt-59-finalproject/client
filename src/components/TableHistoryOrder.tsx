@@ -38,7 +38,7 @@ export default function TableHistoryOrder({
       <TableBody>
         {orderData.map((invoice) => (
           <TableRow key={invoice?._id}>
-            <TableCell className="font-base">{invoice?._id}</TableCell>
+            <TableCell className="font-base">{invoice?.orderId}</TableCell>
             <TableCell>{invoice?.outlet?.name}</TableCell>
             <TableCell>{invoice?.items?.length}</TableCell>
             <TableCell>{invoice?.driver?.name}</TableCell>

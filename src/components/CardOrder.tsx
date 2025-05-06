@@ -28,7 +28,7 @@ export const CardOrderComponent: React.FC<CardOrder> = ({
     <Card>
       <CardHeader>
         <div className="flex flex-row w-full justify-between items-center">
-          <h1>{el?._id}</h1>
+          <h1>{el?.orderId}</h1>
           <BadgeStatusColor status={el?.status as OrderStatus} />
         </div>
       </CardHeader>

@@ -269,7 +269,7 @@ export default function VerifyOrderDriver() {
                   <div>
                     <div className="w-full flex justify-between items-center">
                       <h1>Delivery Recipient</h1>
-                      <h1>{detail?._id}</h1>
+                      <h1>{detail?.orderId}</h1>
                     </div>
                     <h1 className="py-2.5 text-2xl">{detail?.outlet?.name}</h1>
                   </div>
@@ -400,7 +400,7 @@ export default function VerifyOrderDriver() {
                         </div>
                         <p className="text-gray-600 flex items-center gap-1">
                           <MapPin className="h-4 w-4" />
-                          <span>Order #{detail?._id}</span>
+                          <span>Order {detail?.orderId}</span>
                         </p>
                       </div>
                     </CardContent>

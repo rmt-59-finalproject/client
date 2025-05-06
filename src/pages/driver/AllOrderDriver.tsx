@@ -2,10 +2,12 @@ import { CardOrderComponent } from "@/components/CardOrder";
 import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 // Ini adalah halaman All Order dari Driver yang login
 export default function AllOrderDriver() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   useEffect(() => {
@@ -20,6 +22,9 @@ export default function AllOrderDriver() {
     setName(nameSession as string);
   }
 
+  function navigateDetail(id) {
+    navigate(`/orders/${id}`);
+  }
   async function fetchData() {
     try {
       const uri = `/driver/orders?status=delivered`;
@@ -53,6 +58,7 @@ export default function AllOrderDriver() {
                     key={order._id}
                     el={order}
                     nameButton={"Detail Order"}
+                    click={() => navigateDetail(order._id)}
                   />
                 );
               })}
