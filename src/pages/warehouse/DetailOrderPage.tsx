@@ -1,7 +1,7 @@
 import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 import TableDetailOrder from "@/components/TableDetailOrder";
-import { Card, CardContent } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
+// import { Card, CardContent } from "@/components/ui/card";
+// import { Textarea } from "@/components/ui/textarea";
 import { http } from "@/helpers/axios";
 import { formatDate } from "@/lib/utils";
 import { OrderStatus, OrderType } from "@/types";

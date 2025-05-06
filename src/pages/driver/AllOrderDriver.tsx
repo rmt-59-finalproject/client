@@ -8,21 +8,11 @@ import { useNavigate } from "react-router";
 export default function AllOrderDriver() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
   useEffect(() => {
     fetchData();
-    getSessionData();
   }, []);
 
-  function getSessionData() {
-    const usernameSession = sessionStorage.getItem("username");
-    const nameSession = sessionStorage.getItem("name");
-    setUsername(usernameSession as string);
-    setName(nameSession as string);
-  }
-
-  function navigateDetail(id) {
+  function navigateDetail(id: string) {
     navigate(`/orders/${id}`);
   }
   async function fetchData() {
