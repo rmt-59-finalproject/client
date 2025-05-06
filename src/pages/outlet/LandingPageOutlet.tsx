@@ -6,22 +6,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function LandingPageOutlet() {
-  //   const [role, useRole] = useState("driver");
-  const [usernameOutlet, setUsernameOutlet] = useState("");
-  const [nameOutlet, setNameOutlet] = useState("");
-
   const [orderData, setOrderData] = useState<OrderType[]>([]);
   const navigate = useNavigate();
   useEffect(() => {
     fetchData();
-    getCredential();
   }, []);
-  function getCredential() {
-    const usernameSession = sessionStorage.getItem("username");
-    const nameSession = sessionStorage.getItem("name");
-    setUsernameOutlet(usernameSession as string);
-    setNameOutlet(nameSession as string);
-  }
   async function fetchData() {
     try {
       const uri = `/outlet/orders?status=delivered`;
@@ -51,7 +40,7 @@ export default function LandingPageOutlet() {
           <div className="flex flex-col max-w-6xl justify-center items-center w-full">
             <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
               <div className="w-full">
-                <h1 className="text-2xl font-bold"> Welcome {nameOutlet}!</h1>
+                <h1 className="text-2xl font-bold"> Welcome!</h1>
                 <div className="flex flex-row justify-between items-center w-full">
                   <h1 className="text-lg opacity-70">
                     Check here, Your orders are incoming!

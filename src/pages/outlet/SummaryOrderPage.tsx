@@ -4,6 +4,7 @@ import { http } from "@/helpers/axios";
 import { OrderItem } from "@/types";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { toast } from "sonner";
 
 export default function SummaryOrderPage() {
   const location = useLocation();
@@ -28,6 +29,13 @@ export default function SummaryOrderPage() {
       const totalOrder: RequestType[] = location.state;
       console.log(totalOrder, "submitOrderClicked");
       const orders = totalOrder.map((el) => {
+        if (el.quantity > el.stock) {
+          throw toast.error(
+            `Maaf tidak bisa membeli barang lebih dari jumlah stok yang tersedia!`
+          );
+        }
+        console.log(el, "<----persiapan buat validasi disini");
+
         return { productId: el._id, quantity: el.quantity };
       });
       console.log(orders);
