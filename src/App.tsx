@@ -20,6 +20,7 @@ import AllRequestOutlet from "./pages/outlet/AllRequestOutlet";
 import SummaryStatusPageDriver from "./pages/driver/SummaryStatusPageDriver";
 import SummaryStatusPageOutlet from "./pages/outlet/SummaryStatusPageOutlet";
 import { AnimationProvider } from "./contexts/animation-context";
+import InventoryPage from "./pages/warehouse/inventory/InventoryPage";
 
 const App = () => {
   return (
@@ -39,6 +40,8 @@ const App = () => {
             <Route path="/assign" element={<AssignOrderPage />} />
             <Route path="/request-order" element={<CreateOrderPage />} />{" "}
             <Route path="/orders/:orderId" element={<DetailOrderPage />} />{" "}
+            {/* INVENTORY ROUTE */}
+            <Route path="/inventories" element={<InventoryPage />} />
             {/* DRIVER ROUTE */}
             <Route path="/driver" element={<LandingPageDriver />} />
             <Route path="/driver-orders" element={<AllOrderDriver />} />
