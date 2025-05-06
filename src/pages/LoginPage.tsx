@@ -1,18 +1,20 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { Button } from "@/components/ui/button"
-import { useEffect } from "react"
-import { useNavigate } from "react-router"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { toast } from "sonner"
-import { http } from "@/helpers/axios"
-import axios from "axios"
-import { useAnimation } from "@/contexts/animation-context"
-import AnimatedCharacter from "@/components/AnimatedCharacter"
+import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import { http } from "@/helpers/axios";
+import axios from "axios";
+import { useAnimation } from "@/contexts/animation-context";
+import AnimatedCharacter from "@/components/AnimatedCharacter";
+import { useAppDispatch } from "@/hooks/useRedux";
+import { setUser } from "@/redux/slice/USER";
 
 export default function LoginPage() {
   const {
@@ -26,22 +28,23 @@ export default function LoginPage() {
     setActiveElement,
     resetFace,
     calculateFaceMove,
-  } = useAnimation()
+  } = useAnimation();
+  const dispatch = useAppDispatch();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const role = sessionStorage.getItem("role")
+    const role = sessionStorage.getItem("role");
     if (role === "warehouse") {
-      navigate("/dashboard")
+      navigate("/dashboard");
     } else if (role === "driver" || role === "outlet") {
-      navigate(`/${role}`)
+      navigate(`/${role}`);
     }
-  }, [])
+  }, []);
 
   async function submitLogin(e: React.FormEvent<HTMLFormElement>) {
     try {
-      e.preventDefault()
+      e.preventDefault();
 
       const {
         data: {
@@ -53,27 +56,29 @@ export default function LoginPage() {
         method: "POST",
         data: {
           username,
-          password
+          password,
         },
         withCredentials: true,
-      })
+      });
 
-      toast.success(message)
-      sessionStorage.setItem("username", dbUsername)
-      sessionStorage.setItem("name", name)
-      sessionStorage.setItem("role", role)
+      toast.success(message);
+      sessionStorage.setItem("username", dbUsername);
+      sessionStorage.setItem("name", name);
+      sessionStorage.setItem("role", role);
+
+      dispatch(setUser({ name, role, username: dbUsername }));
 
       if (role === "warehouse") {
-        navigate("/dashboard")
+        navigate("/dashboard");
       } else if (role === "driver" || role === "outlet") {
-        navigate(`/${role}`)
+        navigate(`/${role}`);
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        toast.warning(error.response.data.message)
+        toast.warning(error.response.data.message);
       } else {
-        toast.error("An unexpected error occurred.")
-        console.error(error)
+        toast.error("An unexpected error occurred.");
+        console.error(error);
       }
     }
   }
@@ -92,29 +97,31 @@ export default function LoginPage() {
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="username">Username</Label>
-                <input 
-                ref={usernameInputRef}
-                className="flex h-10 w-full rounded-base border-2 border-border bg-secondary-background selection:bg-main selection:text-main-foreground px-3 py-2 text-sm font-base text-foreground file:border-0 file:bg-transparent file:text-sm file:font-heading placeholder:text-foreground/50 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                type="text"
+                <input
+                  ref={usernameInputRef}
+                  className="flex h-10 w-full rounded-base border-2 border-border bg-secondary-background selection:bg-main selection:text-main-foreground px-3 py-2 text-sm font-base text-foreground file:border-0 file:bg-transparent file:text-sm file:font-heading placeholder:text-foreground/50 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  type="text"
                   id="loginUsername"
                   placeholder="johndoe"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   onFocus={() => {
-                    setActiveElement("username")
+                    setActiveElement("username");
                     // Add a small delay before calculating face movement
                     setTimeout(() => {
-                      calculateFaceMove()
-                    }, 100)
+                      calculateFaceMove();
+                    }, 100);
                   }}
                   onBlur={(e) => {
                     setTimeout(() => {
                       if (e.target.value === "") {
-                        e.target.parentElement?.classList.remove("focusWithText")
+                        e.target.parentElement?.classList.remove(
+                          "focusWithText"
+                        );
                       }
-                      resetFace()
-                    }, 100)
-                    setActiveElement(null)
+                      resetFace();
+                    }, 100);
+                    setActiveElement(null);
                   }}
                   maxLength={254}
                 />
@@ -167,5 +174,5 @@ export default function LoginPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
