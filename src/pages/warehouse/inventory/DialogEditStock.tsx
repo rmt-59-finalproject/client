@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/form";
 import { http } from "@/helpers/axios";
 import { useRef } from "react";
+import { toast } from "sonner";
 
 export default function DialogEditStock({ id }: { id: string }) {
   const closeRef = useRef(null);
@@ -53,8 +54,10 @@ export default function DialogEditStock({ id }: { id: string }) {
       console.log(data);
       // Close the dialog after action
       closeRef.current?.click();
+      toast.success(data.data.message);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
     }
   }
 
