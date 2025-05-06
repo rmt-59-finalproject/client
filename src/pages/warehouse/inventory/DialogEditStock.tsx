@@ -25,9 +25,11 @@ import {
 import { http } from "@/helpers/axios";
 import { useRef } from "react";
 import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 export default function DialogEditStock({ id }: { id: string }) {
   const closeRef = useRef(null);
+  const navigate = useNavigate();
   const formSchema = z.object({
     stock: z.string(),
   });
@@ -53,6 +55,8 @@ export default function DialogEditStock({ id }: { id: string }) {
       );
       console.log(data);
       // Close the dialog after action
+      navigate("/inventories");
+
       closeRef.current?.click();
       toast.success(data.data.message);
     } catch (error) {
