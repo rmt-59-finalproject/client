@@ -189,14 +189,13 @@ export default function VerifyOrderDriver() {
 
       let submittedBool = false;
 
-      itemsAndBooleanChecked.map(async (el) => {
+      for (const el of itemsAndBooleanChecked) {
         const submitted = await submitPerItem(el.productId, el.status);
         if (submitted.status === 200) {
           submittedBool = true;
         }
         console.log(submitted.data.message, submittedBool);
-        return;
-      });
+      }
 
       //UBAH STATUS DARI IN_TRANSIT KE DELIVERED
       const changeStatus = await http.patch(
