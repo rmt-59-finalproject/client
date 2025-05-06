@@ -40,6 +40,12 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
   if (role === "warehouse") {
     navMain = [
       {
+        title: "Inventory Management",
+        url: "/inventories",
+        icon: SquareTerminal,
+        isActive: true,
+      },
+      {
         title: "Dashboard",
         url: "/warehouse/dashboard",
         icon: LayoutDashboard,

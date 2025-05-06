@@ -75,7 +75,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm z-10">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-bold">
-            <AnimatedCharacter />
+            {/* <AnimatedCharacter /> */}
             STOCKIFY
           </CardTitle>
         </CardHeader>

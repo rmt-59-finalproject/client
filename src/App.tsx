@@ -20,6 +20,7 @@ import AllRequestOutlet from "./pages/outlet/AllRequestOutlet";
 import SummaryStatusPageDriver from "./pages/driver/SummaryStatusPageDriver";
 import SummaryStatusPageOutlet from "./pages/outlet/SummaryStatusPageOutlet";
 import { AnimationProvider } from "./contexts/animation-context";
+import InventoryPage from "./pages/warehouse/inventory/InventoryPage";
 
 const App = () => {
   return (
@@ -38,10 +39,11 @@ const App = () => {
             <Route path="/warehouse/orders" element={<AllOrderPage />} />
             <Route path="/warehouse/assign" element={<AssignOrderPage />} />
             <Route path="/warehouse/request-order" element={<CreateOrderPage />} />
-            <Route path="/warehouse/orders/:orderId" element={<DetailOrderPage />} />
+            <Route path="/warehouse/inventories" element={<InventoryPage />} />
+            
             {/* DRIVER ROUTE */}
-            <Route path="/driver" element={<LandingPageDriver />} />
-            <Route path="/driver-orders" element={<AllOrderDriver />} />
+            <Route path="/driver/home" element={<LandingPageDriver />} />
+            <Route path="/driver/orders" element={<AllOrderDriver />} />
             <Route
               path="/status-driver/:orderId"
               element={<SummaryStatusPageDriver />}
@@ -62,6 +64,7 @@ const App = () => {
               path="/verify-outlet/:orderId"
               element={<VerifyOrderOutlet />}
             />
+            <Route path="/orders/:orderId" element={<DetailOrderPage />} />
           </Route>
           {/* PUBLIC ROUTE */}
           {/* desain layout tanpa navbar + sebelum dapat auth */}
