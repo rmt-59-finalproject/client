@@ -70,7 +70,7 @@ export type OrderStatus =
   | "rejected";
 
 export type UserType = {
-  _id: string;
+  _id?: string;
   username: string;
   name: string;
   role: string;
