@@ -1,14 +1,22 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { http } from "@/helpers/axios";
-import { OrderStatus, OrderType } from "@/types";
-import { Check, CheckCircle2, MapPin, Store } from "lucide-react";
+import type { OrderStatus, OrderType } from "@/types";
+import {
+  AlertCircle,
+  Check,
+  CheckCircle2,
+  MapPin,
+  Store,
+  XCircle,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-//
 import {
   Dialog,
   DialogClose,
@@ -29,14 +37,74 @@ import {
 } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { BadgeStatusColor } from "@/components/BadgeStatusColor";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+
+// Interface for verified items
+interface VerifiedItem {
+  isChecked: boolean;
+  quantity: number;
+  name: string;
+  unit: string;
+  _id: string;
+  isQuantityMatch: boolean;
+}
+
 export default function VerifyOrderOutlet() {
   const [detail, setDetail] = useState<OrderType>({});
+  const [verifiedItems, setVerifiedItems] = useState<
+    Record<string, VerifiedItem>
+  >({});
+  const [allVerified, setAllVerified] = useState(false);
+  const [allQuantityMatch, setAllQuantityMatch] = useState(false);
+  const [notes, setNotes] = useState("");
+  const [orderStatus, setOrderStatus] = useState<"completed" | "rejected">(
+    "completed"
+  );
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   const params = useParams();
   const navigate = useNavigate();
   const { orderId } = params;
+
   useEffect(() => {
     fetchDetailOrder();
   }, []);
+
+  // Check if all items are verified and quantities match
+  useEffect(() => {
+    if (detail?.items && detail.items.length > 0) {
+      // Initialize verifiedItems if empty
+      if (Object.keys(verifiedItems).length === 0) {
+        const initialVerified: Record<string, VerifiedItem> = {};
+        detail.items.forEach((item) => {
+          initialVerified[item._id] = {
+            isChecked: false,
+            quantity: item.quantity,
+            name: item.name,
+            unit: item.unit,
+            _id: item._id,
+            isQuantityMatch: true,
+          };
+        });
+        setVerifiedItems(initialVerified);
+      }
+
+      // Check if all items are verified
+      const allChecked = detail.items.every(
+        (item) => verifiedItems[item._id]?.isChecked
+      );
+      setAllVerified(allChecked);
+
+      // Check if all quantities match
+      const quantityMatch = detail.items.every((item) => {
+        const verifiedItem = verifiedItems[item._id];
+        return verifiedItem?.isQuantityMatch;
+      });
+      setAllQuantityMatch(quantityMatch);
+    }
+  }, [detail, verifiedItems]);
 
   async function fetchDetailOrder() {
     try {
@@ -50,114 +118,239 @@ export default function VerifyOrderOutlet() {
     }
   }
 
+  // Handle item verification
+  const handleVerifyItem = (
+    itemId: string,
+    isChecked: boolean,
+    actualQuantity: number
+  ) => {
+    setVerifiedItems((prev) => {
+      const item = prev[itemId];
+      if (!item) return prev;
+
+      // Find original item to get expected quantity
+      const originalItem = detail.items?.find((i) => i._id === itemId);
+      const expectedQuantity = originalItem?.quantity || 0;
+
+      // Check if actual quantity matches expected
+      const isQuantityMatch = actualQuantity === expectedQuantity;
+
+      return {
+        ...prev,
+        [itemId]: {
+          ...item,
+          isChecked,
+          quantity: actualQuantity,
+          isQuantityMatch,
+        },
+      };
+    });
+  };
+
   async function submitVerification(id: string) {
     try {
-      // logic verify
-      console.log(id);
+      // Prepare verification data
+      const verifiedData = {
+        orderId: id,
+        items: Object.values(verifiedItems).map((item) => ({
+          itemId: item._id,
+          isVerified: item.isChecked,
+          actualQuantity: item.quantity,
+          isQuantityMatch: item.isQuantityMatch,
+        })),
+        status: orderStatus,
+        notes: notes,
+      };
 
-      navigate(`/status-outlet/${id}`);
+      console.log("Submitting verification:", verifiedData);
+
+      // Submit verification for each item
+      // for (const item of verifiedData.items) {
+      //   await http.patch(
+      //     `/outlet/orders/${id}/items`,
+      //     {
+      //       itemId: item.itemId,
+      //       isVerified: item.isVerified,
+      //       actualQuantity: item.actualQuantity,
+      //     },
+      //     {
+      //       withCredentials: true,
+      //     }
+      //   );
+      // }
+
+      // Update order status
+      // await http.patch(
+      //   `/orders/${id}`,
+      //   {
+      //     status: orderStatus,
+      //     notes: notes,
+      //   },
+      //   {
+      //     withCredentials: true,
+      //   }
+      // );
+
+      // // Navigate to status page
+      // navigate(`/status-outlet/${id}`);
     } catch (error) {
       console.log(error);
     }
   }
+
   return (
     <>
-      <>
-        <div className="flex flex-col justify-start items-center min-h-screen w-full ">
-          <div className="flex flex-col max-w-6xl justify-center items-center w-full">
-            <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
-              <div className="w-full">
-                <h1 className="text-2xl font-bold">Verify Items</h1>
-              </div>
+      <div className="flex flex-col justify-start items-center min-h-screen w-full">
+        <div className="flex flex-col max-w-6xl justify-center items-center w-full">
+          <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
+            <div className="w-full">
+              <h1 className="text-2xl font-bold">Verify Items</h1>
             </div>
-            <div className="p-5 w-full">
-              <Card>
-                <CardContent>
-                  <div>
-                    <div className="w-full flex justify-between items-center">
-                      <h1>Delivery Recipient</h1>
-                      <h1>{detail?._id}</h1>
-                    </div>
-                    <h1 className="py-2.5 text-2xl">{detail?.outlet?.name}</h1>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-            <div className="p-5 w-full">
-              {detail?.items?.map((el) => {
-                return (
-                  <Card key={el?._id}>
-                    <CardHeader>
-                      <div className="w-full flex justify-between items-center">
-                        <div className="w-full flex gap-5 items-center">
-                          <Checkbox
-                            id="id"
-                            // checked={isChecked}
-                            // onCheckedChange={handleCheck}
-                            className="h-5 w-5 border-2 border-black"
-                          />
-                          <h1>{el?.name}</h1>
-                        </div>
+          </div>
 
+          {/* Alert for quantity verification */}
+          <div className="p-5 w-full">
+            <Alert variant="warning">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Perhatian</AlertTitle>
+              <AlertDescription>
+                Pastikan jumlah Actual Quantity sama dengan Expected Quantity
+                untuk verifikasi yang valid. Jika ada perbedaan, Anda dapat
+                menolak pesanan.
+              </AlertDescription>
+            </Alert>
+          </div>
+
+          <div className="p-5 w-full">
+            <Card>
+              <CardContent>
+                <div>
+                  <div className="w-full flex justify-between items-center">
+                    <h1>Delivery Recipient</h1>
+                    <h1>{detail?._id}</h1>
+                  </div>
+                  <h1 className="py-2.5 text-2xl">{detail?.outlet?.name}</h1>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="p-5 w-full">
+            {detail?.items?.map((el) => {
+              const verifiedItem = verifiedItems[el?._id];
+              const isItemVerified = verifiedItem?.isChecked || false;
+              const itemQuantity = verifiedItem?.quantity || 0;
+              const isQuantityMatch = verifiedItem?.isQuantityMatch;
+
+              return (
+                <Card
+                  key={el?._id}
+                  className={!isQuantityMatch ? "border-red-500" : ""}
+                >
+                  <CardHeader>
+                    <div className="w-full flex justify-between items-center">
+                      <div className="w-full flex gap-5 items-center">
+                        <Checkbox
+                          id={`item-${el?._id}`}
+                          checked={isItemVerified}
+                          onCheckedChange={(checked) => {
+                            handleVerifyItem(
+                              el?._id,
+                              checked === true,
+                              itemQuantity
+                            );
+                          }}
+                          className="h-5 w-5 border-2 border-black"
+                        />
+                        <h1>{el?.name}</h1>
+                      </div>
+
+                      {isItemVerified && (
                         <Badge className="bg-green-500 text-white px-3 py-1 rounded-md flex items-center gap-1">
                           <Check className="h-4 w-4" /> Verified
                         </Badge>
+                      )}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex w-full justify-between items-center">
+                      <div className="flex flex-col">
+                        <h1>Expected</h1>
+                        <h1>
+                          {el?.quantity} {el?.unit}
+                        </h1>
                       </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex w-full justify-between items-center">
-                        <div className="flex flex-col">
-                          <h1>Expected</h1>
-                          <h1>
-                            {el?.quantity} {el?.unit}
-                          </h1>
+                      <div className="flex flex-col">
+                        <h1>Actual Quantity</h1>
+                        <div className="flex gap-2 items-center">
+                          <Input
+                            id={`quantity-${el?._id}`}
+                            type="text"
+                            className={`border-2 ${
+                              !isQuantityMatch
+                                ? "border-red-500 bg-red-50"
+                                : "border-black"
+                            }`}
+                            value={itemQuantity}
+                            onChange={(e) => {
+                              const newValue = e.target.value;
+                              // Allow empty string or valid numbers only
+                              if (newValue === "" || /^\d+$/.test(newValue)) {
+                                const newQuantity =
+                                  newValue === ""
+                                    ? 0
+                                    : Number.parseInt(newValue);
+                                handleVerifyItem(el?._id, false, newQuantity);
+                              }
+                            }}
+                          />
+                          <span>{el?.unit}</span>
                         </div>
-                        <div className="flex flex-col">
-                          <h1>Actual Quantity</h1>
-                          <div className="flex gap-2 items-center">
-                            <Input
-                              id="id"
-                              type="number"
-                              className="border-2 border-black"
-                              min={0}
-                            />
-                            <span>{el.unit}</span>
-                          </div>
-                        </div>
+                        {!isQuantityMatch && (
+                          <p className="text-red-500 text-sm mt-1">
+                            Berbeda dengan expected: {el?.quantity} {el?.unit}
+                          </p>
+                        )}
                       </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-            <div className="p-5 w-full">
-              <Card>
-                <CardContent>
-                  <div>
-                    <h1 className="pb-5">Notes</h1>
-                    <Textarea placeholder="Type your message here." />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+
+          <div className="p-5 w-full">
+            <Card>
+              <CardContent>
+                <div>
+                  <h1 className="pb-5">Notes</h1>
+                  <Textarea
+                    placeholder="Tambahkan catatan tentang pesanan ini..."
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                  />
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
+
         <div className="fixed bottom-4 flex justify-center items-center left-0 right-0 px-4 pt-10">
-          <Dialog>
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-              <Button>
-                <CheckCircle2 />
+              <Button disabled={!allVerified}>
+                <CheckCircle2 className="mr-2 h-4 w-4" />
                 Complete Verification
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-lg">
               <DialogHeader>
-                <DialogTitle>Order Check Summary</DialogTitle>
+                <DialogTitle>Order Verification</DialogTitle>
                 <DialogDescription>
-                  Let's verify that all items for Downtown Café have been
-                  verified and are ready for completed-status order.
+                  Pilih status pesanan dan tambahkan catatan jika diperlukan.
                 </DialogDescription>
               </DialogHeader>
+
               <div className="-mx-6 max-h-[500px] overflow-y-auto px-6 text-sm">
                 <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6 bg-blue-50">
                   <CardHeader className="border-b-4 border-black bg-blue-100">
@@ -169,14 +362,16 @@ export default function VerifyOrderOutlet() {
                   <CardContent>
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center gap-2">
-                        <h2 className="text-2xl font-bold">A</h2>
+                        <h2 className="text-2xl font-bold">
+                          {detail?.outlet?.name}
+                        </h2>
                         <BadgeStatusColor
                           status={detail?.status as OrderStatus}
                         />
                       </div>
                       <p className="text-gray-600 flex items-center gap-1">
                         <MapPin className="h-4 w-4" />
-                        <span>Order #100</span>
+                        <span>Order #{detail?._id}</span>
                       </p>
                     </div>
                   </CardContent>
@@ -184,37 +379,82 @@ export default function VerifyOrderOutlet() {
 
                 <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6">
                   <CardHeader className="border-b-4 border-black">
-                    <CardTitle className="text-xl">Order Details</CardTitle>
+                    <CardTitle className="text-xl">Order Status</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex flex-row w-full items-center justify-between gap-4 mb-4">
-                      <div>
-                        <p className="text-sm font-medium">Driver</p>
-                        <p className="text-lg font-bold">
-                          {detail?.driver?.name}
-                        </p>
+                    <RadioGroup
+                      value={orderStatus}
+                      onValueChange={(value) =>
+                        setOrderStatus(value as "completed" | "rejected")
+                      }
+                      className="space-y-4 mt-2"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="completed" id="completed" />
+                        <Label
+                          htmlFor="completed"
+                          className="flex items-center gap-2"
+                        >
+                          <CheckCircle2 className="h-5 w-5 text-green-600" />
+                          <span className="font-medium">
+                            Terima Pesanan (Completed)
+                          </span>
+                        </Label>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium">Outlet</p>
-                        <p className="text-lg font-bold">
-                          {detail?.outlet?.name}
-                        </p>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="rejected" id="rejected" />
+                        <Label
+                          htmlFor="rejected"
+                          className="flex items-center gap-2"
+                        >
+                          <XCircle className="h-5 w-5 text-red-600" />
+                          <span className="font-medium">
+                            Tolak Pesanan (Rejected)
+                          </span>
+                        </Label>
                       </div>
+                    </RadioGroup>
+
+                    <div className="mt-4">
+                      <h3 className="font-medium mb-2">
+                        Catatan{" "}
+                        {orderStatus === "rejected"
+                          ? "(Wajib diisi jika menolak)"
+                          : ""}
+                      </h3>
+                      <Textarea
+                        placeholder={
+                          orderStatus === "rejected"
+                            ? "Jelaskan alasan penolakan pesanan..."
+                            : "Tambahkan catatan jika diperlukan..."
+                        }
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                        className={
+                          orderStatus === "rejected" && !notes
+                            ? "border-red-500"
+                            : ""
+                        }
+                      />
+                      {orderStatus === "rejected" && !notes && (
+                        <p className="text-red-500 text-sm mt-1">
+                          Catatan wajib diisi jika menolak pesanan
+                        </p>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
 
-                <div className="mb-6 flex flex-col gap-2">
+                <div className="mb-6">
                   <h2 className="text-xl font-bold mb-4">Verified Items</h2>
                   <p className="text-muted-foreground mb-4">
-                    All items for <span className="font-bold">Outlet</span> have
-                    been verified and are ready for delivery.
+                    Berikut adalah daftar item yang telah diverifikasi:
                   </p>
 
                   <Card className="pt-0 pb-0">
                     <div className="border-b-4 border-black bg-green-500 text-white p-4">
                       <div className="flex items-center">
-                        <Check className="h-5 w-5" />
+                        <Check className="h-5 w-5 mr-2" />
                         <p className="font-bold">All Items Verified</p>
                       </div>
                     </div>
@@ -222,47 +462,69 @@ export default function VerifyOrderOutlet() {
                       <TableHeader>
                         <TableRow>
                           <TableHead>Product</TableHead>
-                          <TableHead>Quantity</TableHead>
+                          <TableHead>Expected</TableHead>
+                          <TableHead>Actual</TableHead>
                           <TableHead>Status</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        <TableRow>
-                          <TableCell>Premium Coffee Beans</TableCell>
-                          <TableCell>5 boxes</TableCell>
-                          <TableCell>
-                            {" "}
-                            <span className="inline-flex items-center gap-1 text-green-950">
-                              <Check className="h-4 w-4" /> Verified
-                            </span>
-                          </TableCell>
-                        </TableRow>
+                        {detail?.items?.map((item) => {
+                          const verifiedItem = verifiedItems[item._id];
+                          return (
+                            <TableRow key={item._id}>
+                              <TableCell>{item.name}</TableCell>
+                              <TableCell>
+                                {item.quantity} {item.unit}
+                              </TableCell>
+                              <TableCell>
+                                {verifiedItem?.quantity || item.quantity}{" "}
+                                {item.unit}
+                              </TableCell>
+                              <TableCell>
+                                {verifiedItem?.isChecked ? (
+                                  <span className="inline-flex items-center gap-1 text-green-950">
+                                    <Check className="h-4 w-4" /> Verified
+                                  </span>
+                                ) : (
+                                  "Not Verified"
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
                       </TableBody>
                     </Table>
                   </Card>
-
-                  <Card className="p-5">
-                    <h1 className="text-sm font-medium">Notes</h1>
-                    <Textarea disabled />
-                  </Card>
                 </div>
               </div>
+
               <DialogFooter>
                 <Button
-                  onClick={() => submitVerification(detail._id)}
+                  onClick={() => submitVerification(detail?._id)}
                   className="w-full"
+                  disabled={orderStatus === "rejected" && !notes}
+                  variant={orderStatus === "completed" ? "default" : "neutral"}
                 >
-                  <CheckCircle2 className="mr-2 h-4 w-4" />
-                  Complete Verification
+                  {orderStatus === "completed" ? (
+                    <>
+                      <CheckCircle2 className="mr-2 h-4 w-4" />
+                      Terima Pesanan
+                    </>
+                  ) : (
+                    <>
+                      <XCircle className="mr-2 h-4 w-4" />
+                      Tolak Pesanan
+                    </>
+                  )}
                 </Button>
                 <DialogClose asChild>
-                  <Button variant={"neutral"}>Close</Button>
+                  <Button variant="neutral">Batal</Button>
                 </DialogClose>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </div>
-      </>
+      </div>
     </>
   );
 }
