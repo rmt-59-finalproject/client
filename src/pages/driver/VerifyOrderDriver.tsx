@@ -177,7 +177,7 @@ export default function VerifyOrderDriver() {
           `/driver/orders/${id}`,
           {
             productId: productId,
-            status: status,
+            status: String(status),
           },
           {
             withCredentials: true,
