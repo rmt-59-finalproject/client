@@ -172,7 +172,7 @@ export default function AssignOrderPage() {
                       <Card key={el?._id}>
                         <CardHeader>
                           <div className="flex flex-row w-full justify-between items-center">
-                            <h1>{el?._id}</h1>
+                            <h1>{el?.orderId}</h1>
                             <BadgeStatusColor
                               status={el?.status as OrderStatus}
                             />

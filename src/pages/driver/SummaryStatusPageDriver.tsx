@@ -70,7 +70,7 @@ export default function SummaryStatusPageDriver() {
         <div className=" min-h-screen p-4 max-w-6xl font-bold text-lg w-full">
           <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6">
             <CardHeader className="border-b-4 border-black flex flex-row items-center justify-between">
-              <CardTitle className="text-xl">Order #{data?._id}</CardTitle>
+              <CardTitle className="text-xl">Order {data?.orderId}</CardTitle>
               <BadgeStatusColor status={data?.status as OrderStatus} />
               {/* UBAH INI JADI DINAMIS */}
             </CardHeader>

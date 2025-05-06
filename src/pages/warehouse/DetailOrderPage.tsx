@@ -1,5 +1,7 @@
 import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 import TableDetailOrder from "@/components/TableDetailOrder";
+import { Card, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { http } from "@/helpers/axios";
 import { formatDate } from "@/lib/utils";
 import { OrderStatus, OrderType } from "@/types";
@@ -63,7 +65,7 @@ export default function DetailOrderPage() {
         <div className=" p-2.5 rounded-2xl border border-gray-400 bg-gray-300">
           <div className="px-5 pt-5">
             <h1>Order Id</h1>
-            <h1 className="text-lg font-bold">{detail?._id}</h1>
+            <h1 className="text-lg font-bold">{detail?.orderId}</h1>
           </div>
           <div className="px-5 pt-5">
             <h1>Outlet Name</h1>
@@ -89,6 +91,16 @@ export default function DetailOrderPage() {
               <TableDetailOrder data={detail?.items || []} />
             </div>
           </div>
+          {detail?.notes && (
+            <div className="p-5 w-full">
+              <div className="border border-gray p-5 rounded-2xl">
+                <h1 className="pb-5">Catatan untuk orderan ini</h1>
+                <div className="p-5 bg-gray-400 rounded-2xl">
+                  {detail?.notes}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

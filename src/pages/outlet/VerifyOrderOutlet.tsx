@@ -271,7 +271,7 @@ export default function VerifyOrderOutlet() {
                 <div>
                   <div className="w-full flex justify-between items-center">
                     <h1>Delivery Recipient</h1>
-                    <h1>{detail?._id}</h1>
+                    <h1>{detail?.orderId}</h1>
                   </div>
                   <h1 className="py-2.5 text-2xl">{detail?.outlet?.name}</h1>
                 </div>
@@ -362,21 +362,6 @@ export default function VerifyOrderOutlet() {
               );
             })}
           </div>
-
-          <div className="p-5 w-full">
-            <Card>
-              <CardContent>
-                <div>
-                  <h1 className="pb-5">Notes</h1>
-                  <Textarea
-                    placeholder="Tambahkan catatan tentang pesanan ini..."
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
         </div>
 
         <div className="fixed bottom-4 flex justify-center items-center left-0 right-0 px-4 pt-10">
@@ -415,7 +400,7 @@ export default function VerifyOrderOutlet() {
                       </div>
                       <p className="text-gray-600 flex items-center gap-1">
                         <MapPin className="h-4 w-4" />
-                        <span>Order #{detail?._id}</span>
+                        <span>Order {detail?.orderId}</span>
                       </p>
                     </div>
                   </CardContent>

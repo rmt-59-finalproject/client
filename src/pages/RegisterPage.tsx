@@ -18,17 +18,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { http } from "@/helpers/axios";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [role, setRole] = useState("");
 
-  function submitLogin(e: React.FormEvent<HTMLFormElement>) {
+  async function submitLogin(e: React.FormEvent<HTMLFormElement>) {
     try {
       e.preventDefault();
       if (!username) {
-        throw { message: "Email required" };
+        throw { message: "Username required" };
+      }
+      if (!name) {
+        throw { message: "Name required" };
       }
       if (!password) {
         throw { message: "Password required" };
@@ -36,7 +41,20 @@ export default function RegisterPage() {
       if (!role) {
         throw { message: "Role required" };
       }
-      console.log({ username, password, role });
+
+      const data = await http({
+        url: "/register",
+        method: "POST",
+        data: {
+          name,
+          username,
+          password,
+          role,
+        },
+        withCredentials: true,
+      });
+      console.log(data.data.message);
+      toast.success(data.data.message);
     } catch (error) {
       console.log(error);
       toast.warning((error as Error).message);
@@ -53,6 +71,15 @@ export default function RegisterPage() {
         <CardContent>
           <form onSubmit={submitLogin}>
             <div className="flex flex-col gap-6">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Name</Label>
+                <Input
+                  id="Name"
+                  type="text"
+                  placeholder="Masukkan nama lengkap disini"
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Username</Label>
                 <Input
