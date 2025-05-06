@@ -8,7 +8,27 @@ import { useParams } from "react-router";
 
 // deetail orderan diklik dari /dashboard atau /orders
 export default function DetailOrderPage() {
-  const [detail, setDetail] = useState<OrderType>({});
+  const [detail, setDetail] = useState<OrderType>({
+    _id: "",
+    orderId: "",
+    driver: {
+      _id: "",
+      username: "",
+      name: "",
+      role: "driver",
+    },
+    outlet: {
+      _id: "",
+      username: "",
+      name: "",
+      role: "outlet",
+    },
+    status: "requested", // Assign a valid default value from the allowed types
+    notes: "",
+    createdAt: "",
+    updatedAt: "",
+    items: [], // Use an empty array without a semicolon
+  });
   const params = useParams();
   const { orderId } = params;
   useEffect(() => {

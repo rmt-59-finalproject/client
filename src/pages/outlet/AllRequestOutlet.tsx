@@ -1,7 +1,7 @@
 import { CardOrderComponent } from "@/components/CardOrder";
 import { FilterHistoryOrder } from "@/components/FilterHistoryOrder";
 import { http } from "@/helpers/axios";
-import { OrderType } from "@/types";
+import { OrderStatus, OrderType } from "@/types";
 
 import { useEffect, useState } from "react";
 
@@ -41,7 +41,9 @@ export default function AllRequestOutlet() {
           </div>
         </div>
         <div className="p-5">
-          <FilterHistoryOrder setFilter={(val) => setFilter(val)} />
+          <FilterHistoryOrder
+            setFilter={(val: OrderStatus) => setFilter(val)}
+          />
         </div>
         <div className=" min-h-screen p-4 max-w-6xl font-bold text-lg w-full">
           {orderData.length > 0 ? (

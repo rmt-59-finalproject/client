@@ -52,12 +52,32 @@ interface VerifiedItem {
 }
 
 export default function VerifyOrderOutlet() {
-  const [detail, setDetail] = useState<OrderType>({});
+  const [detail, setDetail] = useState<OrderType>({
+    _id: "",
+    orderId: "",
+    driver: {
+      _id: "",
+      username: "",
+      name: "",
+      role: "driver",
+    },
+    outlet: {
+      _id: "",
+      username: "",
+      name: "",
+      role: "outlet",
+    },
+    status: "requested", // Assign a valid default value from the allowed types
+    notes: "",
+    createdAt: "",
+    updatedAt: "",
+    items: [], // Use an empty array without a semicolon
+  });
   const [verifiedItems, setVerifiedItems] = useState<
     Record<string, VerifiedItem>
   >({});
   const [allVerified, setAllVerified] = useState(false);
-  const [allQuantityMatch, setAllQuantityMatch] = useState(false);
+  // const [allQuantityMatch, setAllQuantityMatch] = useState(false);
   const [notes, setNotes] = useState("");
   const [orderStatus, setOrderStatus] = useState<"completed" | "rejected">(
     "completed"
@@ -98,11 +118,11 @@ export default function VerifyOrderOutlet() {
       setAllVerified(allChecked);
 
       // Check if all quantities match
-      const quantityMatch = detail.items.every((item) => {
-        const verifiedItem = verifiedItems[item._id];
-        return verifiedItem?.isQuantityMatch;
-      });
-      setAllQuantityMatch(quantityMatch);
+      // const quantityMatch = detail.items.every((item) => {
+      //   const verifiedItem = verifiedItems[item._id];
+      //   return verifiedItem?.isQuantityMatch;
+      // });
+      // setAllQuantityMatch(quantityMatch);
     }
   }, [detail, verifiedItems]);
 
@@ -234,7 +254,7 @@ export default function VerifyOrderOutlet() {
 
           {/* Alert for quantity verification */}
           <div className="p-5 w-full">
-            <Alert variant="warning">
+            <Alert>
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Perhatian</AlertTitle>
               <AlertDescription>

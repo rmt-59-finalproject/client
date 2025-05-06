@@ -300,7 +300,10 @@ export default function AssignOrderPage() {
                                 <SelectGroup>
                                   {driver.map((el) => {
                                     return (
-                                      <SelectItem key={el._id} value={el._id}>
+                                      <SelectItem
+                                        key={el?._id}
+                                        value={el?._id as string}
+                                      >
                                         {el.name}
                                       </SelectItem>
                                     );

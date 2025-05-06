@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { http } from "@/helpers/axios";
-import { InventoryItem, OrderItem } from "@/types";
+import { OrderItem } from "@/types";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
 
