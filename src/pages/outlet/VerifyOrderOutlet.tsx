@@ -162,37 +162,61 @@ export default function VerifyOrderOutlet() {
         notes: notes,
       };
 
+      const itemsAndBooleanChecked = verifiedData.items.map((el) => {
+        return {
+          productId: el.itemId,
+          status: el.isVerified,
+        };
+      });
+      console.log(itemsAndBooleanChecked, "<--- item yang disubmit");
+
       console.log("Submitting verification:", verifiedData);
 
-      // Submit verification for each item
-      // for (const item of verifiedData.items) {
-      //   await http.patch(
-      //     `/outlet/orders/${id}/items`,
-      //     {
-      //       itemId: item.itemId,
-      //       isVerified: item.isVerified,
-      //       actualQuantity: item.actualQuantity,
-      //     },
-      //     {
-      //       withCredentials: true,
-      //     }
-      //   );
-      // }
+      async function submitPerItem(productId: string, status: boolean) {
+        console.log({ productId, status }, "<------ yang dikirim ke API");
 
-      // Update order status
-      // await http.patch(
-      //   `/orders/${id}`,
-      //   {
-      //     status: orderStatus,
-      //     notes: notes,
-      //   },
-      //   {
-      //     withCredentials: true,
-      //   }
-      // );
+        const data = await http.patch(
+          `/outlet/orders/${id}`,
+          {
+            productId: productId,
+            status: String(status),
+          },
+          {
+            withCredentials: true,
+          }
+        );
+
+        return data;
+      }
+
+      let submittedBool = false;
+
+      for (const el of itemsAndBooleanChecked) {
+        const submitted = await submitPerItem(el.productId, el.status);
+        if (submitted.status === 200) {
+          submittedBool = true;
+        }
+        console.log(submitted.data.message, submittedBool);
+      }
+
+      const submittedVerify = await http.patch(
+        `/orders/${id}`,
+        {
+          status: verifiedData.status,
+          notes: verifiedData.notes,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log(
+        submittedVerify.data,
+        "<------ ubah status dari delivered ke rejected / completed"
+      );
 
       // // Navigate to status page
-      // navigate(`/status-outlet/${id}`);
+      navigate(`/status-outlet/${id}`);
     } catch (error) {
       console.log(error);
     }

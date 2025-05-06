@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
 export default function SummaryStatusPageOutlet() {
-  const [data, setData] = useState<OrderType[]>([]);
+  const [data, setData] = useState<OrderType>({});
   const params = useParams();
   const navigate = useNavigate();
 
@@ -18,10 +18,13 @@ export default function SummaryStatusPageOutlet() {
   }, []);
   async function fetchData() {
     try {
-      const uri = `/orders?_id=${orderId}`;
-      const data = await http.get(uri);
+      const uri = `/orders/${orderId}`;
+      const data = await http.get(uri, {
+        withCredentials: true,
+      });
       console.log(data.data);
       setData(data.data);
+      console.log(data, "<---- data");
     } catch (error) {
       console.log(error);
     }
@@ -36,11 +39,9 @@ export default function SummaryStatusPageOutlet() {
         <div className="flex flex-col max-w-6xl justify-center items-center w-full">
           <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
             <div className="w-full">
-              <h1 className="text-2xl font-bold"> Order completed!</h1>
+              <h1 className="text-2xl font-bold"> Order {data?.status}.</h1>
               <div className="flex flex-row justify-between items-center w-full">
-                <h1 className="text-lg opacity-70">
-                  Check here, Your orders are incoming!
-                </h1>
+                <h1 className="text-lg opacity-70">This your order summary.</h1>
               </div>
             </div>
           </div>
@@ -48,19 +49,21 @@ export default function SummaryStatusPageOutlet() {
         <div className=" min-h-screen p-4 max-w-6xl font-bold text-lg w-full">
           <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6">
             <CardHeader className="border-b-4 border-black flex flex-row items-center justify-between">
-              <CardTitle className="text-xl">Order #{data[0]?._id}</CardTitle>
-              <BadgeStatusColor status={"completed" as OrderStatus} />
+              <CardTitle className="text-xl">
+                Order #{data?.orderId || data?._id}
+              </CardTitle>
+              <BadgeStatusColor status={data?.status as OrderStatus} />
               {/* UBAH INI JADI DINAMIS */}
             </CardHeader>
             <CardContent className="pt-6">
               <div className="flex w-full flex-row justify-between items-center gap-4 mb-4">
                 <div>
                   <p className="text-sm font-medium">Driver</p>
-                  <p className="font-bold">{data[0]?.driver?.username}</p>
+                  <p className="font-bold">{data?.driver?.name}</p>
                 </div>
                 <div>
                   <p className="text-sm font-medium">Outlet</p>
-                  <p className="font-bold">{data[0]?.outlet?.username}</p>
+                  <p className="font-bold">{data?.outlet?.name}</p>
                 </div>
               </div>
             </CardContent>
@@ -72,10 +75,16 @@ export default function SummaryStatusPageOutlet() {
           </p>
           <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <CardContent className="p-0">
-              <div className="border-b-4 border-black bg-green-500 text-white p-4">
+              <div
+                className={`border-b-4 border-black ${
+                  data?.status === "completed" ? "bg-green-500" : "bg-red-500"
+                } text-white p-4`}
+              >
                 <div className="flex items-center gap-2">
                   <Check className="h-5 w-5" />
-                  <p className="font-bold">Delivery Completed</p>
+                  <p className="font-bold">Delivery {data?.status}</p>
+
+                  <p className="font-bold">Notes {data?.notes}</p>
                 </div>
               </div>
               <div className="p-0">
@@ -88,18 +97,27 @@ export default function SummaryStatusPageOutlet() {
                     </tr>
                   </thead>
                   <tbody>
-                    {data[0]?.items?.map((item) => (
+                    {data?.items?.map((item) => (
                       <tr
-                        key={item.productId}
+                        key={item._id}
                         className="border-b border-black last:border-b-0"
                       >
-                        <td className="px-4 py-3">{item.productId}</td>
+                        <td className="px-4 py-3">{item.name}</td>
                         <td className="px-4 py-3 text-right">
-                          {item.quantity} unit
+                          {item.quantity} {item.unit}
                         </td>
                         <td className="px-4 py-3 text-center">
-                          <span className="inline-flex items-center gap-1 text-green-500">
-                            <Check className="h-4 w-4" /> Received
+                          <span
+                            className={`inline-flex items-center gap-1 ${
+                              data?.status === "completed"
+                                ? "text-green-500"
+                                : "text-red-500"
+                            }`}
+                          >
+                            <Check className="h-4 w-4" />{" "}
+                            {data?.status === "completed"
+                              ? "Received"
+                              : "Rejected"}
                           </span>
                         </td>
                       </tr>

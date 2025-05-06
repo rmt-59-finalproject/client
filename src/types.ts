@@ -28,17 +28,18 @@ export type ItemOrder = {
 
 export interface OrderType {
   _id: string;
+  orderId: string;
   driver: {
     _id: string;
     username: string;
     name: string;
-    role: string;
+    role: "driver";
   };
   outlet: {
     _id: string;
     username: string;
     name: string;
-    role: string;
+    role: "outlet";
   };
   status:
     | "requested"
@@ -47,6 +48,7 @@ export interface OrderType {
     | "delivered"
     | "completed"
     | "rejected";
+  notes: string;
   createdAt: string;
   updatedAt: string;
   items: ItemOrder[];
