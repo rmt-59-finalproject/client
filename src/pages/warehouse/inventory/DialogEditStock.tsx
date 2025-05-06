@@ -23,8 +23,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { http } from "@/helpers/axios";
+import { useRef } from "react";
 
 export default function DialogEditStock({ id }: { id: string }) {
+  const closeRef = useRef(null);
   const formSchema = z.object({
     stock: z.string(),
   });
@@ -49,6 +51,8 @@ export default function DialogEditStock({ id }: { id: string }) {
         }
       );
       console.log(data);
+      // Close the dialog after action
+      closeRef.current?.click();
     } catch (error) {
       console.log(error);
     }
@@ -87,6 +91,10 @@ export default function DialogEditStock({ id }: { id: string }) {
               </DialogClose>
               <Button type="submit">Tambah Item</Button>
             </DialogFooter>
+            {/* Hidden button to close the dialog */}
+            <DialogClose asChild>
+              <button type="button" ref={closeRef} className="hidden" />
+            </DialogClose>
           </form>
         </DialogContent>
       </Form>
