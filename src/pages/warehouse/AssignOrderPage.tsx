@@ -100,7 +100,27 @@ export default function AssignOrderPage() {
           withCredentials: true,
         }
       );
-      console.log(data);
+      console.log(
+        data.data.message,
+        "<-----cek dulu udah dikasih pesenannya ke driver, kalo udh cus ubah status ke in_transit"
+      );
+
+      // ubah dari approved ke in_transit
+      const changeStatus = await http.patch(
+        `/orders/${orderId}`,
+        {
+          status: "in_transit",
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log(
+        changeStatus.data.message,
+        "<----- cek apakah berhasil berubah?"
+      );
+
       fetchData();
       setSelectedDriver("");
     } catch (error) {
