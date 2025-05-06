@@ -12,6 +12,7 @@ import { Plus } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useRef } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,8 +25,10 @@ import {
 } from "@/components/ui/form";
 import { http } from "@/helpers/axios";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 export default function DialogEditStock() {
+  const closeRef = useRef(null);
   const navigate = useNavigate();
   const formSchema = z.object({
     name: z.string(),
@@ -60,10 +63,18 @@ export default function DialogEditStock() {
           withCredentials: true,
         }
       );
-      console.log(data.data);
+      closeRef.current?.click();
+      console.log(data);
+
+      if (data.status === 201) {
+        toast.success(
+          `${data.data.name} with stock ${data.data.stock} ${data.data.unit} created successfully`
+        );
+      }
       navigate("/inventories");
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
     }
   }
 
@@ -142,6 +153,10 @@ export default function DialogEditStock() {
               </DialogClose>
               <Button type="submit">Tambah Item</Button>
             </DialogFooter>
+            {/* Hidden button to close the dialog */}
+            <DialogClose asChild>
+              <button type="button" ref={closeRef} className="hidden" />
+            </DialogClose>
           </form>
         </DialogContent>
       </Form>
