@@ -1,22 +1,53 @@
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-export default function DialogAddModal() {
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+export default function DialogEditStock() {
+  const formSchema = z.object({
+    name: z.string(),
+    stock: z.string(),
+    unit: z.string(),
+    category: z.string(),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "0",
+      stock: "0",
+      unit: "0",
+      category: "0",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
+
   return (
     <Dialog>
-      <form>
+      <Form {...form}>
         <DialogTrigger asChild>
           <Button>
             <Plus className="mr-2 h-4 w-4" /> Tambah Item
@@ -26,36 +57,72 @@ export default function DialogAddModal() {
           <DialogHeader>
             <DialogTitle>Tambah Item Inventori</DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4">
-            <div className="grid gap-3">
-              <Label htmlFor="name-1">Nama Produk</Label>
-              <Input id="name-1" name="name" placeholder="Nama Item" />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Stok Produk</Label>
-              <Input id="username-1" name="username" placeholder="0" />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Unit</Label>
-              <Input
-                id="username-1"
-                name="username"
-                placeholder="pcs, kg, liter, dll"
-              />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Kategori</Label>
-              <Input id="username-1" name="username" placeholder="Kategori" />
-            </div>
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="neutral">Keluar</Button>
-            </DialogClose>
-            <Button type="submit">Tambah Item</Button>
-          </DialogFooter>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nama Barang</FormLabel>
+                  <FormControl>
+                    <Input type="text" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />{" "}
+            <FormField
+              control={form.control}
+              name="stock"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Stok (unit)</FormLabel>
+                  <FormControl>
+                    <Input type="number" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />{" "}
+            <FormField
+              control={form.control}
+              name="unit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Unit (unit)</FormLabel>
+                  <FormControl>
+                    <Input type="text" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />{" "}
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Kategori</FormLabel>
+                  <FormControl>
+                    <Input type="text" {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />{" "}
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="neutral">Keluar</Button>
+              </DialogClose>
+              <Button type="submit">Tambah Item</Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
-      </form>
+      </Form>
     </Dialog>
   );
 }
