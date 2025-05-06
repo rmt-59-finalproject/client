@@ -12,9 +12,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { http } from "@/helpers/axios";
 import { Trash2 } from "lucide-react";
+import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 export default function DialogDeleteModal({ id }: { id: string }) {
+  const navigate = useNavigate();
   async function handleDelete() {
     try {
       const data = await http.delete(`/inventory/${id}`, {
@@ -23,7 +25,7 @@ export default function DialogDeleteModal({ id }: { id: string }) {
 
       console.log(data);
       toast.success(data.data.message);
-      // Close the dialog after action
+      navigate("/inventories");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
