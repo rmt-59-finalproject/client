@@ -1,6 +1,4 @@
-// import Navbar from "@/components/Navbar";
-import { useEffect } from "react";
-import { Outlet } from "react-router";
+import { Navigate, Outlet } from "react-router";
 import {
   SidebarInset,
   SidebarProvider,
@@ -9,15 +7,12 @@ import {
 import { AppSidebar } from "@/components/Sidebar";
 
 export default function AuthLayout() {
-  useEffect(() => {
-    guardLogin();
-  }, []);
-  function guardLogin() {
-    const token = localStorage.getItem("Authorization");
-    if (!token) {
-      console.log("Token di localstorage tidak ada");
-    }
+  const role = sessionStorage.getItem("role");
+
+  if (!role) {
+    return <Navigate to={"/login"} />;
   }
+
   return (
     <>
       <div className="flex flex-col bg-gray-200 min-h-dvh w-full">

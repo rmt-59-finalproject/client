@@ -1,37 +1,21 @@
-import { useState } from "react";
-
+import { ComponentProps, useEffect } from "react";
 import {
   AudioWaveform,
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
   Command,
-  CreditCard,
   GalleryVerticalEnd,
   LogOut,
-  Plus,
-  Sparkles,
+  LayoutDashboard,
+  Car,
+  Store,
+  ScrollText,
   SquareTerminal,
 } from "lucide-react";
-import * as React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -39,56 +23,55 @@ import {
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { NavType } from "@/types";
+import stockifyLogoLite from "../assets/stockify.png";
+import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
+import { http } from "@/helpers/axios";
+import { toast } from "sonner";
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const [role, setRole] = useState<string>("");
-  React.useEffect(() => {
-    getRole();
-  }, []);
-  function getRole() {
-    const roleSession = "warehouse";
-    console.log(roleSession);
-    setRole(roleSession as string);
-  }
+export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
+  const role = sessionStorage.getItem("role");
+  const navigate = useNavigate();
+
   let navMain: NavType[] = [];
 
   if (role === "warehouse") {
     navMain = [
       {
         title: "Dashboard",
-        url: "/dashboard",
-        icon: SquareTerminal,
+        url: "/warehouse/dashboard",
+        icon: LayoutDashboard,
         isActive: true,
       },
       {
-        title: "All Drivers",
-        url: "/all-drivers",
-        icon: SquareTerminal,
+        title: "Drivers",
+        url: "/warehouse/drivers",
+        icon: Car,
         isActive: true,
       },
       {
-        title: "All Outlets",
-        url: "/all-outlets",
-        icon: SquareTerminal,
+        title: "Outlets",
+        url: "/warehouse/outlets",
+        icon: Store,
         isActive: true,
       },
       {
-        title: "All Orders",
-        url: "/orders",
-        icon: SquareTerminal,
+        title: "Orders",
+        url: "/warehouse/orders",
+        icon: ScrollText,
         isActive: true,
       },
       {
         title: "Assign Order",
-        url: "/assign",
+        url: "/warehouse/assign",
         icon: SquareTerminal,
         isActive: true,
       },
       {
         title: "Register",
-        url: "/register",
+        url: "/warehouse/register",
         icon: SquareTerminal,
         isActive: true,
       },
@@ -158,171 +141,82 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     navMain,
   };
 
-  const { isMobile } = useSidebar();
-  const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
+  const { state } = useSidebar();
 
-  if (!activeTeam) {
-    return null;
-  }
+  useEffect(() => console.log(state), [state]);
 
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar
+      collapsible="icon"
+      {...props}
+      className="font-[family-name:Montserrat]"
+    >
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger className="focus-visible:ring-0" asChild>
-                <SidebarMenuButton
-                  size="lg"
-                  className="data-[state=open]:bg-main data-[state=open]:text-main-foreground data-[state=open]:outline-border data-[state=open]:outline-2"
-                >
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-base">
-                    <activeTeam.logo className="size-4" />
-                  </div>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-heading">
-                      {activeTeam.name}
-                    </span>
-                    <span className="truncate text-xs">{activeTeam.plan}</span>
-                  </div>
-                  <ChevronsUpDown className="ml-auto" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-base"
-                align="start"
-                side={isMobile ? "bottom" : "right"}
-                sideOffset={4}
-              >
-                <DropdownMenuLabel className="text-sm font-heading">
-                  Teams
-                </DropdownMenuLabel>
-                {data.teams.map((team, index) => (
-                  <DropdownMenuItem
-                    key={team.name}
-                    onClick={() => setActiveTeam(team)}
-                    className="gap-2 p-1.5"
-                  >
-                    <div className="flex size-6 items-center justify-center">
-                      <team.logo className="size-4 shrink-0" />
-                    </div>
-                    {team.name}
-                    <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                ))}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="gap-2 p-1.5">
-                  <div className="flex size-6 items-center justify-center">
-                    <Plus className="size-4" />
-                  </div>
-                  <div className="font-base">Add team</div>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <div className="flex items-center justify-center">
+          <img
+            src={stockifyLogoLite}
+            alt="stockify-logo-lite"
+            className={cn(
+              state === "expanded" ? "size-8 md:size-12" : "size-8",
+              "flex aspect-square items-center justify-center rounded-base"
+            )}
+          />
+          <p className="truncate text-sm md:text-3xl font-bold tracking-wide">
+            Stockify
+          </p>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Platform</SidebarGroupLabel>
+          {/* MENU */}
           <SidebarMenu>
             {data.navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton
-                  className="data-[state=open]:bg-main data-[state=open]:outline-border data-[state=open]:text-main-foreground"
-                  tooltip={item.title}
+                <NavLink
+                  to={item.url}
+                  className={({ isActive }) => (isActive ? "group active" : "group")}
                 >
-                  {item.icon && <item.icon />}
-                  <Link to={item.url}>
-                    <span>{item.title}</span>
-                  </Link>
-                </SidebarMenuButton>
+                  <SidebarMenuButton
+                    className="hover:cursor-pointer group-[.active]:bg-main data-[state=open]:bg-main data-[state=open]:outline-border data-[state=open]:text-main-foreground md:text-base"
+                    tooltip={item.title}
+                  >
+                    {item.icon && <item.icon />}
+                    {item.title}
+                  </SidebarMenuButton>
+                </NavLink>
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton
-                  className="group-data-[state=collapsed]:hover:outline-0 group-data-[state=collapsed]:hover:bg-transparent overflow-visible"
-                  size="lg"
-                >
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage
-                      src="https://github.com/shadcn.png?size=40"
-                      alt="CN"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-heading">
-                      {data.user.name}
-                    </span>
-                    <span className="truncate text-xs">{data.user.email}</span>
-                  </div>
-                  <ChevronsUpDown className="ml-auto size-4" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="w-[--radix-dropdown-menu-trigger-width] min-w-56"
-                side={isMobile ? "bottom" : "right"}
-                align="end"
-                sideOffset={4}
-              >
-                <DropdownMenuLabel className="p-0 font-base">
-                  <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage
-                        src="https://github.com/shadcn.png?size=40"
-                        alt="CN"
-                      />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-heading">
-                        {data.user.name}
-                      </span>
-                      <span className="truncate text-xs">
-                        {data.user.email}
-                      </span>
-                    </div>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <Sparkles />
-                    Upgrade to Pro
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <BadgeCheck />
-                    Account
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <CreditCard />
-                    Billing
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Bell />
-                    Notifications
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <LogOut />
-                  Log out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <div className="flex justify-around items-center">
+          <Avatar className="h-8 w-8">
+            <AvatarImage src="https://github.com/shadcn.png?size=40" alt="CN" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+          <div className="grid flex-1 mx-2 text-left text-sm md:text-base leading-tight">
+            <span className="truncate font-heading">
+              {sessionStorage.getItem("name")}
+            </span>
+            <span className="truncate text-xs md:text-sm">
+              {sessionStorage.getItem("role")}
+            </span>
+          </div>
+          <Button
+            onClick={async () => {
+              const { data } = await http.get("/logout");
+
+              sessionStorage.clear();
+              toast.success(data.message);
+
+              navigate("/login");
+            }}
+            className={state === "expanded" ? "visible" : "hidden"}
+          >
+            <LogOut />
+          </Button>
+        </div>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
