@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { http } from "@/helpers/axios";
 import axios from "axios";
 import { useAnimation } from "@/contexts/animation-context";
-import AnimatedCharacter from "@/components/AnimatedCharacter";
+// import AnimatedCharacter from "@/components/AnimatedCharacter";
 import { useAppDispatch } from "@/hooks/useRedux";
 import { setUser } from "@/redux/slice/USER";
 

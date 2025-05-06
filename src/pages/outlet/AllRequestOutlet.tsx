@@ -1,7 +1,7 @@
 import { CardOrderComponent } from "@/components/CardOrder";
 import { FilterHistoryOrder } from "@/components/FilterHistoryOrder";
 import { http } from "@/helpers/axios";
-import { OrderStatus, OrderType } from "@/types";
+import { OrderType } from "@/types";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -16,7 +16,7 @@ export default function AllRequestOutlet() {
     fetchData();
   }, [filter]);
 
-  function navigateDetail(id) {
+  function navigateDetail(id: string) {
     navigate(`/orders/${id}`);
   }
 
