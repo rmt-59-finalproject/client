@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import {
   Select,
   SelectContent,
@@ -7,7 +8,11 @@ import {
   SelectValue,
 } from "./ui/select";
 
-export function FilterHistoryOrder({ setFilter }) {
+export function FilterHistoryOrder({
+  setFilter,
+}: {
+  setFilter: Dispatch<SetStateAction<string>>;
+}) {
   return (
     <>
       <Select onValueChange={setFilter}>
