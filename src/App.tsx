@@ -38,9 +38,12 @@ const App = () => {
             <Route path="/warehouse/outlets" element={<OutletPage />} />
             <Route path="/warehouse/orders" element={<AllOrderPage />} />
             <Route path="/warehouse/assign" element={<AssignOrderPage />} />
-            <Route path="/warehouse/request-order" element={<CreateOrderPage />} />
+            <Route
+              path="/warehouse/request-order"
+              element={<CreateOrderPage />}
+            />
             <Route path="/warehouse/inventory" element={<InventoryPage />} />
-            
+
             {/* DRIVER ROUTE */}
             <Route path="/driver/home" element={<LandingPageDriver />} />
             <Route path="/driver/orders" element={<AllOrderDriver />} />
@@ -56,6 +59,7 @@ const App = () => {
             <Route path="/outlet" element={<LandingPageOutlet />} />
             <Route path="/summary-order" element={<SummaryOrderPage />} />
             <Route path="/outlet-orders" element={<AllRequestOutlet />} />
+            <Route path="/request-orders" element={<CreateOrderPage />} />
             <Route
               path="/status-outlet/:orderId"
               element={<SummaryStatusPageOutlet />}

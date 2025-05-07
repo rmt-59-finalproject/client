@@ -30,10 +30,9 @@ export default function SummaryOrderPage() {
       console.log(totalOrder, "submitOrderClicked");
       const orders = totalOrder.map((el) => {
         if (el.quantity > el.stock) {
-          toast.error(
+          throw new Error(
             `Maaf tidak bisa membeli barang lebih dari jumlah stok yang tersedia!`
           );
-          return;
         }
         console.log(el, "<----persiapan buat validasi disini");
 
@@ -55,6 +54,7 @@ export default function SummaryOrderPage() {
       console.log(data);
       navigate("/outlet-orders");
     } catch (error) {
+      toast.error((error as Error).message);
       console.log(error);
     }
   }
