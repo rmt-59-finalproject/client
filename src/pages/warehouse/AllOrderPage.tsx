@@ -13,6 +13,8 @@ export default function AllOrderPage() {
 
   useEffect(() => {
     if (filter && orders) {
+      console.log(filter);
+
       setFilteredOrder(orders?.filter((item) => item.status === filter));
     }
   }, [filter]);

@@ -23,8 +23,7 @@ export function FilterHistoryOrder({
           <SelectGroup>
             <SelectItem value="requested">Requested</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
-            <SelectItem value="in_transit">In Transit</SelectItem>
-            <SelectItem value="delivered">Delivered</SelectItem>
+            <SelectItem value="delivery">Delivery</SelectItem>
             <SelectItem value="completed">Completed</SelectItem>
             <SelectItem value="rejected">Rejected</SelectItem>
           </SelectGroup>

@@ -100,14 +100,16 @@ export default function AssignOrderPage() {
         "<-----cek dulu udah dikasih pesenannya ke driver, kalo udh cus ubah status ke in_transit"
       );
 
-      // ubah dari approved ke in_transit
-      const { data: status } = await http.patch(`/orders/${orderId}`, {
-        status: "in_transit",
-      });
+      // // ubah dari approved ke in_transit
+      // const { data: status } = await http.patch(`/orders/${orderId}`, {
+      //   status: "in_transit",
+      // });
 
-      console.log(status.message, "<----- cek apakah berhasil berubah?");
+      // console.log(status.message, "<----- cek apakah berhasil berubah?");
 
-      toast.success(status.message);
+      // toast.success(status.message);
+      console.log(data, "<------ hasil assign warehouse");
+
       fetchData();
     } catch (error) {
       console.log(error);

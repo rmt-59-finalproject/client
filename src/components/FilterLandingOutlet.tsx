@@ -22,7 +22,7 @@ export function FilterLandingOutlet({
         <SelectContent className="font-[family-name:Space_Mono]">
           <SelectGroup>
             <SelectItem value="requested">Requested</SelectItem>
-            <SelectItem value="delivered">Delivered</SelectItem>
+            <SelectItem value="delivery">Delivery</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
