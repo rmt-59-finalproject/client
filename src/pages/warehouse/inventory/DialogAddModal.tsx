@@ -74,7 +74,7 @@ export default function DialogEditStock() {
       navigate("/inventories");
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error((error as Error).response.data.message);
     }
   }
 
