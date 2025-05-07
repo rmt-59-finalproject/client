@@ -17,7 +17,7 @@ export function FilterHistoryOrder({
     <>
       <Select onValueChange={setFilter}>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="All Orders" />
+          <SelectValue placeholder="Requested" />
         </SelectTrigger>
         <SelectContent className="font-[family-name:Space_Mono]">
           <SelectGroup>

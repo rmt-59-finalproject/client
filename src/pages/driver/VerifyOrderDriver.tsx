@@ -217,7 +217,7 @@ export default function VerifyOrderDriver() {
         console.log(submitted.data.message, submittedBool);
       }
 
-      //UBAH STATUS DARI IN_TRANSIT KE DELIVERED
+      //UBAH STATUS DARI IN_TRANSIT KE DELIVERY
       const changeStatus = await http.patch(
         `/orders/${orderId}`,
         {

@@ -133,7 +133,7 @@ export default function SummaryStatusPageDriver() {
             </CardContent>
           </Card>
         </div>
-        <div className="fixed bottom-4 flex justify-center items-center left-0 right-0 px-4">
+        <div className="fixed bottom-4 flex justify-center items-center m-auto w-full px-4">
           <Button
             // onClick={totalOrder}
             // disabled={orderItems.length === 0 && true}

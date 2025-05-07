@@ -232,7 +232,7 @@ export default function VerifyOrderOutlet() {
 
       console.log(
         submittedVerify.data,
-        "<------ ubah status dari delivered ke rejected / completed"
+        "<------ ubah status dari deliverY ke rejected / completed"
       );
 
       // // Navigate to status page

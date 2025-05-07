@@ -99,7 +99,7 @@ export default function AssignOrderPage() {
       });
       console.log(
         data.message,
-        "<-----cek dulu udah dikasih pesenannya ke driver, kalo udh cus ubah status ke in_transit"
+        "<-----cek dulu udah dikasih pesenannya ke driver, pastikan assign"
       );
 
       // // ubah dari approved ke in_transit

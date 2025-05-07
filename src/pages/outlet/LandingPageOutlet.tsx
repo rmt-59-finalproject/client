@@ -15,7 +15,7 @@ export default function LandingPageOutlet() {
   }, [filter]);
   async function fetchData() {
     try {
-      const uri = `/outlet/orders?status=${filter}`; //requested atau delivered
+      const uri = `/outlet/orders?status=${filter}`; //requested atau deliverY
       const data = await http.get(uri, {
         withCredentials: true,
       });
