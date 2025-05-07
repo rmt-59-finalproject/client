@@ -12,6 +12,8 @@ import {
   Ambulance,
   UserPlus,
   SquareTerminal,
+
+  House
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -89,14 +91,14 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
     navMain = [
       {
         title: "Home",
-        url: "/driver",
-        icon: SquareTerminal,
+        url: "/driver/home",
+        icon: House,
         isActive: true,
       },
       {
-        title: "All Order History",
-        url: "/driver-orders",
-        icon: SquareTerminal,
+        title: "Orders History",
+        url: "/driver/orders",
+        icon: ScrollText,
         isActive: true,
       },
     ];

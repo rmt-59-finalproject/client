@@ -15,7 +15,7 @@ export function formatDate(date: string | Date) {
     minute: "2-digit",
   };
 
-  return new Date(date).toLocaleDateString("id-ID", options);
+  return new Date(date).toLocaleDateString("en-US", options);
 }
 
 export function getStatusColor(status: string) {

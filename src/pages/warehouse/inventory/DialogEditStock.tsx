@@ -69,13 +69,13 @@ export default function DialogEditStock({ id }: { id: string }) {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] font-[family-name:Montserrat]">
           <DialogHeader>
-            <DialogTitle className="font-[family-name:Space_Mono]">
+            <DialogTitle className="font-[family-name:Montserrat]">
               Edit Stok untuk Lepo
             </DialogTitle>
           </DialogHeader>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="font-[family-name:Space_Mono] space-y-8"
+            className="font-[family-name:Montserrat] space-y-8"
           >
             <FormField
               control={form.control}
