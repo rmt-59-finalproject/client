@@ -52,7 +52,7 @@ export default function SummaryOrderPage() {
         },
       });
       console.log(data);
-      navigate("/outlet-orders");
+      navigate("/outlet/orders");
     } catch (error) {
       toast.error((error as Error).message);
       console.log(error);
@@ -60,7 +60,7 @@ export default function SummaryOrderPage() {
   }
 
   function backEditOrder() {
-    navigate("/request-order", { state: orderItems });
+    navigate("/outlet/request", { state: orderItems });
   }
   return (
     <div className="flex flex-col justify-start items-center min-h-screen w-full ">

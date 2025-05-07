@@ -39,7 +39,9 @@ export default function LandingPageOutlet() {
               <h1 className="text-lg opacity-70">
                 Let's get some things done today!
               </h1>
-              <Button onClick={() => navigate("/outlet/orders")}>All Orders</Button>
+              <Button onClick={() => navigate("/outlet/orders")}>
+                All Orders
+              </Button>
             </div>
           </div>
         </div>
@@ -56,12 +58,12 @@ export default function LandingPageOutlet() {
                 <CardOrderComponent
                   key={el._id}
                   click={
-                    filter !== "delivered"
+                    filter !== "delivery"
                       ? () => navigate(`/outlet/orders/${el._id}`)
                       : () => navigate(`/outlet/verify/${el._id}`)
                   }
                   nameButton={
-                    filter !== "delivered" ? "Detail Order" : "Cek Item"
+                    filter !== "delivery" ? "Detail Order" : "Cek Item"
                   }
                   el={el}
                 />

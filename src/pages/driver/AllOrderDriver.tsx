@@ -13,7 +13,7 @@ export default function AllOrderDriver() {
   }, []);
 
   function navigateDetail(id: string) {
-    navigate(`/orders/${id}`);
+    navigate(`/driver/orders/${id}`);
   }
   async function fetchData() {
     try {

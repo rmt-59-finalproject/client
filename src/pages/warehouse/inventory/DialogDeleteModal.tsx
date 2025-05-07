@@ -25,7 +25,6 @@ export default function DialogDeleteModal({ id }: { id: string }) {
 
       console.log(data);
       toast.success(data.data.message);
-      navigate("/inventories");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);

@@ -52,6 +52,10 @@ const App = () => {
             <Route path="/driver/orders" element={<AllOrderDriver />} />
             <Route
               path="/driver/orders/:orderId"
+              element={<DetailOrderPage />}
+            />
+            <Route
+              path="/driver/status/:orderId"
               element={<SummaryStatusPageDriver />}
             />
             <Route
@@ -73,6 +77,10 @@ const App = () => {
             <Route
               path="/outlet/verify/:orderId"
               element={<VerifyOrderOutlet />}
+            />
+            <Route
+              path="/outlet/status/:orderId"
+              element={<SummaryStatusPageOutlet />}
             />
           </Route>
           {/* PUBLIC ROUTE */}

@@ -80,6 +80,7 @@ export default function AssignOrderPage() {
       });
 
       console.log(data);
+      fetchData();
     } catch (error) {
       console.log(error);
     }

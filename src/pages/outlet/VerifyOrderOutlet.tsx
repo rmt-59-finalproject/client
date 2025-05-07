@@ -236,7 +236,7 @@ export default function VerifyOrderOutlet() {
       );
 
       // // Navigate to status page
-      navigate(`/status-outlet/${id}`);
+      navigate(`/outlet/status/${id}`);
     } catch (error) {
       console.log(error);
     }

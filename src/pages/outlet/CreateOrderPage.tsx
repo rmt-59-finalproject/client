@@ -67,7 +67,7 @@ export default function CreateOrderPage() {
 
   function totalOrder() {
     console.log(orderItems, "<--- totalOrder");
-    navigate("/summary-order", { state: orderItems });
+    navigate("/outlet/summary-order", { state: orderItems });
   }
 
   return (

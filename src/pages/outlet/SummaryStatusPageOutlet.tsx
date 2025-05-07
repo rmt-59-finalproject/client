@@ -52,7 +52,7 @@ export default function SummaryStatusPageOutlet() {
   }
 
   function navigateHome() {
-    navigate("/outlet");
+    navigate("/outlet/home");
   }
   return (
     <>

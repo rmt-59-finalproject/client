@@ -234,7 +234,7 @@ export default function VerifyOrderDriver() {
       );
 
       console.log("Verified data:", verifiedData);
-      navigate(`/driver/orders/${id}`);
+      navigate(`/driver/status/${id}`);
     } catch (error) {
       console.log(error);
     }
