@@ -17,15 +17,19 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { http } from "@/helpers/axios";
+import { useRef } from "react";
+import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 export default function DialogEditStock({ id }: { id: string }) {
+  const closeRef = useRef(null);
+  const navigate = useNavigate();
   const formSchema = z.object({
     stock: z.string(),
   });
@@ -39,11 +43,19 @@ export default function DialogEditStock({ id }: { id: string }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      console.log(values);
       const { data } = await http.patch(`/inventory/${id}`, {
         stock: Number(values.stock),
       });
+      console.log(data);
+      // Close the dialog after action
+      navigate("/inventories");
+
+      closeRef.current?.click();
+      toast.success(data.message);
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
     }
   }
 
@@ -57,9 +69,14 @@ export default function DialogEditStock({ id }: { id: string }) {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] font-[family-name:Montserrat]">
           <DialogHeader>
-            <DialogTitle>Edit Stok untuk Lepo</DialogTitle>
+            <DialogTitle className="font-[family-name:Space_Mono]">
+              Edit Stok untuk Lepo
+            </DialogTitle>
           </DialogHeader>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="font-[family-name:Space_Mono] space-y-8"
+          >
             <FormField
               control={form.control}
               name="stock"
@@ -80,6 +97,10 @@ export default function DialogEditStock({ id }: { id: string }) {
               </DialogClose>
               <Button type="submit">Add Item</Button>
             </DialogFooter>
+            {/* Hidden button to close the dialog */}
+            <DialogClose asChild>
+              <button type="button" ref={closeRef} className="hidden" />
+            </DialogClose>
           </form>
         </DialogContent>
       </Form>

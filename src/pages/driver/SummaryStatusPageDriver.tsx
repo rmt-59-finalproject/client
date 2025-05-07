@@ -8,7 +8,27 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
 export default function SummaryStatusPageDriver() {
-  const [data, setData] = useState<OrderType>({});
+  const [data, setData] = useState<OrderType>({
+    _id: "",
+    orderId: "",
+    driver: {
+      _id: "",
+      username: "",
+      name: "",
+      role: "driver",
+    },
+    outlet: {
+      _id: "",
+      username: "",
+      name: "",
+      role: "outlet",
+    },
+    status: "requested", // Assign a valid default value from the allowed types
+    notes: "",
+    createdAt: "",
+    updatedAt: "",
+    items: [], // Use an empty array without a semicolon
+  });
   const params = useParams();
   const navigate = useNavigate();
 
@@ -34,14 +54,17 @@ export default function SummaryStatusPageDriver() {
   }
   return (
     <>
-      <div className="flex flex-col justify-start items-center min-h-screen w-full ">
+      <div className="bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')] flex flex-col justify-start items-center min-h-screen w-full ">
         <div className="flex flex-col max-w-6xl justify-center items-center w-full">
           <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
             <div className="w-full">
-              <h1 className="text-2xl font-bold"> Order delivered!</h1>
+              <h1 className="text-2xl font-bold">
+                {" "}
+                Order memasuki proses pengantaran!
+              </h1>
               <div className="flex flex-row justify-between items-center w-full">
                 <h1 className="text-lg opacity-70">
-                  Check here, Your orders are starting to delivered!
+                  Kuy, mulai antar barang orderannya
                 </h1>
               </div>
             </div>
@@ -50,7 +73,7 @@ export default function SummaryStatusPageDriver() {
         <div className=" min-h-screen p-4 max-w-6xl font-bold text-lg w-full">
           <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6">
             <CardHeader className="border-b-4 border-black flex flex-row items-center justify-between">
-              <CardTitle className="text-xl">Order #{data?._id}</CardTitle>
+              <CardTitle className="text-xl">Order {data?.orderId}</CardTitle>
               <BadgeStatusColor status={data?.status as OrderStatus} />
               {/* UBAH INI JADI DINAMIS */}
             </CardHeader>
@@ -67,18 +90,14 @@ export default function SummaryStatusPageDriver() {
               </div>
             </CardContent>
           </Card>
-          <h2 className="text-xl font-bold mb-4">Item Verification</h2>
-          <p className="font-medium mb-4">
-            Verify each item in the delivery by checking the box and confirming
-            the quantity.
-          </p>
+          <h2 className="text-xl font-bold mb-4">Item Telah Dicek</h2>
           <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <CardContent className="p-0">
               <div className="border-b-4 border-black bg-green-500 text-white p-4">
                 <div className="flex items-center gap-2">
                   <Check className="h-5 w-5" />
                   <p className="font-bold">
-                    This order were starting delivery process
+                    Orderan ini memasuki proses pengantaran.
                   </p>
                 </div>
               </div>
@@ -103,7 +122,7 @@ export default function SummaryStatusPageDriver() {
                         </td>
                         <td className="px-4 py-3 text-center">
                           <span className="inline-flex items-center gap-1 text-green-500">
-                            <Check className="h-4 w-4" /> Delivered
+                            <Check className="h-4 w-4" /> Proses antar
                           </span>
                         </td>
                       </tr>
@@ -121,7 +140,7 @@ export default function SummaryStatusPageDriver() {
             className="w-full max-w-6xl"
             onClick={navigateHome}
           >
-            Done
+            OK
           </Button>
         </div>
       </div>

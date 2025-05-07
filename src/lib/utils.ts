@@ -6,11 +6,16 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatDate(date: string | Date) {
-  return new Date(date).toLocaleDateString("en-US", {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: "long",
     day: "numeric",
-    month: "short",
+    month: "long",
     year: "numeric",
-  });
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+
+  return new Date(date).toLocaleDateString("id-ID", options);
 }
 
 export function getStatusColor(status: string) {

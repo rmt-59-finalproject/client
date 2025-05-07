@@ -113,8 +113,8 @@ export default function AssignOrderPage() {
   }
 
   return (
-    <div className="flex flex-col justify-start items-center min-h-screen w-full">
-      <div className="w-full max-w-7xl">
+    <div className="flex bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')] flex-col justify-start items-center min-h-screen w-full">
+      <div className="w-full max-w-7xl flex flex-col">
         <div className="flex flex-row items-center px-5 pt-5 justify-between w-full ">
           <div>
             <h1 className="text-2xl font-bold">
@@ -130,7 +130,7 @@ export default function AssignOrderPage() {
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Requested" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="font-[family-name:Space_Mono]">
               <SelectGroup>
                 <SelectItem value="requested">Requested</SelectItem>
                 <SelectItem value="approved">Approved</SelectItem>
@@ -138,17 +138,17 @@ export default function AssignOrderPage() {
             </SelectContent>
           </Select>
         </div>
-        <div className="p-5 flex flex-col">
-          <div className=" max-w-2xl">
+        <div className="p-5 flex flex-col justify-center items-center">
+          <div>
             {filter === "requested" && (
               <>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 bg-blue-200 justify-center items-center">
                   {orderData?.map((el) => {
                     return (
                       <Card key={el?._id}>
                         <CardHeader>
-                          <div className="flex flex-row w-full justify-between items-center">
-                            <h1>{el?._id}</h1>
+                          <div className="flex flex-row justify-between items-center">
+                            <h1>{el?.orderId}</h1>
                             <BadgeStatusColor
                               status={el?.status as OrderStatus}
                             />
@@ -208,13 +208,13 @@ export default function AssignOrderPage() {
             )}
             {filter === "approved" && (
               <>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 justify-center items-center max-w-5xl">
                   {orderData?.map((el) => {
                     return (
-                      <Card key={el?._id}>
+                      <Card key={el?._id} className="w-full">
                         <CardHeader>
                           <div className="flex flex-row w-full justify-between items-center">
-                            <h1>{el?._id}</h1>
+                            <h1>{el?.orderId}</h1>
                             <BadgeStatusColor
                               status={el?.status as OrderStatus}
                             />
@@ -274,7 +274,7 @@ export default function AssignOrderPage() {
                               <SelectTrigger className="w-1/2">
                                 <SelectValue placeholder="Select driver" />
                               </SelectTrigger>
-                              <SelectContent>
+                              <SelectContent className="font-[family-name:Space_Mono]">
                                 <SelectGroup>
                                   {driver.map((item, index) => (
                                     <SelectItem
@@ -286,7 +286,10 @@ export default function AssignOrderPage() {
                                   ))}
                                   {/* {driver.map((el) => {
                                     return (
-                                      <SelectItem key={el._id} value={el._id}>
+                                      <SelectItem
+                                        key={el?._id}
+                                        value={el?._id as string}
+                                      >
                                         {el.name}
                                       </SelectItem>
                                     );

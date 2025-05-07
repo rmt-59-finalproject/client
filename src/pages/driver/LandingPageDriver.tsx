@@ -7,21 +7,12 @@ import { useNavigate } from "react-router";
 
 export default function LandingPageDriver() {
   //   const [role, useRole] = useState("driver");
-  const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
   const [orderData, setOrderData] = useState<OrderType[]>([]);
   const navigate = useNavigate();
   useEffect(() => {
     fetchData();
-    getSessionData();
   }, []);
 
-  function getSessionData() {
-    const usernameSession = sessionStorage.getItem("username");
-    const nameSession = sessionStorage.getItem("name");
-    setUsername(usernameSession as string);
-    setName(nameSession as string);
-  }
   async function fetchData() {
     try {
       const uri = `/driver/orders`;
@@ -51,16 +42,16 @@ export default function LandingPageDriver() {
       {" "}
       (
       <>
-        <div className="flex flex-col justify-start items-center min-h-screen w-full ">
+        <div className="bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')] flex flex-col justify-start items-center min-h-screen w-full ">
           <div className="flex flex-col max-w-6xl justify-center items-center w-full">
             <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
               <div className="w-full">
-                <h1 className="text-2xl font-bold"> Welcome {name}!</h1>
+                <h1 className="text-2xl font-bold">Selamat datang!</h1>
                 <div className="flex flex-row justify-between items-center w-full">
                   <h1 className="text-lg opacity-70">
-                    Here is today's missions:
+                    Kuy selesaikan misi hari ini!
                   </h1>
-                  <Button onClick={navigateDriverOrder}>All Orders</Button>
+                  <Button onClick={navigateDriverOrder}>Semua Orderan</Button>
                 </div>
               </div>
             </div>
@@ -75,7 +66,7 @@ export default function LandingPageDriver() {
                       <CardOrderComponent
                         key={el._id}
                         el={el}
-                        nameButton={"Verify Items"}
+                        nameButton={"Cek Orderan"}
                         click={() => navigateVerifyDriver(el?._id)}
                       />
                     );

@@ -11,31 +11,39 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Search, RefreshCw, Trash2, Edit } from "lucide-react";
+import { Search, RefreshCw } from "lucide-react";
 import { InventoryItem } from "@/types";
 import { http } from "@/helpers/axios";
-import { toast } from "sonner";
 import DialogAddModal from "./DialogAddModal";
 import DialogDeleteModal from "./DialogDeleteModal";
 import DialogEditStock from "./DialogEditStock";
 
+type Metadata = {
+  data: InventoryItem[];
+  limit: number;
+  page: number;
+  totalItems: number;
+  totalPages: number;
+};
+
 export default function InventoryPage() {
   const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
-  const [metadata, setMetadata] = useState({});
+  const [metadata, setMetadata] = useState<Metadata>({
+    data: [],
+    limit: 0,
+    page: 0,
+    totalItems: 0,
+    totalPages: 0,
+  });
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [loading, setLoading] = useState(false);
-  // const [showAddForm, setShowAddForm] = useState(false);
-  // const [showUpdateForm, setShowUpdateForm] = useState(false);
-  // const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  // const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
+  const limit = 10;
 
   const fetchInventory = async () => {
     try {
       const response = await http.get(`/inventory?limit=${limit}&page=${page}&search=${searchQuery}`);
 
-      console.log(response.data.data);
+      console.log(response.data);
       setMetadata(response.data);
       setInventoryItems(response.data.data || []);
     } catch (error) {
@@ -47,40 +55,6 @@ export default function InventoryPage() {
     fetchInventory();
   }, [page, limit, searchQuery]);
 
-  // const handleUpdateStock = (item: InventoryItem) => {
-  //   setSelectedItem(item);
-  //   setShowUpdateForm(true);
-  // };
-
-  // const handleDeleteItem = (item: InventoryItem) => {
-  //   setSelectedItem(item);
-  //   setShowDeleteDialog(true);
-  // };
-
-  // const handleAddSuccess = () => {
-  //   setShowAddForm(false);
-  //   fetchInventory();
-  //   toast({
-  //     title: "Success",
-  //     description: "Inventory item added successfully",
-  //   });
-  // };
-
-  // const handleUpdateSuccess = () => {
-  //   setShowUpdateForm(false);
-  //   fetchInventory();
-  //   toast({
-  //     title: "Success",
-  //     description: "Stock updated successfully",
-  //   });
-  // };
-
-  // const handleDeleteSuccess = () => {
-  //   setShowDeleteDialog(false);
-  //   fetchInventory();
-  //   toast.success("Item deleted successfully");
-  // };
-
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     console.log(e.target.value);
     setPage(1);
@@ -88,7 +62,7 @@ export default function InventoryPage() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center font-[family-name:Montserrat]">
+    <div className="bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')] flex flex-col justify-center items-center">
       <div className="w-7xl">
         <div className="flex flex-row items-center px-5 pt-5 justify-between w-full ">
           <div className="flex flex-row justify-between items-center w-full">
@@ -111,63 +85,57 @@ export default function InventoryPage() {
                     onChange={handleSearch}
                   />
                 </div>
-                <Button variant="default" onClick={fetchInventory}>
+                <Button onClick={fetchInventory}>
                   <RefreshCw className="h-4 w-4" />
                 </Button>
               </div>
 
-              {loading ? (
-                <div className="flex justify-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                </div>
-              ) : (
-                <div className="rounded-md border">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Category</TableHead>
-                        <TableHead>Stock</TableHead>
-                        <TableHead>Unit</TableHead>
-                        <TableHead className="text-center">Action</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {inventoryItems.length > 0 ? (
-                        inventoryItems.map((item) => (
-                          <TableRow key={item._id}>
-                            <TableCell className="font-medium">
-                              {item.name}
-                            </TableCell>
-                            <TableCell>
-                              <Badge variant="neutral">{item.category}</Badge>
-                            </TableCell>
-                            <TableCell>
-                              <Badge variant="neutral">{item.stock}</Badge>
-                            </TableCell>
-                            <TableCell>{item.unit}</TableCell>
-                            <TableCell className="text-right">
-                              <div className="flex justify-end gap-2">
-                                <DialogEditStock id={item._id} />
-                                <DialogDeleteModal id={item._id} />
-                              </div>
-                            </TableCell>
-                          </TableRow>
-                        ))
-                      ) : (
-                        <TableRow>
-                          <TableCell
-                            colSpan={5}
-                            className="text-center py-4 text-muted-foreground"
-                          >
-                            Item inventori tidak ditemukan
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Nama</TableHead>
+                      <TableHead>Kategori</TableHead>
+                      <TableHead>Stok</TableHead>
+                      <TableHead>Unit</TableHead>
+                      <TableHead className="text-right">Aksi</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {inventoryItems.length > 0 ? (
+                      inventoryItems.map((item) => (
+                        <TableRow key={item?._id}>
+                          <TableCell className="font-medium">
+                            {item?.name}
+                          </TableCell>
+                          <TableCell>
+                            <Badge>{item?.category}</Badge>
+                          </TableCell>
+                          <TableCell>
+                            <Badge>{item?.stock}</Badge>
+                          </TableCell>
+                          <TableCell>{item?.unit}</TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex justify-end gap-2">
+                              <DialogEditStock id={item?._id} />
+                              <DialogDeleteModal id={item?._id} />
+                            </div>
                           </TableCell>
                         </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                </div>
-              )}
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell
+                          colSpan={5}
+                          className="text-center py-4 text-muted-foreground"
+                        >
+                          Item inventori tidak ditemukan
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
 
               <div className="flex items-center justify-between mt-4">
                 <div className="text-sm text-muted-foreground">
@@ -177,7 +145,6 @@ export default function InventoryPage() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Button
-                    variant="noShadow"
                     size="sm"
                     disabled={page === 1}
                     onClick={() => setPage(page - 1)}
@@ -185,7 +152,6 @@ export default function InventoryPage() {
                     Previous
                   </Button>
                   <Button
-                    variant="outline"
                     size="sm"
                     disabled={inventoryItems.length < limit}
                     onClick={() => setPage(page + 1)}
@@ -196,29 +162,6 @@ export default function InventoryPage() {
               </div>
             </CardContent>
           </Card>
-
-          {/* {showAddForm && (
-            <AddInventoryForm
-              onClose={() => setShowAddForm(false)}
-              onSuccess={handleAddSuccess}
-            />
-          )}
-
-          {showUpdateForm && selectedItem && (
-            <UpdateStockForm
-              item={selectedItem}
-              onClose={() => setShowUpdateForm(false)}
-              onSuccess={handleUpdateSuccess}
-            />
-          )}
-
-          {showDeleteDialog && selectedItem && (
-            <DeleteConfirmDialog
-              item={selectedItem}
-              onClose={() => setShowDeleteDialog(false)}
-              onSuccess={handleDeleteSuccess}
-            />
-          )} */}
         </div>
       </div>
     </div>

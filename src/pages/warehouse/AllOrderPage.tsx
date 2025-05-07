@@ -22,9 +22,11 @@ export default function AllOrderPage() {
       <div className="w-full max-w-7xl">
         <div className="flex flex-row items-center px-5 pt-5 justify-between w-full ">
           <div>
-            <h1 className="text-2xl font-bold">All History Orders</h1>
+            <h1 className="text-2xl font-bold">
+              Semua Histori Permintaan Orderan
+            </h1>
             <h1 className="text-lg opacity-50">
-              Your all outlet orders history place.
+              Seluruh histori orderan outlet anda ada disini.
             </h1>
           </div>
           <FilterHistoryOrder setFilter={setFilter} />

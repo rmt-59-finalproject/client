@@ -18,17 +18,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { http } from "@/helpers/axios";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [role, setRole] = useState("");
 
-  function submitLogin(e: React.FormEvent<HTMLFormElement>) {
+  async function submitLogin(e: React.FormEvent<HTMLFormElement>) {
     try {
       e.preventDefault();
       if (!username) {
-        throw { message: "Email required" };
+        throw { message: "Username required" };
+      }
+      if (!name) {
+        throw { message: "Name required" };
       }
       if (!password) {
         throw { message: "Password required" };
@@ -36,7 +41,20 @@ export default function RegisterPage() {
       if (!role) {
         throw { message: "Role required" };
       }
-      console.log({ username, password, role });
+
+      const data = await http({
+        url: "/register",
+        method: "POST",
+        data: {
+          name,
+          username,
+          password,
+          role,
+        },
+        withCredentials: true,
+      });
+      console.log(data.data.message);
+      toast.success(data.data.message);
     } catch (error) {
       console.log(error);
       toast.warning((error as Error).message);
@@ -44,7 +62,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-dvh w-full bg-gray-200">
+    <div className="flex flex-col justify-center bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')] items-center min-h-dvh w-full bg-gray-200">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle>Register ke Stockify</CardTitle>
@@ -53,6 +71,15 @@ export default function RegisterPage() {
         <CardContent>
           <form onSubmit={submitLogin}>
             <div className="flex flex-col gap-6">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Name</Label>
+                <Input
+                  id="Name"
+                  type="text"
+                  placeholder="Masukkan nama lengkap disini"
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Username</Label>
                 <Input
@@ -81,7 +108,7 @@ export default function RegisterPage() {
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a role..." />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="font-[family-name:Space_Mono]">
                     <SelectGroup>
                       <SelectItem value="warehouse">Warehouse</SelectItem>
                       <SelectItem value="driver">Driver</SelectItem>

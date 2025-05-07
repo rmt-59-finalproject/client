@@ -2,24 +2,19 @@ import { CardOrderComponent } from "@/components/CardOrder";
 import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 // Ini adalah halaman All Order dari Driver yang login
 export default function AllOrderDriver() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
-  const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
     fetchData();
-    getSessionData();
   }, []);
 
-  function getSessionData() {
-    const usernameSession = sessionStorage.getItem("username");
-    const nameSession = sessionStorage.getItem("name");
-    setUsername(usernameSession as string);
-    setName(nameSession as string);
+  function navigateDetail(id: string) {
+    navigate(`/orders/${id}`);
   }
-
   async function fetchData() {
     try {
       const uri = `/driver/orders?status=delivered`;
@@ -35,11 +30,11 @@ export default function AllOrderDriver() {
   }
   return (
     <>
-      <div className="flex flex-col justify-start items-center min-h-screen w-full ">
+      <div className="bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')] flex flex-col justify-start items-center min-h-screen w-full ">
         <div className="flex flex-col max-w-6xl justify-center items-center w-full">
           <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
             <div>
-              <h1 className="text-2xl font-bold">Order History</h1>
+              <h1 className="text-2xl font-bold">Histori Orderan</h1>
             </div>
           </div>
         </div>
@@ -53,6 +48,7 @@ export default function AllOrderDriver() {
                     key={order._id}
                     el={order}
                     nameButton={"Detail Order"}
+                    click={() => navigateDetail(order._id)}
                   />
                 );
               })}
