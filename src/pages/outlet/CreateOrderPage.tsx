@@ -71,7 +71,7 @@ export default function CreateOrderPage() {
   }
 
   return (
-    <div className="flex flex-col justify-start items-center min-h-screen w-full ">
+    <div className="bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')] font-[family-name:Space_Mono] flex flex-col justify-start items-center min-h-screen w-full ">
       <div className="flex flex-col max-w-6xl justify-center items-center w-full">
         <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
           <div>
@@ -84,11 +84,11 @@ export default function CreateOrderPage() {
         {/*  */}
       </div>
       <div className=" px-5 py-2.5 max-w-6xl font-bold text-lg w-full">
-        <h1>Inventory</h1>
+        <h1>Inventori Barang Warehouse</h1>
         <Input onChange={(e) => setSearch(e.target.value)} />
       </div>
       <ScrollArea className="h-80 max-w-6xl w-full">
-        <div className="p-5 w-full flex flex-col gap-2 min-h-screen">
+        <div className="p-5 w-full flex flex-col gap-2">
           {inventories.map((item) => {
             return (
               <Card key={item._id} className="w-full">
@@ -97,13 +97,14 @@ export default function CreateOrderPage() {
                     <div className="flex flex-col">
                       <h1 className="font-bold">{item.name}</h1>
                       <h1 className="text-[12px]">
-                        {item.category} • In stock: {item.stock} {item.unit}
+                        {item.category} • Stok tersedia: {item.stock}{" "}
+                        {item.unit}
                       </h1>
                     </div>
                   </CardContent>
                   <CardContent>
                     <Button onClick={() => handleAdd(item)}>
-                      Add to order
+                      Tambahkan Order
                     </Button>
                   </CardContent>
                 </div>
@@ -115,13 +116,13 @@ export default function CreateOrderPage() {
 
       {/*  */}
       <div className="p-5 flex max-w-6xl flex-col justify-center items-start w-full">
-        <h1 className="text-2xl font-bold">Order Items</h1>
+        <h1 className="text-2xl font-bold">Item Order</h1>
       </div>
 
       {/*  */}
       {orderItems.length > 0 && (
         <div className="w-full max-w-6xl">
-          <div className="p-5 w-full flex flex-col gap-2 min-h-screen">
+          <div className="p-5 w-full flex flex-col gap-2">
             {orderItems.map((item) => (
               <Card key={item._id} className="w-full">
                 <div className="flex flex-row justify-between items-center">
@@ -142,7 +143,7 @@ export default function CreateOrderPage() {
                   </CardContent>
                   <CardContent>
                     <Button onClick={() => handleRemove(item._id)}>
-                      Remove
+                      Buang
                     </Button>
                   </CardContent>
                 </div>
@@ -155,11 +156,11 @@ export default function CreateOrderPage() {
       {orderItems.length === 0 && (
         <>
           <div className="flex flex-row justify-center items-center p-5 w-full">
-            <h1>Your order bag is empty.</h1>
+            <h1>Keranjang orderan kosong.</h1>
           </div>
         </>
       )}
-      <div className="fixed bottom-4 flex justify-center items-center left-0 right-0 px-4">
+      <div className="pb-5 w-full bottom-4 flex justify-center items-center left-0 right-0 px-4">
         <Button
           onClick={totalOrder}
           disabled={orderItems.length === 0 && true}

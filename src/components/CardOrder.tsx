@@ -39,7 +39,7 @@ export const CardOrderComponent: React.FC<CardOrder> = ({
             <h1>{el?.outlet?.name}</h1>
           </div>
           <div>
-            <h1 className="text-lg font-bold">Date Requested</h1>
+            <h1 className="text-lg font-bold">Tanggal Request Order</h1>
             <h1>{formatDate(el?.createdAt)}</h1>
           </div>
         </div>

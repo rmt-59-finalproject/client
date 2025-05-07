@@ -54,9 +54,9 @@ export default function DetailOrderPage() {
       <div className="w-full max-w-7xl">
         <div className="flex flex-row items-center px-5 pt-5 justify-between w-full ">
           <div>
-            <h1 className="text-2xl font-bold">Order Request Details</h1>
+            <h1 className="text-2xl font-bold">Detail Request Order</h1>
             <h1 className="text-lg opacity-50">
-              Provide information about your order request
+              Informasi detail request Anda
             </h1>
           </div>
         </div>
@@ -68,15 +68,15 @@ export default function DetailOrderPage() {
             <h1 className="text-lg font-bold">{detail?.orderId}</h1>
           </div>
           <div className="px-5 pt-5">
-            <h1>Outlet Name</h1>
+            <h1>Nama Outlet</h1>
             <h1 className="text-lg font-bold">{detail?.outlet?.name}</h1>
           </div>
           <div className="px-5 pt-5">
-            <h1>Order assigned to driver:</h1>
+            <h1>Orderan ini diberikan kepada:</h1>
             <h1 className="text-lg font-bold">{detail?.driver?.name}</h1>
           </div>
           <div className="px-5 pt-5">
-            <h1>Order Create Date</h1>
+            <h1>Tanggal Pembuatan Order</h1>
             <h1 className="text-lg font-bold">
               {formatDate(detail?.createdAt)}
             </h1>
@@ -86,7 +86,7 @@ export default function DetailOrderPage() {
             <BadgeStatusColor status={detail?.status as OrderStatus} />
           </div>
           <div className="p-1">
-            <h1 className="px-5 pt-5 pb-5">Order Items</h1>
+            <h1 className="px-5 pt-5 pb-5">Item Orderan</h1>
             <div className="flex flex-col gap-2">
               <TableDetailOrder data={detail?.items || []} />
             </div>

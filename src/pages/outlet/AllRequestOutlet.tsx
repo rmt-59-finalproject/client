@@ -38,18 +38,19 @@ export default function AllRequestOutlet() {
   }
   return (
     <>
-      <div className="flex flex-col justify-start items-center min-h-screen w-full ">
+      <div className="bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')] font-[family-name:Space_Mono] flex flex-col justify-start items-center min-h-screen w-full ">
         <div className="flex flex-col max-w-6xl justify-center items-center w-full">
           <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
-            <div>
-              <h1 className="text-2xl font-bold">Request History</h1>
+            <div className="flex flex-row w-full items-center justify-between">
+              <h1 className="text-2xl font-bold">Histori Order</h1>
+              <div className="p-5">
+                <FilterHistoryOrder setFilter={setFilter} />
+              </div>
             </div>
           </div>
         </div>
-        <div className="p-5">
-          <FilterHistoryOrder setFilter={setFilter} />
-        </div>
-        <div className=" min-h-screen p-4 max-w-6xl font-bold text-lg w-full">
+
+        <div className=" min-h-screen gap-2 flex flex-col p-4 max-w-6xl font-bold text-lg w-full">
           {orderData.length > 0 ? (
             // ADA ORDERAN
             <>
