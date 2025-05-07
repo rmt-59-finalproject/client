@@ -37,14 +37,7 @@ export default function AssignOrderPage() {
   const [driver, setDriver] = useState<UserType[]>([]);
 
   useEffect(() => {
-    (async function fetchData() {
-      try {
-        const { data } = await http.get(`/orders?status=${filter}`);
-        setOrderData(data);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    fetchData();
   }, [filter]);
 
   useEffect(() => {
@@ -63,6 +56,16 @@ export default function AssignOrderPage() {
       }
     })();
   }, []);
+  async function fetchData() {
+    try {
+      const { data } = await http.get(`/orders?status=${filter}`);
+      console.log(data, "<---- fetchData");
+
+      setOrderData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function submitRequest(id: string) {
     // PATCH THIS STATUS FROM REQUESTED TO APPROVED
@@ -75,6 +78,7 @@ export default function AssignOrderPage() {
       });
 
       console.log(data);
+      fetchData();
     } catch (error) {
       console.log(error);
     }
@@ -104,6 +108,7 @@ export default function AssignOrderPage() {
       console.log(status.message, "<----- cek apakah berhasil berubah?");
 
       toast.success(status.message);
+      fetchData();
     } catch (error) {
       console.log(error);
     }
