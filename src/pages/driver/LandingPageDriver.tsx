@@ -17,7 +17,7 @@ export default function LandingPageDriver() {
       const uri = `/driver/orders`;
       const data = await http.get(uri, {
         params: {
-          status: "in_transit",
+          status: "approved",
         },
       });
 

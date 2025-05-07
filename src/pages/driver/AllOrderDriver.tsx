@@ -17,7 +17,7 @@ export default function AllOrderDriver() {
   }
   async function fetchData() {
     try {
-      const uri = `/driver/orders?status=delivered`;
+      const uri = `/driver/orders?status=delivery`;
       const data = await http.get(uri, {
         withCredentials: true,
       });

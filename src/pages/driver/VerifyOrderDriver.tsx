@@ -217,11 +217,11 @@ export default function VerifyOrderDriver() {
         console.log(submitted.data.message, submittedBool);
       }
 
-      //UBAH STATUS DARI IN_TRANSIT KE DELIVERED
+      //UBAH STATUS DARI IN_TRANSIT KE DELIVERY
       const changeStatus = await http.patch(
         `/orders/${orderId}`,
         {
-          status: "delivered",
+          status: "delivery",
         },
         {
           withCredentials: true,
@@ -230,7 +230,7 @@ export default function VerifyOrderDriver() {
 
       console.log(
         changeStatus.data.message,
-        "<---- cek status apakah berhasil berubah?"
+        "<---- cek status apakah berhasil berubah ke delivery?"
       );
 
       console.log("Verified data:", verifiedData);
