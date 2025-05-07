@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/button";
 import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 import { formatDate } from "@/lib/utils";
 import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 // Ini adalah halaman All Order dari Warehouse
 export default function AssignOrderPage() {
@@ -35,6 +36,7 @@ export default function AssignOrderPage() {
   const [selectedDrivers, setSelectedDrivers] = useState<string>("");
   const [filter, setFilter] = useState("requested");
   const [driver, setDriver] = useState<UserType[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -109,6 +111,8 @@ export default function AssignOrderPage() {
 
       // toast.success(status.message);
       console.log(data, "<------ hasil assign warehouse");
+      navigate("/warehouse/dashboard");
+      toast.success(data.message);
 
       fetchData();
     } catch (error) {
