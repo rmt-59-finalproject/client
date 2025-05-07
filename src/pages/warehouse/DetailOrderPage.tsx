@@ -56,7 +56,7 @@ export default function DetailOrderPage() {
           <div>
             <h1 className="text-2xl font-bold">Detail Request Order</h1>
             <h1 className="text-lg opacity-50">
-              Informasi detail request Anda
+              Informasi detail request orderan
             </h1>
           </div>
         </div>
