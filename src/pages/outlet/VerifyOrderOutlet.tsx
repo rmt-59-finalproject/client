@@ -244,11 +244,11 @@ export default function VerifyOrderOutlet() {
 
   return (
     <>
-      <div className="flex flex-col justify-start items-center min-h-screen w-full">
+      <div className="bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')] flex flex-col justify-start items-center min-h-screen w-full">
         <div className="flex flex-col max-w-6xl justify-center items-center w-full">
           <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
             <div className="w-full">
-              <h1 className="text-2xl font-bold">Verify Items</h1>
+              <h1 className="text-2xl font-bold">Cek Item Orderan</h1>
             </div>
           </div>
 
@@ -270,7 +270,7 @@ export default function VerifyOrderOutlet() {
               <CardContent>
                 <div>
                   <div className="w-full flex justify-between items-center">
-                    <h1>Delivery Recipient</h1>
+                    <h1>Penerima Order</h1>
                     <h1>{detail?.orderId}</h1>
                   </div>
                   <h1 className="py-2.5 text-2xl">{detail?.outlet?.name}</h1>
@@ -311,7 +311,7 @@ export default function VerifyOrderOutlet() {
 
                       {isItemVerified && (
                         <Badge className="bg-green-500 text-white px-3 py-1 rounded-md flex items-center gap-1">
-                          <Check className="h-4 w-4" /> Verified
+                          <Check className="h-4 w-4" /> Terverifikasi
                         </Badge>
                       )}
                     </div>
@@ -369,26 +369,28 @@ export default function VerifyOrderOutlet() {
             <DialogTrigger asChild>
               <Button disabled={!allVerified}>
                 <CheckCircle2 className="mr-2 h-4 w-4" />
-                Complete Verification
+                Selesaikan pengecekan
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-lg">
               <DialogHeader>
-                <DialogTitle>Order Verification</DialogTitle>
-                <DialogDescription>
+                <DialogTitle className="font-[family-name:Space_Mono]">
+                  Order Verification
+                </DialogTitle>
+                <DialogDescription className="font-[family-name:Space_Mono]">
                   Pilih status pesanan dan tambahkan catatan jika diperlukan.
                 </DialogDescription>
               </DialogHeader>
 
               <div className="-mx-6 max-h-[500px] overflow-y-auto px-6 text-sm">
                 <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6 bg-blue-50">
-                  <CardHeader className="border-b-4 border-black bg-blue-100">
-                    <CardTitle className="text-xl flex items-center gap-2">
+                  <CardHeader className="border-b-4 border-black ">
+                    <CardTitle className="font-[family-name:Space_Mono] text-xl flex items-center gap-2">
                       <Store className="h-5 w-5" />
-                      Delivery Recipient
+                      Penerima Orderan
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="font-[family-name:Space_Mono]">
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center gap-2">
                         <h2 className="text-2xl font-bold">
@@ -406,9 +408,11 @@ export default function VerifyOrderOutlet() {
                   </CardContent>
                 </Card>
 
-                <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6">
+                <Card className="font-[family-name:Space_Mono] border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-6">
                   <CardHeader className="border-b-4 border-black">
-                    <CardTitle className="text-xl">Order Status</CardTitle>
+                    <CardTitle className="text-xl font-bold">
+                      Order Status
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <RadioGroup
@@ -430,14 +434,14 @@ export default function VerifyOrderOutlet() {
                           </span>
                         </Label>
                       </div>
-                      <div className="flex items-center space-x-2">
+                      <div className="font-[family-name:Space_Mono] flex items-center space-x-2">
                         <RadioGroupItem value="rejected" id="rejected" />
                         <Label
                           htmlFor="rejected"
                           className="flex items-center gap-2"
                         >
                           <XCircle className="h-5 w-5 text-red-600" />
-                          <span className="font-medium">
+                          <span className="font-[family-name:Space_Mono] font-medium">
                             Tolak Pesanan (Rejected)
                           </span>
                         </Label>
@@ -474,25 +478,27 @@ export default function VerifyOrderOutlet() {
                   </CardContent>
                 </Card>
 
-                <div className="mb-6">
-                  <h2 className="text-xl font-bold mb-4">Verified Items</h2>
+                <div className="font-[family-name:Space_Mono] mb-6">
+                  <h2 className="text-xl font-bold mb-4">
+                    Item yang telah dicek
+                  </h2>
                   <p className="text-muted-foreground mb-4">
-                    Berikut adalah daftar item yang telah diverifikasi:
+                    Berikut adalah daftar item yang telah dicek:
                   </p>
 
                   <Card className="pt-0 pb-0">
                     <div className="border-b-4 border-black bg-green-500 text-white p-4">
                       <div className="flex items-center">
                         <Check className="h-5 w-5 mr-2" />
-                        <p className="font-bold">All Items Verified</p>
+                        <p className="font-bold">Semua item telah dicek</p>
                       </div>
                     </div>
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Product</TableHead>
-                          <TableHead>Expected</TableHead>
-                          <TableHead>Actual</TableHead>
+                          <TableHead>Produk</TableHead>
+                          <TableHead>Ekspektasi</TableHead>
+                          <TableHead>Aktual</TableHead>
                           <TableHead>Status</TableHead>
                         </TableRow>
                       </TableHeader>
@@ -512,10 +518,10 @@ export default function VerifyOrderOutlet() {
                               <TableCell>
                                 {verifiedItem?.isChecked ? (
                                   <span className="inline-flex items-center gap-1 text-green-950">
-                                    <Check className="h-4 w-4" /> Verified
+                                    <Check className="h-4 w-4" /> Terverifikasi
                                   </span>
                                 ) : (
-                                  "Not Verified"
+                                  "Tidak terverifikasi"
                                 )}
                               </TableCell>
                             </TableRow>
@@ -527,7 +533,7 @@ export default function VerifyOrderOutlet() {
                 </div>
               </div>
 
-              <DialogFooter>
+              <DialogFooter className="font-[family-name:Space_Mono]">
                 <Button
                   onClick={() => submitVerification(detail?._id)}
                   className="w-full"
