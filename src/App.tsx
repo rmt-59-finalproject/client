@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes } from "react-router";
 import AuthLayout from "./layouts/AuthLayout";
 import DashboardPage from "./pages/DashboardPage";
 import DriverPage from "./pages/warehouse/DriverPage";
@@ -28,8 +28,6 @@ const App = () => {
     <BrowserRouter>
       <AnimationProvider>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
-
           <Route element={<AuthLayout />}>
             {/* desain layout dengan navbar + sesudah dapat auth */}
             {/* WAREHOUSE ROUTE */}
@@ -80,7 +78,7 @@ const App = () => {
           {/* PUBLIC ROUTE */}
           {/* desain layout tanpa navbar + sebelum dapat auth */}
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/onboarding" element={<OnboardingPage />} />
+          <Route path="/" element={<OnboardingPage />} />
         </Routes>
         <Toaster />
       </AnimationProvider>
