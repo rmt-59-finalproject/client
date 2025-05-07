@@ -21,7 +21,7 @@ export default function TableHistoryOrder({
   function navigateDetailOrder(id: string) {
     console.log(id);
 
-    navigate(`/orders/${id}`);
+    navigate(`/warehouse/orders/${id}`);
   }
   return (
     <Table>

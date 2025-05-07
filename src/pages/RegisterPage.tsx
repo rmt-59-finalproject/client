@@ -108,7 +108,7 @@ export default function RegisterPage() {
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a role..." />
                   </SelectTrigger>
-                  <SelectContent className="font-[family-name:Space_Mono]">
+                  <SelectContent className="font-[family-name:Montserrat]">
                     <SelectGroup>
                       <SelectItem value="warehouse">Warehouse</SelectItem>
                       <SelectItem value="driver">Driver</SelectItem>

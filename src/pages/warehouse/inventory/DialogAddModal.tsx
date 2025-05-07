@@ -88,13 +88,13 @@ export default function DialogEditStock() {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle className="font-[family-name:Space_Mono]">
+            <DialogTitle className="font-[family-name:Montserrat]">
               Tambah Item Inventori
             </DialogTitle>
           </DialogHeader>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="font-[family-name:Space_Mono] space-y-8"
+            className="font-[family-name:Montserrat] space-y-8"
           >
             <FormField
               control={form.control}

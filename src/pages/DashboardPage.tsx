@@ -27,7 +27,6 @@ export default function DashboardPage() {
     (async function fetchData() {
       try {
         const { data } = await http.get("/orders");
-        console.log(data);
 
         dispatch(setOrders(data));
       } catch (error) {
@@ -36,10 +35,8 @@ export default function DashboardPage() {
     })();
   }, []);
 
-  useEffect(() => console.log(orders, "redux"), [orders]);
-
   return (
-    <div className="flex flex-col justify-center items-center font-[family-name:Montserrat]">
+    <div className="flex flex-col justify-center items-center font-[family-name:Montserrat] bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')]">
       <div className="w-7xl">
         <div className="flex flex-row items-center px-5 pt-5 justify-between w-full ">
           <h1 className="text-2xl font-bold">

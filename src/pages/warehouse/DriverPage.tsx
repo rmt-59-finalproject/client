@@ -24,7 +24,7 @@ export default function DriverPage() {
     }
   }
   return (
-    <div className="flex px-3 gap-10 flex-col justify-center items-center min-h-screen font-[family-name:Montserrat]">
+    <div className="flex px-3 gap-10 flex-col items-center min-h-screen font-[family-name:Montserrat]">
       <div className="border border-gray-300 rounded-2xl flex flex-row items-center p-5 justify-between w-full ">
         <h1 className="text-2xl font-bold">All Drivers</h1>
       </div>

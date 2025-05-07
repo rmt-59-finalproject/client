@@ -34,12 +34,12 @@ export const CardOrderComponent: React.FC<CardOrder> = ({
       </CardHeader>
       <CardContent>
         <div className="flex flex-row justify-between items-center">
-          <div>
+          <div className="flex-2">
             <h1 className="text-lg font-bold">Outlet</h1>
             <h1>{el?.outlet?.name}</h1>
           </div>
-          <div>
-            <h1 className="text-lg font-bold">Tanggal Request Order</h1>
+          <div className="flex-1">
+            <h1 className="text-lg font-bold">Request Date:</h1>
             <h1>{formatDate(el?.createdAt)}</h1>
           </div>
         </div>

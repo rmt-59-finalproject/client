@@ -25,7 +25,6 @@ export default function DialogDeleteModal({ id }: { id: string }) {
 
       console.log(data);
       toast.success(data.data.message);
-      navigate("/inventories");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
@@ -39,7 +38,7 @@ export default function DialogDeleteModal({ id }: { id: string }) {
             <Trash2 className="h-4 w-4" />
           </Button>
         </AlertDialogTrigger>
-        <AlertDialogContent className="font-[family-name:Space_Mono]">
+        <AlertDialogContent className="font-[family-name:Montserrat]">
           <AlertDialogHeader>
             <AlertDialogTitle>Anda yakin?</AlertDialogTitle>
             <AlertDialogDescription>

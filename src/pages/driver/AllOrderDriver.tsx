@@ -13,11 +13,11 @@ export default function AllOrderDriver() {
   }, []);
 
   function navigateDetail(id: string) {
-    navigate(`/orders/${id}`);
+    navigate(`/driver/orders/${id}`);
   }
   async function fetchData() {
     try {
-      const uri = `/driver/orders?status=delivered`;
+      const uri = `/driver/orders?status=delivery`;
       const data = await http.get(uri, {
         withCredentials: true,
       });

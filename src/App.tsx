@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes } from "react-router";
 import AuthLayout from "./layouts/AuthLayout";
 import DashboardPage from "./pages/DashboardPage";
 import DriverPage from "./pages/warehouse/DriverPage";
@@ -28,8 +28,6 @@ const App = () => {
     <BrowserRouter>
       <AnimationProvider>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
-
           <Route element={<AuthLayout />}>
             {/* desain layout dengan navbar + sesudah dapat auth */}
             {/* WAREHOUSE ROUTE */}
@@ -39,9 +37,13 @@ const App = () => {
             <Route path="/warehouse/outlets" element={<OutletPage />} />
             <Route path="/warehouse/orders" element={<AllOrderPage />} />
             <Route path="/warehouse/assign" element={<AssignOrderPage />} />
-            <Route
+            {/* <Route
               path="/warehouse/request-order"
               element={<CreateOrderPage />}
+            /> */}
+            <Route
+              path="/warehouse/orders/:orderId"
+              element={<DetailOrderPage />}
             />
             <Route path="/warehouse/inventory" element={<InventoryPage />} />
 
@@ -49,32 +51,42 @@ const App = () => {
             <Route path="/driver/home" element={<LandingPageDriver />} />
             <Route path="/driver/orders" element={<AllOrderDriver />} />
             <Route
-              path="/status-driver/:orderId"
+              path="/driver/orders/:orderId"
+              element={<DetailOrderPage />}
+            />
+            <Route
+              path="/driver/status/:orderId"
               element={<SummaryStatusPageDriver />}
             />
             <Route
-              path="/verify-driver/:orderId"
+              path="/driver/verify/:orderId"
               element={<VerifyOrderDriver />}
             />
             {/* OUTLET ROUTE */}
-            <Route path="/outlet" element={<LandingPageOutlet />} />
-            <Route path="/summary-order" element={<SummaryOrderPage />} />
-            <Route path="/outlet-orders" element={<AllRequestOutlet />} />
-            <Route path="/request-orders" element={<CreateOrderPage />} />
+            <Route path="/outlet/home" element={<LandingPageOutlet />} />
             <Route
-              path="/status-outlet/:orderId"
-              element={<SummaryStatusPageOutlet />}
+              path="/outlet/summary-order"
+              element={<SummaryOrderPage />}
+            />
+            <Route path="/outlet/orders" element={<AllRequestOutlet />} />
+            <Route path="/outlet/request" element={<CreateOrderPage />} />
+            <Route
+              path="/outlet/orders/:orderId"
+              element={<DetailOrderPage />}
             />
             <Route
-              path="/verify-outlet/:orderId"
+              path="/outlet/verify/:orderId"
               element={<VerifyOrderOutlet />}
             />
-            <Route path="/orders/:orderId" element={<DetailOrderPage />} />
+            <Route
+              path="/outlet/status/:orderId"
+              element={<SummaryStatusPageOutlet />}
+            />
           </Route>
           {/* PUBLIC ROUTE */}
           {/* desain layout tanpa navbar + sebelum dapat auth */}
+          <Route path="/" element={<OnboardingPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/onboarding" element={<OnboardingPage />} />
         </Routes>
         <Toaster />
       </AnimationProvider>

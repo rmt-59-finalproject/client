@@ -9,10 +9,12 @@ import { RootState } from "@/redux/rootStore";
 export default function AllOrderPage() {
   const { orders } = useAppSelector((state: RootState) => state.ORDERS);
   const [filteredOrder, setFilteredOrder] = useState<OrderType[]>(orders || []);
-  const [filter, setFilter] = useState<string>("");
+  const [filter, setFilter] = useState<string>("requested");
 
   useEffect(() => {
     if (filter && orders) {
+      console.log(filter);
+
       setFilteredOrder(orders?.filter((item) => item.status === filter));
     }
   }, [filter]);

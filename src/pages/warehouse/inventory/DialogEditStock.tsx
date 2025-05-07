@@ -23,34 +23,49 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { http } from "@/helpers/axios";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
+import { InventoryItem } from "@/types";
 
 export default function DialogEditStock({ id }: { id: string }) {
+  const [inventory, setInventory] = useState<InventoryItem>({});
   const closeRef = useRef(null);
   const navigate = useNavigate();
+
   const formSchema = z.object({
-    stock: z.string(),
+    stock: z.number(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      stock: "0",
+      stock: inventory?.stock,
     },
   });
+
+  async function fetchInventoryById() {
+    try {
+      const data = await http.get(`/inventory/${id}`, {
+        withCredentials: true,
+      });
+      console.log(data.data, "<---getInventoryById");
+      setInventory(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       console.log(values);
       const { data } = await http.patch(`/inventory/${id}`, {
-        stock: Number(values.stock),
+        stock: values.stock,
       });
       console.log(data);
       // Close the dialog after action
-      navigate("/inventories");
-
+      // navigate("/warehouse/inventory");
+      navigate(0)
       closeRef.current?.click();
       toast.success(data.message);
     } catch (error) {
@@ -63,19 +78,19 @@ export default function DialogEditStock({ id }: { id: string }) {
     <Dialog>
       <Form {...form}>
         <DialogTrigger asChild>
-          <Button className="bg-[var(--teal)]">
+          <Button onClick={fetchInventoryById} className="bg-[var(--teal)]">
             <Plus className="mr-2 h-4 w-4" /> Edit Stok
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px] font-[family-name:Montserrat]">
           <DialogHeader>
-            <DialogTitle className="font-[family-name:Space_Mono]">
+            <DialogTitle className="font-[family-name:Montserrat]">
               Edit Stok untuk Lepo
             </DialogTitle>
           </DialogHeader>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="font-[family-name:Space_Mono] space-y-8"
+            className="font-[family-name:Montserrat] space-y-8"
           >
             <FormField
               control={form.control}
@@ -84,7 +99,11 @@ export default function DialogEditStock({ id }: { id: string }) {
                 <FormItem>
                   <FormLabel>Stok (unit)</FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} />
+                    <Input
+                      type="number"
+                      defaultValue={inventory?.stock}
+                      {...field}
+                    />
                   </FormControl>
 
                   <FormMessage />

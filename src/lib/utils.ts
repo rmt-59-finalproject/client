@@ -15,7 +15,7 @@ export function formatDate(date: string | Date) {
     minute: "2-digit",
   };
 
-  return new Date(date).toLocaleDateString("id-ID", options);
+  return new Date(date).toLocaleDateString("en-US", options);
 }
 
 export function getStatusColor(status: string) {
@@ -24,9 +24,7 @@ export function getStatusColor(status: string) {
       return "bg-yellow-500 text-white";
     case "approved":
       return "bg-blue-500 text-white";
-    case "in_transit":
-      return "bg-purple-500 text-white";
-    case "delivered":
+    case "delivery":
       return "bg-orange-500 text-white";
     case "completed":
       return "bg-green-500 text-white";

@@ -42,13 +42,7 @@ export interface OrderType {
     name: string;
     role: "outlet";
   };
-  status:
-    | "requested"
-    | "approved"
-    | "in_transit"
-    | "delivered"
-    | "completed"
-    | "rejected";
+  status: OrderStatus;
   notes: string;
   createdAt: string;
   updatedAt: string;
@@ -65,10 +59,9 @@ export type NavType = {
 };
 
 export type OrderStatus =
-  | "required"
+  | "requested"
   | "approved"
-  | "in_transit"
-  | "delivered"
+  | "delivery"
   | "completed"
   | "rejected";
 
@@ -77,5 +70,5 @@ export type UserType = {
   username: string;
   name: string;
   role: string;
-  statistics?: Statistics
+  statistics?: Statistics;
 };

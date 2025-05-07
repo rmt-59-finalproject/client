@@ -52,11 +52,11 @@ export default function SummaryStatusPageOutlet() {
   }
 
   function navigateHome() {
-    navigate("/outlet");
+    navigate("/outlet/home");
   }
   return (
     <>
-      <div className="bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')] font-[family-name:Space_Mono] flex flex-col justify-start items-center min-h-screen w-full ">
+      <div className="bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')] font-[family-name:Montserrat] flex flex-col justify-start items-center min-h-screen w-full ">
         <div className="flex flex-col max-w-6xl justify-center items-center w-full">
           <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
             <div className="w-full">
@@ -158,7 +158,7 @@ export default function SummaryStatusPageOutlet() {
           )}
         </div>
 
-        <div className="fixed bottom-4 flex justify-center items-center left-0 right-0 px-4">
+        <div className="fixed bottom-4 flex justify-center items-center w-full px-4">
           <Button
             // onClick={totalOrder}
             // disabled={orderItems.length === 0 && true}

@@ -28,6 +28,7 @@ import { Button } from "@/components/ui/button";
 import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 import { formatDate } from "@/lib/utils";
 import { toast } from "sonner";
+import { useNavigate } from "react-router";
 
 // Ini adalah halaman All Order dari Warehouse
 export default function AssignOrderPage() {
@@ -35,6 +36,7 @@ export default function AssignOrderPage() {
   const [selectedDrivers, setSelectedDrivers] = useState<string>("");
   const [filter, setFilter] = useState("requested");
   const [driver, setDriver] = useState<UserType[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -91,23 +93,26 @@ export default function AssignOrderPage() {
       const driverId = selectedDrivers;
 
       // PATCH THIS TO DRIVER ID
-
       const { data } = await http.patch(`orders/${orderId}/driver`, {
         driverId,
       });
       console.log(
         data.message,
-        "<-----cek dulu udah dikasih pesenannya ke driver, kalo udh cus ubah status ke in_transit"
+        "<-----cek dulu udah dikasih pesenannya ke driver, pastikan assign"
       );
 
-      // ubah dari approved ke in_transit
-      const { data: status } = await http.patch(`/orders/${orderId}`, {
-        status: "in_transit",
-      });
+      // // ubah dari approved ke in_transit
+      // const { data: status } = await http.patch(`/orders/${orderId}`, {
+      //   status: "in_transit",
+      // });
 
-      console.log(status.message, "<----- cek apakah berhasil berubah?");
+      // console.log(status.message, "<----- cek apakah berhasil berubah?");
 
-      toast.success(status.message);
+      // toast.success(status.message);
+      console.log(data, "<------ hasil assign warehouse");
+      navigate("/warehouse/dashboard");
+      toast.success(data.message);
+
       fetchData();
     } catch (error) {
       console.log(error);

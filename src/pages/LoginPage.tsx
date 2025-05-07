@@ -23,7 +23,7 @@ export default function LoginPage() {
     if (role === "warehouse") {
       navigate("/dashboard");
     } else if (role === "driver" || role === "outlet") {
-      navigate(`/${role}`);
+      navigate(`/${role}/home`);
     }
   }, []);
 
@@ -55,7 +55,7 @@ export default function LoginPage() {
       if (role === "warehouse") {
         navigate("/warehouse/dashboard");
       } else if (role === "driver" || role === "outlet") {
-        navigate(`/${role}`);
+        navigate(`/${role}/home`);
       }
 
       setUsername("");
