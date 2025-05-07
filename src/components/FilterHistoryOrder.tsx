@@ -7,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { SetStateAction, Dispatch } from "react";
 
 export function FilterHistoryOrder({
   setFilter,
