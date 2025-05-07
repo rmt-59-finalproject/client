@@ -1,32 +1,24 @@
-import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
 import { useEffect, useState } from "react";
 import TableHistoryOrder from "@/components/TableHistoryOrder";
 import { FilterHistoryOrder } from "@/components/FilterHistoryOrder";
+import { useAppSelector } from "@/hooks/useRedux";
+import { RootState } from "@/redux/rootStore";
 
 // Ini adalah halaman All Order dari Warehouse
 export default function AllOrderPage() {
-  const [orderData, setOrderData] = useState<OrderType[]>([]);
-  const [filter, setFilter] = useState("");
+  const { orders } = useAppSelector((state: RootState) => state.ORDERS);
+  const [filteredOrder, setFilteredOrder] = useState<OrderType[]>(orders || []);
+  const [filter, setFilter] = useState<string>("");
 
   useEffect(() => {
-    fetchData();
-  }, [filter]);
-  async function fetchData() {
-    try {
-      const data = await http.get(`/orders?status=${filter}`, {
-        withCredentials: true,
-      });
-      console.log(data.data);
-      const dataResponse: OrderType[] = data.data;
-      setOrderData(dataResponse);
-    } catch (error) {
-      console.log(error);
+    if (filter && orders) {
+      setFilteredOrder(orders?.filter((item) => item.status === filter));
     }
-  }
+  }, [filter]);
 
   return (
-    <div className="flex flex-col justify-start items-center min-h-screen w-full">
+    <div className="flex flex-col justify-start items-center min-h-screen w-full font-[family-name:Montserrat]">
       <div className="w-full max-w-7xl">
         <div className="flex flex-row items-center px-5 pt-5 justify-between w-full ">
           <div>
@@ -35,10 +27,10 @@ export default function AllOrderPage() {
               Your all outlet orders history place.
             </h1>
           </div>
-          <FilterHistoryOrder setFilter={(val) => setFilter(val)} />
+          <FilterHistoryOrder setFilter={setFilter} />
         </div>
         <div className="p-5">
-          {orderData && <TableHistoryOrder orderData={orderData} />}
+          <TableHistoryOrder orderData={filteredOrder} />
         </div>
       </div>
     </div>

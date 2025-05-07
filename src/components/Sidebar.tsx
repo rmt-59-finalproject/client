@@ -8,6 +8,9 @@ import {
   Car,
   Store,
   ScrollText,
+  Boxes,
+  Ambulance,
+  UserPlus,
   SquareTerminal,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -40,12 +43,6 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
   if (role === "warehouse") {
     navMain = [
       {
-        title: "Inventory Management",
-        url: "/inventories",
-        icon: SquareTerminal,
-        isActive: true,
-      },
-      {
         title: "Dashboard",
         url: "/warehouse/dashboard",
         icon: LayoutDashboard,
@@ -70,15 +67,21 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
         isActive: true,
       },
       {
-        title: "Assign Order",
-        url: "/warehouse/assign",
-        icon: SquareTerminal,
+        title: "Inventory",
+        url: "/warehouse/inventory",
+        icon: Boxes,
         isActive: true,
       },
       {
-        title: "Register",
+        title: "Assign Order",
+        url: "/warehouse/assign",
+        icon: Ambulance,
+        isActive: true,
+      },
+      {
+        title: "User",
         url: "/warehouse/register",
-        icon: SquareTerminal,
+        icon: UserPlus,
         isActive: true,
       },
     ];
@@ -180,7 +183,9 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
               <SidebarMenuItem key={item.title}>
                 <NavLink
                   to={item.url}
-                  className={({ isActive }) => (isActive ? "group active" : "group")}
+                  className={({ isActive }) =>
+                    isActive ? "group active" : "group"
+                  }
                 >
                   <SidebarMenuButton
                     className="hover:cursor-pointer group-[.active]:bg-main data-[state=open]:bg-main data-[state=open]:outline-border data-[state=open]:text-main-foreground md:text-base"

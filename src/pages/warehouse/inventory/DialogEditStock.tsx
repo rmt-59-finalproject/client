@@ -39,17 +39,9 @@ export default function DialogEditStock({ id }: { id: string }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      console.log(values);
-      const data = await http.patch(
-        `/inventory/${id}`,
-        {
-          stock: Number(values.stock),
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(data);
+      const { data } = await http.patch(`/inventory/${id}`, {
+        stock: Number(values.stock),
+      });
     } catch (error) {
       console.log(error);
     }
@@ -59,11 +51,11 @@ export default function DialogEditStock({ id }: { id: string }) {
     <Dialog>
       <Form {...form}>
         <DialogTrigger asChild>
-          <Button>
+          <Button className="bg-[var(--teal)]">
             <Plus className="mr-2 h-4 w-4" /> Edit Stok
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] font-[family-name:Montserrat]">
           <DialogHeader>
             <DialogTitle>Edit Stok untuk Lepo</DialogTitle>
           </DialogHeader>
@@ -84,9 +76,9 @@ export default function DialogEditStock({ id }: { id: string }) {
             />{" "}
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant="neutral">Keluar</Button>
+                <Button variant="neutral">Close</Button>
               </DialogClose>
-              <Button type="submit">Tambah Item</Button>
+              <Button type="submit">Add Item</Button>
             </DialogFooter>
           </form>
         </DialogContent>

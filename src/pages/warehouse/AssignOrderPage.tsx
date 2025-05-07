@@ -1,5 +1,3 @@
-"use client";
-
 import { http } from "@/helpers/axios";
 import type { OrderStatus, OrderType, UserType } from "@/types";
 import { useEffect, useState } from "react";
@@ -29,63 +27,53 @@ import {
 import { Button } from "@/components/ui/button";
 import { BadgeStatusColor } from "@/components/BadgeStatusColor";
 import { formatDate } from "@/lib/utils";
+import { toast } from "sonner";
+
 // Ini adalah halaman All Order dari Warehouse
 export default function AssignOrderPage() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
-  const [selectedDrivers, setSelectedDrivers] = useState<
-    Record<string, string>
-  >({});
+  const [selectedDrivers, setSelectedDrivers] = useState<UserType>()
+  // const [selectedDrivers, setSelectedDrivers] = useState<
+  //   Record<string, string>
+  // >({});
   const [filter, setFilter] = useState("requested");
   const [driver, setDriver] = useState<UserType[]>([]);
 
   useEffect(() => {
-    fetchData();
-    getDriver();
+    (async function fetchData() {
+      try {
+        const { data } = await http.get(`/orders?status=${filter}`);
+        setOrderData(data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }, [filter]);
-  async function fetchData() {
-    try {
-      const data = await http.get(`/orders?status=${filter}`, {
-        withCredentials: true,
-      });
-      console.log(data.data);
-      console.log(filter);
-      const dataResponse: OrderType[] = data.data;
-      setOrderData(dataResponse);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
-  async function getDriver() {
-    try {
-      const data = await http.get("/users", {
-        params: {
-          role: "driver",
-        },
-        withCredentials: true,
-      });
-      console.log(data.data);
-      setDriver(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  useEffect(() => {
+    (async function getDriver() {
+      try {
+        const { data } = await http.get("/users", {
+          params: {
+            role: "driver",
+          },
+        });
+        setDriver(data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   async function submitRequest(id: string) {
     // PATCH THIS STATUS FROM REQUESTED TO APPROVED
     try {
       console.log(id);
-      const data = await http.patch(
-        `/orders/${id}`,
-        {
-          status: "approved",
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const data = await http.patch(`/orders/${id}`, {
+        status: "approved",
+      });
+
       console.log(data);
-      fetchData();
     } catch (error) {
       console.log(error);
     }
@@ -94,43 +82,31 @@ export default function AssignOrderPage() {
   async function submitDriver(orderId: string, driverId: string) {
     try {
       // PATCH THIS TO DRIVER ID
-      console.log(driverId, orderId);
-      const data = await http.patch(
-        `orders/${orderId}/driver`,
-        {
-          driverId: driverId,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const { data } = await http.patch(`orders/${orderId}/driver`, {
+        driverId,
+      });
       console.log(
-        data.data.message,
+        data.message,
         "<-----cek dulu udah dikasih pesenannya ke driver, kalo udh cus ubah status ke in_transit"
       );
 
+      toast.success(data.message);
+
       // ubah dari approved ke in_transit
-      const changeStatus = await http.patch(
-        `/orders/${orderId}`,
-        {
-          status: "in_transit",
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
-      console.log(
-        changeStatus.data.message,
-        "<----- cek apakah berhasil berubah?"
-      );
-
-      fetchData();
-      setSelectedDrivers((prev) => {
-        const newState = { ...prev };
-        delete newState[orderId];
-        return newState;
+      const { data: status } = await http.patch(`/orders/${orderId}`, {
+        status: "in_transit",
       });
+
+      console.log(status.message, "<----- cek apakah berhasil berubah?");
+
+      toast.success(status.message);
+
+      // fetchData();
+      // setSelectedDrivers((prev) => {
+      //   const newState = { ...prev };
+      //   delete newState[orderId];
+      //   return newState;
+      // });
     } catch (error) {
       console.log(error);
     }
@@ -286,34 +262,45 @@ export default function AssignOrderPage() {
                         <CardFooter>
                           <div className="flex flex-row w-full gap-2 justify-between items-center">
                             <Select
-                              onValueChange={(val) => {
-                                setSelectedDrivers((prev) => ({
-                                  ...prev,
-                                  [el._id]: val,
-                                }));
-                              }}
+                              onValueChange={(value) => setSelectedDrivers(value)}
+                              // onValueChange={(val) => {
+                              //   setSelectedDrivers((prev) => ({
+                              //     ...prev,
+                              //     [el._id]: val,
+                              //   }));
+                              // }}
+                              // value={selectedDrivers}
                             >
                               <SelectTrigger className="w-1/2">
                                 <SelectValue placeholder="Select driver" />
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectGroup>
-                                  {driver.map((el) => {
+                                  {driver.map((item, index) => (
+                                    <SelectItem
+                                      key={index}
+                                      value={item._id || "-"}
+                                    >
+                                      {item.name}
+                                    </SelectItem>
+                                  ))}
+                                  {/* {driver.map((el) => {
                                     return (
                                       <SelectItem key={el._id} value={el._id}>
                                         {el.name}
                                       </SelectItem>
                                     );
-                                  })}
+                                  })} */}
                                 </SelectGroup>
                               </SelectContent>
                             </Select>
                             <Button
                               className="w-1/2"
-                              onClick={() =>
-                                submitDriver(el._id, selectedDrivers[el._id])
-                              }
-                              disabled={!selectedDrivers[el._id]}
+                              onClick={() => console.log(selectedDrivers)}
+                              // onClick={() =>
+                              //   submitDriver(el._id, selectedDrivers[el._id])
+                              // }
+                              // disabled={!selectedDrivers[el._id]}
                             >
                               Assign Order to the Driver
                             </Button>

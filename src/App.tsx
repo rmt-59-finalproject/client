@@ -39,7 +39,7 @@ const App = () => {
             <Route path="/warehouse/orders" element={<AllOrderPage />} />
             <Route path="/warehouse/assign" element={<AssignOrderPage />} />
             <Route path="/warehouse/request-order" element={<CreateOrderPage />} />
-            <Route path="/warehouse/inventories" element={<InventoryPage />} />
+            <Route path="/warehouse/inventory" element={<InventoryPage />} />
             
             {/* DRIVER ROUTE */}
             <Route path="/driver/home" element={<LandingPageDriver />} />

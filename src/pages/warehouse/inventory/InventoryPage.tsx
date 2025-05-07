@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,17 +26,14 @@ export default function InventoryPage() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [loading, setLoading] = useState(false);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [showUpdateForm, setShowUpdateForm] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
+  // const [showAddForm, setShowAddForm] = useState(false);
+  // const [showUpdateForm, setShowUpdateForm] = useState(false);
+  // const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  // const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
 
   const fetchInventory = async () => {
     try {
-      const uri = `/inventory?limit=${limit}&page=${page}&search=${searchQuery}`;
-      const response = await http.get(uri, {
-        withCredentials: true,
-      });
+      const response = await http.get(`/inventory?limit=${limit}&page=${page}&search=${searchQuery}`);
 
       console.log(response.data.data);
       setMetadata(response.data);
@@ -52,39 +47,39 @@ export default function InventoryPage() {
     fetchInventory();
   }, [page, limit, searchQuery]);
 
-  const handleUpdateStock = (item: InventoryItem) => {
-    setSelectedItem(item);
-    setShowUpdateForm(true);
-  };
+  // const handleUpdateStock = (item: InventoryItem) => {
+  //   setSelectedItem(item);
+  //   setShowUpdateForm(true);
+  // };
 
-  const handleDeleteItem = (item: InventoryItem) => {
-    setSelectedItem(item);
-    setShowDeleteDialog(true);
-  };
+  // const handleDeleteItem = (item: InventoryItem) => {
+  //   setSelectedItem(item);
+  //   setShowDeleteDialog(true);
+  // };
 
-  const handleAddSuccess = () => {
-    setShowAddForm(false);
-    fetchInventory();
-    toast({
-      title: "Success",
-      description: "Inventory item added successfully",
-    });
-  };
+  // const handleAddSuccess = () => {
+  //   setShowAddForm(false);
+  //   fetchInventory();
+  //   toast({
+  //     title: "Success",
+  //     description: "Inventory item added successfully",
+  //   });
+  // };
 
-  const handleUpdateSuccess = () => {
-    setShowUpdateForm(false);
-    fetchInventory();
-    toast({
-      title: "Success",
-      description: "Stock updated successfully",
-    });
-  };
+  // const handleUpdateSuccess = () => {
+  //   setShowUpdateForm(false);
+  //   fetchInventory();
+  //   toast({
+  //     title: "Success",
+  //     description: "Stock updated successfully",
+  //   });
+  // };
 
-  const handleDeleteSuccess = () => {
-    setShowDeleteDialog(false);
-    fetchInventory();
-    toast.success("Item deleted successfully");
-  };
+  // const handleDeleteSuccess = () => {
+  //   setShowDeleteDialog(false);
+  //   fetchInventory();
+  //   toast.success("Item deleted successfully");
+  // };
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     console.log(e.target.value);
@@ -93,11 +88,11 @@ export default function InventoryPage() {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center font-[family-name:Montserrat]">
       <div className="w-7xl">
         <div className="flex flex-row items-center px-5 pt-5 justify-between w-full ">
           <div className="flex flex-row justify-between items-center w-full">
-            <h1 className="text-2xl font-bold">Manajemen Inventori</h1>
+            <h1 className="text-2xl font-bold">Inventory Management</h1>
             <DialogAddModal />
           </div>
         </div>
@@ -116,7 +111,7 @@ export default function InventoryPage() {
                     onChange={handleSearch}
                   />
                 </div>
-                <Button variant="outline" onClick={fetchInventory}>
+                <Button variant="default" onClick={fetchInventory}>
                   <RefreshCw className="h-4 w-4" />
                 </Button>
               </div>
@@ -130,11 +125,11 @@ export default function InventoryPage() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Nama</TableHead>
-                        <TableHead>Kategori</TableHead>
-                        <TableHead>Stok</TableHead>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Category</TableHead>
+                        <TableHead>Stock</TableHead>
                         <TableHead>Unit</TableHead>
-                        <TableHead className="text-right">Aksi</TableHead>
+                        <TableHead className="text-center">Action</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -145,20 +140,10 @@ export default function InventoryPage() {
                               {item.name}
                             </TableCell>
                             <TableCell>
-                              <Badge variant="outline">{item.category}</Badge>
+                              <Badge variant="neutral">{item.category}</Badge>
                             </TableCell>
                             <TableCell>
-                              <Badge
-                                variant={
-                                  item.stock > 10
-                                    ? ""
-                                    : item.stock > 0
-                                    ? "warning"
-                                    : "destructive"
-                                }
-                              >
-                                {item.stock}
-                              </Badge>
+                              <Badge variant="neutral">{item.stock}</Badge>
                             </TableCell>
                             <TableCell>{item.unit}</TableCell>
                             <TableCell className="text-right">
@@ -192,7 +177,7 @@ export default function InventoryPage() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Button
-                    variant="outline"
+                    variant="noShadow"
                     size="sm"
                     disabled={page === 1}
                     onClick={() => setPage(page - 1)}
@@ -212,7 +197,7 @@ export default function InventoryPage() {
             </CardContent>
           </Card>
 
-          {showAddForm && (
+          {/* {showAddForm && (
             <AddInventoryForm
               onClose={() => setShowAddForm(false)}
               onSuccess={handleAddSuccess}
@@ -233,7 +218,7 @@ export default function InventoryPage() {
               onClose={() => setShowDeleteDialog(false)}
               onSuccess={handleDeleteSuccess}
             />
-          )}
+          )} */}
         </div>
       </div>
     </div>

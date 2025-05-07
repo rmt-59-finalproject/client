@@ -24,26 +24,23 @@ export default function OutletPage() {
     }
   }
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen">
-      <div className="w-7xl flex flex-col justify-center items-center">
-        <div className="border border-gray-300 rounded-2xl flex flex-row items-center p-5 justify-between w-full ">
-          <div>
-            <h1 className="text-2xl font-bold">All Outlets</h1>
-          </div>
-        </div>
+    <div className="flex px-3 gap-10 flex-col justify-center items-center min-h-screen font-[family-name:Montserrat]">
+      <div className="border border-gray-300 rounded-2xl flex flex-row items-center p-5 justify-between w-full ">
+        <h1 className="text-2xl font-bold">All Outlets</h1>
+      </div>
 
-        {/*  */}
-        <div className="border border-gray-300 rounded-2xl mt-10 w-4xl p-5">
-          <div className="flex flex-col gap-5">
-            {data?.map((el) => {
-              return (
-                <CardDriverAndOutlet
-                  name={el?.name}
-                  logo={"https://github.com/shadcn.png"}
-                />
-              );
-            })}
-          </div>
+      <div className="border border-gray-300 rounded-2xl w-4xl p-5">
+        <div className="flex flex-col gap-5">
+          {data?.map((el) => {
+            return (
+              <CardDriverAndOutlet
+                key={el?._id}
+                name={el?.name}
+                logo={"https://github.com/shadcn.png"}
+                statistics={el?.statistics}
+              />
+            );
+          })}
         </div>
       </div>
     </div>

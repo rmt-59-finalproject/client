@@ -1,4 +1,5 @@
 import { LucideProps } from "lucide-react";
+import { Statistics } from "./components/CardDriverAndOutlet";
 
 export type InventoryItem = {
   _id: string;
@@ -76,4 +77,5 @@ export type UserType = {
   username: string;
   name: string;
   role: string;
+  statistics?: Statistics
 };

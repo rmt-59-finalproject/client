@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"rel="stylesheet");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -14,12 +14,14 @@
   --ring: oklch(0% 0 0);
   --overlay: oklch(0% 0 0 / 0.8);
   --shadow: 4px 4px 0px 0px var(--border);
-  --chart-1: #5294FF;
-  --chart-2: #FF4D50;
-  --chart-3: #FACC00;
-  --chart-4: #05E17A;
-  --chart-5: #7A83FF;
+  --chart-1: #5294ff;
+  --chart-2: #ff4d50;
+  --chart-3: #facc00;
+  --chart-4: #05e17a;
+  --chart-5: #7a83ff;
   --chart-active-dot: #000;
+  --red: oklch(67.28% 0.2147 24.22);
+  --teal: oklch(78.57% 0.1422 180.36);
 }
 
 .dark {
@@ -31,11 +33,11 @@
   --border: oklch(0% 0 0);
   --ring: oklch(100% 0 0);
   --shadow: 4px 4px 0px 0px var(--border);
-  --chart-1: #5294FF;
-  --chart-2: #FF6669;
-  --chart-3: #E0B700;
-  --chart-4: #04C86D;
-  --chart-5: #7A83FF;
+  --chart-1: #5294ff;
+  --chart-2: #ff6669;
+  --chart-3: #e0b700;
+  --chart-4: #04c86d;
+  --chart-5: #7a83ff;
   --chart-active-dot: #fff;
 }
 
