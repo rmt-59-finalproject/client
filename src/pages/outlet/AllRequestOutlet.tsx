@@ -42,7 +42,7 @@ export default function AllRequestOutlet() {
         <div className="flex flex-col max-w-6xl justify-center items-center w-full">
           <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
             <div className="flex flex-row w-full items-center justify-between">
-              <h1 className="text-2xl font-bold">Histori Order</h1>
+              <h1 className="text-2xl font-bold">Order History</h1>
               <div className="p-5">
                 <FilterHistoryOrder setFilter={setFilter} />
               </div>

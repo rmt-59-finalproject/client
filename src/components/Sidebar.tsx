@@ -11,9 +11,8 @@ import {
   Boxes,
   Ambulance,
   UserPlus,
-  SquareTerminal,
-
-  House
+  House,
+  ClipboardPlus
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -106,21 +105,21 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
     navMain = [
       {
         title: "Home",
-        url: "/outlet",
-        icon: SquareTerminal,
+        url: "/outlet/home",
+        icon: House,
         isActive: true,
       },
       {
-        title: "Request Order",
-        url: "/request-order",
-        icon: SquareTerminal,
+        title: "Create Order",
+        url: "/outlet/request",
+        icon: ClipboardPlus,
         isActive: true,
       },
 
       {
-        title: "History Request Order",
-        url: "/outlet-orders",
-        icon: SquareTerminal,
+        title: "Orders History",
+        url: "/outlet/orders",
+        icon: ScrollText,
         isActive: true,
       },
     ];

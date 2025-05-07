@@ -65,7 +65,7 @@ const App = () => {
               element={<SummaryOrderPage />}
             />
             <Route path="/outlet/orders" element={<AllRequestOutlet />} />
-            <Route path="/outlet/orders" element={<CreateOrderPage />} />
+            <Route path="/outlet/request" element={<CreateOrderPage />} />
             <Route
               path="/outlet/orders/:orderId"
               element={<SummaryStatusPageOutlet />}
@@ -77,8 +77,8 @@ const App = () => {
           </Route>
           {/* PUBLIC ROUTE */}
           {/* desain layout tanpa navbar + sebelum dapat auth */}
-          <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<OnboardingPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
         <Toaster />
       </AnimationProvider>
