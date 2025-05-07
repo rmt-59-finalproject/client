@@ -21,6 +21,7 @@ import SummaryStatusPageDriver from "./pages/driver/SummaryStatusPageDriver";
 import SummaryStatusPageOutlet from "./pages/outlet/SummaryStatusPageOutlet";
 import { AnimationProvider } from "./contexts/animation-context";
 import InventoryPage from "./pages/warehouse/inventory/InventoryPage";
+import OnboardingPage from "./pages/OnboardingPage";
 
 const App = () => {
   return (
@@ -79,6 +80,7 @@ const App = () => {
           {/* PUBLIC ROUTE */}
           {/* desain layout tanpa navbar + sebelum dapat auth */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/onboarding" element={<OnboardingPage />} />
         </Routes>
         <Toaster />
       </AnimationProvider>
