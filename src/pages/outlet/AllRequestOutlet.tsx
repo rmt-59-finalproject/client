@@ -17,7 +17,7 @@ export default function AllRequestOutlet() {
   }, [filter]);
 
   function navigateDetail(id: string) {
-    navigate(`/orders/${id}`);
+    navigate(`/outlet/orders/${id}`);
   }
 
   async function fetchData() {

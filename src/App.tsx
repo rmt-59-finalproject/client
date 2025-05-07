@@ -68,7 +68,7 @@ const App = () => {
             <Route path="/outlet/request" element={<CreateOrderPage />} />
             <Route
               path="/outlet/orders/:orderId"
-              element={<SummaryStatusPageOutlet />}
+              element={<DetailOrderPage />}
             />
             <Route
               path="/outlet/verify/:orderId"
