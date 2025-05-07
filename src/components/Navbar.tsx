@@ -1,71 +1,30 @@
 "use client";
 
-import * as React from "react";
-import { Link } from "react-router";
-
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card } from "./ui/card";
+import { useNavigate } from "react-router";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   return (
-    <NavigationMenu className="z-5 ">
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <Link to="https://ui.shadcn.com/docs">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Documentation
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="https://ui.shadcn.com/docs">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Documentation
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="https://ui.shadcn.com/docs">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Documentation
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
-  );
-}
+    <Card className="fixed border-4 border-black top-0 left-0 right-0 z-50 bg-white shadow-sm px-4 py-3">
+      <div className="w-full p-3 mx-auto   flex items-center justify-between">
+        <div>
+          <img
+            className="w-[50px] border-5 rounded-lg border-black"
+            src={"/src/assets/stockify.png"}
+            alt="image"
+          />
+        </div>
 
-function ListItem({
-  className,
-  title,
-  children,
-  ...props
-}: React.ComponentProps<"a">) {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          className={cn(
-            "hover:bg-accent block text-main-foreground select-none space-y-1 rounded-base border-2 border-transparent p-3 leading-none no-underline outline-hidden transition-colors hover:border-border",
-            className
-          )}
-          {...props}
+        <Button
+          onClick={() => navigate("/login")}
+          variant={"neutral"}
+          size={"lg"}
         >
-          <div className="text-base font-heading leading-none">{title}</div>
-          <p className="font-base line-clamp-2 text-sm leading-snug">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
+          Log in
+        </Button>
+      </div>
+    </Card>
   );
 }
-ListItem.displayName = "ListItem";
