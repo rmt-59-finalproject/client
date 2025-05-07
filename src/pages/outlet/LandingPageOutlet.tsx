@@ -1,4 +1,5 @@
 import { CardOrderComponent } from "@/components/CardOrder";
+import { FilterLandingOutlet } from "@/components/FilterLandingOutlet";
 import { Button } from "@/components/ui/button";
 import { http } from "@/helpers/axios";
 import { OrderType } from "@/types";
@@ -7,13 +8,14 @@ import { useNavigate } from "react-router";
 
 export default function LandingPageOutlet() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
+  const [filter, setFilter] = useState("requested");
   const navigate = useNavigate();
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [filter]);
   async function fetchData() {
     try {
-      const uri = `/outlet/orders?status=delivered`;
+      const uri = `/outlet/orders?status=${filter}`; //requested atau delivered
       const data = await http.get(uri, {
         withCredentials: true,
       });
@@ -30,6 +32,9 @@ export default function LandingPageOutlet() {
 
   function navigateVerifyOutlet(id: string) {
     navigate(`/verify-outlet/${id}`);
+  }
+  function navigateDetailOrder(id: string) {
+    navigate(`/orders/${id}`);
   }
   return (
     <>
@@ -50,6 +55,9 @@ export default function LandingPageOutlet() {
               </div>
             </div>
           </div>
+          <div className="p-5">
+            <FilterLandingOutlet setFilter={(val) => setFilter(val)} />
+          </div>
           <div className=" min-h-screen p-4 max-w-6xl font-bold text-lg w-full">
             {orderData.length > 0 ? (
               // ADA ORDERAN
@@ -59,8 +67,14 @@ export default function LandingPageOutlet() {
                     return (
                       <CardOrderComponent
                         key={el._id}
-                        click={() => navigateVerifyOutlet(el._id)}
-                        nameButton={"Cek Item Orderan"}
+                        click={
+                          filter !== "delivered"
+                            ? () => navigateDetailOrder(el._id)
+                            : () => navigateVerifyOutlet(el._id)
+                        }
+                        nameButton={
+                          filter !== "delivered" ? "Detail Order" : "Cek Item"
+                        }
                         el={el}
                       />
                     );

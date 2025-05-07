@@ -39,7 +39,7 @@ export default function DetailOrderPage() {
 
   async function fetchDetail() {
     try {
-      const data = await http(`/orders/${orderId}`, {
+      const data = await http.get(`/orders/${orderId}`, {
         withCredentials: true,
       });
       console.log(data.data, "<-- fetchDetail");

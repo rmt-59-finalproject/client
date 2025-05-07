@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "./ui/select";
 
-export function FilterHistoryOrder({
+export function FilterLandingOutlet({
   setFilter,
 }: {
   setFilter: Dispatch<SetStateAction<string>>;
@@ -17,16 +17,12 @@ export function FilterHistoryOrder({
     <>
       <Select onValueChange={setFilter}>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="All Orders" />
+          <SelectValue placeholder="Requested" />
         </SelectTrigger>
         <SelectContent className="font-[family-name:Space_Mono]">
           <SelectGroup>
             <SelectItem value="requested">Requested</SelectItem>
-            <SelectItem value="approved">Approved</SelectItem>
-            <SelectItem value="in_transit">In Transit</SelectItem>
             <SelectItem value="delivered">Delivered</SelectItem>
-            <SelectItem value="completed">Completed</SelectItem>
-            <SelectItem value="rejected">Rejected</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

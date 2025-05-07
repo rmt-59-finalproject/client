@@ -32,14 +32,19 @@ import { toast } from "sonner";
 // Ini adalah halaman All Order dari Warehouse
 export default function AssignOrderPage() {
   const [orderData, setOrderData] = useState<OrderType[]>([]);
+<<<<<<< HEAD
   const [selectedDrivers, setSelectedDrivers] = useState<UserType>()
   // const [selectedDrivers, setSelectedDrivers] = useState<
   //   Record<string, string>
   // >({});
+=======
+  const [selectedDrivers, setSelectedDrivers] = useState<string>("");
+>>>>>>> 2f8cedb32f2718173b399786283e1f662e8c0135
   const [filter, setFilter] = useState("requested");
   const [driver, setDriver] = useState<UserType[]>([]);
 
   useEffect(() => {
+<<<<<<< HEAD
     (async function fetchData() {
       try {
         const { data } = await http.get(`/orders?status=${filter}`);
@@ -64,11 +69,47 @@ export default function AssignOrderPage() {
       }
     })();
   }, []);
+=======
+    fetchData();
+  }, [filter]);
+
+  useEffect(() => {
+    (async function getDriver() {
+      try {
+        const { data } = await http.get("/users", {
+          params: {
+            role: "driver",
+          },
+        });
+        console.log(data, "<------ fetchDriver");
+
+        setDriver(data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+  async function fetchData() {
+    try {
+      const { data } = await http.get(`/orders?status=${filter}`);
+      console.log(data, "<---- fetchData");
+
+      setOrderData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+>>>>>>> 2f8cedb32f2718173b399786283e1f662e8c0135
 
   async function submitRequest(id: string) {
     // PATCH THIS STATUS FROM REQUESTED TO APPROVED
     try {
       console.log(id);
+<<<<<<< HEAD
+=======
+      console.log(driver);
+
+>>>>>>> 2f8cedb32f2718173b399786283e1f662e8c0135
       const data = await http.patch(`/orders/${id}`, {
         status: "approved",
       });
@@ -79,9 +120,17 @@ export default function AssignOrderPage() {
     }
   }
 
-  async function submitDriver(orderId: string, driverId: string) {
+  async function submitDriver(orderId: string) {
     try {
+      console.log(selectedDrivers, "<====== selectedDriver");
+
+      const driverId = selectedDrivers;
+
       // PATCH THIS TO DRIVER ID
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2f8cedb32f2718173b399786283e1f662e8c0135
       const { data } = await http.patch(`orders/${orderId}/driver`, {
         driverId,
       });
@@ -100,6 +149,7 @@ export default function AssignOrderPage() {
       console.log(status.message, "<----- cek apakah berhasil berubah?");
 
       toast.success(status.message);
+<<<<<<< HEAD
 
       // fetchData();
       // setSelectedDrivers((prev) => {
@@ -107,6 +157,9 @@ export default function AssignOrderPage() {
       //   delete newState[orderId];
       //   return newState;
       // });
+=======
+      fetchData();
+>>>>>>> 2f8cedb32f2718173b399786283e1f662e8c0135
     } catch (error) {
       console.log(error);
     }
@@ -262,6 +315,7 @@ export default function AssignOrderPage() {
                         <CardFooter>
                           <div className="flex flex-row w-full gap-2 justify-between items-center">
                             <Select
+<<<<<<< HEAD
                               onValueChange={(value) => setSelectedDrivers(value)}
                               // onValueChange={(val) => {
                               //   setSelectedDrivers((prev) => ({
@@ -270,6 +324,9 @@ export default function AssignOrderPage() {
                               //   }));
                               // }}
                               // value={selectedDrivers}
+=======
+                              onValueChange={(e) => setSelectedDrivers(e)}
+>>>>>>> 2f8cedb32f2718173b399786283e1f662e8c0135
                             >
                               <SelectTrigger className="w-1/2">
                                 <SelectValue placeholder="Select driver" />
@@ -288,7 +345,7 @@ export default function AssignOrderPage() {
                                     return (
                                       <SelectItem
                                         key={el?._id}
-                                        value={el?._id as string}
+                                        value={el._id as string}
                                       >
                                         {el.name}
                                       </SelectItem>
@@ -299,11 +356,15 @@ export default function AssignOrderPage() {
                             </Select>
                             <Button
                               className="w-1/2"
+<<<<<<< HEAD
                               onClick={() => console.log(selectedDrivers)}
                               // onClick={() =>
                               //   submitDriver(el._id, selectedDrivers[el._id])
                               // }
                               // disabled={!selectedDrivers[el._id]}
+=======
+                              onClick={() => submitDriver(el?._id)}
+>>>>>>> 2f8cedb32f2718173b399786283e1f662e8c0135
                             >
                               Assign Order to the Driver
                             </Button>

@@ -49,8 +49,8 @@ export default function DialogEditStock({ id }: { id: string }) {
       });
       console.log(data);
       // Close the dialog after action
-      navigate("/inventories");
-
+      // navigate("/warehouse/inventory");
+      navigate(0)
       closeRef.current?.click();
       toast.success(data.message);
     } catch (error) {

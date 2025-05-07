@@ -27,6 +27,10 @@ export default function DashboardPage() {
     (async function fetchData() {
       try {
         const { data } = await http.get("/orders");
+<<<<<<< HEAD
+=======
+        console.log(data);
+>>>>>>> 2f8cedb32f2718173b399786283e1f662e8c0135
 
         dispatch(setOrders(data));
       } catch (error) {

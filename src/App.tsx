@@ -38,9 +38,18 @@ const App = () => {
             <Route path="/warehouse/outlets" element={<OutletPage />} />
             <Route path="/warehouse/orders" element={<AllOrderPage />} />
             <Route path="/warehouse/assign" element={<AssignOrderPage />} />
+<<<<<<< HEAD
             <Route path="/warehouse/request-order" element={<CreateOrderPage />} />
             <Route path="/warehouse/inventory" element={<InventoryPage />} />
             
+=======
+            <Route
+              path="/warehouse/request-order"
+              element={<CreateOrderPage />}
+            />
+            <Route path="/warehouse/inventory" element={<InventoryPage />} />
+
+>>>>>>> 2f8cedb32f2718173b399786283e1f662e8c0135
             {/* DRIVER ROUTE */}
             <Route path="/driver/home" element={<LandingPageDriver />} />
             <Route path="/driver/orders" element={<AllOrderDriver />} />
@@ -56,6 +65,10 @@ const App = () => {
             <Route path="/outlet" element={<LandingPageOutlet />} />
             <Route path="/summary-order" element={<SummaryOrderPage />} />
             <Route path="/outlet-orders" element={<AllRequestOutlet />} />
+<<<<<<< HEAD
+=======
+            <Route path="/request-orders" element={<CreateOrderPage />} />
+>>>>>>> 2f8cedb32f2718173b399786283e1f662e8c0135
             <Route
               path="/status-outlet/:orderId"
               element={<SummaryStatusPageOutlet />}
