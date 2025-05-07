@@ -30,6 +30,8 @@ export function getStatusColor(status: string) {
       return "bg-orange-500 text-white";
     case "completed":
       return "bg-green-500 text-white";
+    case "rejected":
+      return "bg-red-500 text-white";
     default:
       return "bg-gray-500 text-white";
   }

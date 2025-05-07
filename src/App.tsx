@@ -32,19 +32,18 @@ const App = () => {
           <Route element={<AuthLayout />}>
             {/* desain layout dengan navbar + sesudah dapat auth */}
             {/* WAREHOUSE ROUTE */}
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/all-drivers" element={<DriverPage />} />
-            <Route path="/all-outlets" element={<OutletPage />} />
-            <Route path="/orders" element={<AllOrderPage />} />
-            <Route path="/assign" element={<AssignOrderPage />} />
-            <Route path="/request-order" element={<CreateOrderPage />} />{" "}
-            <Route path="/orders/:orderId" element={<DetailOrderPage />} />{" "}
-            {/* INVENTORY ROUTE */}
-            <Route path="/inventories" element={<InventoryPage />} />
+            <Route path="/warehouse/dashboard" element={<DashboardPage />} />
+            <Route path="/warehouse/register" element={<RegisterPage />} />
+            <Route path="/warehouse/drivers" element={<DriverPage />} />
+            <Route path="/warehouse/outlets" element={<OutletPage />} />
+            <Route path="/warehouse/orders" element={<AllOrderPage />} />
+            <Route path="/warehouse/assign" element={<AssignOrderPage />} />
+            <Route path="/warehouse/request-order" element={<CreateOrderPage />} />
+            <Route path="/warehouse/inventory" element={<InventoryPage />} />
+            
             {/* DRIVER ROUTE */}
-            <Route path="/driver" element={<LandingPageDriver />} />
-            <Route path="/driver-orders" element={<AllOrderDriver />} />
+            <Route path="/driver/home" element={<LandingPageDriver />} />
+            <Route path="/driver/orders" element={<AllOrderDriver />} />
             <Route
               path="/status-driver/:orderId"
               element={<SummaryStatusPageDriver />}
@@ -55,16 +54,17 @@ const App = () => {
             />
             {/* OUTLET ROUTE */}
             <Route path="/outlet" element={<LandingPageOutlet />} />
-            <Route path="/summary-order" element={<SummaryOrderPage />} />{" "}
-            <Route path="/outlet-orders" element={<AllRequestOutlet />} />{" "}
+            <Route path="/summary-order" element={<SummaryOrderPage />} />
+            <Route path="/outlet-orders" element={<AllRequestOutlet />} />
             <Route
               path="/status-outlet/:orderId"
               element={<SummaryStatusPageOutlet />}
-            />{" "}
+            />
             <Route
               path="/verify-outlet/:orderId"
               element={<VerifyOrderOutlet />}
             />
+            <Route path="/orders/:orderId" element={<DetailOrderPage />} />
           </Route>
           {/* PUBLIC ROUTE */}
           {/* desain layout tanpa navbar + sebelum dapat auth */}

@@ -44,21 +44,15 @@ export default function DialogEditStock({ id }: { id: string }) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       console.log(values);
-      const data = await http.patch(
-        `/inventory/${id}`,
-        {
-          stock: Number(values.stock),
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const { data } = await http.patch(`/inventory/${id}`, {
+        stock: Number(values.stock),
+      });
       console.log(data);
       // Close the dialog after action
       navigate("/inventories");
 
       closeRef.current?.click();
-      toast.success(data.data.message);
+      toast.success(data.message);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
@@ -69,11 +63,11 @@ export default function DialogEditStock({ id }: { id: string }) {
     <Dialog>
       <Form {...form}>
         <DialogTrigger asChild>
-          <Button>
+          <Button className="bg-[var(--teal)]">
             <Plus className="mr-2 h-4 w-4" /> Edit Stok
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] font-[family-name:Montserrat]">
           <DialogHeader>
             <DialogTitle className="font-[family-name:Space_Mono]">
               Edit Stok untuk Lepo
@@ -99,9 +93,9 @@ export default function DialogEditStock({ id }: { id: string }) {
             />{" "}
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant="neutral">Keluar</Button>
+                <Button variant="neutral">Close</Button>
               </DialogClose>
-              <Button type="submit">Tambah Item</Button>
+              <Button type="submit">Add Item</Button>
             </DialogFooter>
             {/* Hidden button to close the dialog */}
             <DialogClose asChild>

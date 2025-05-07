@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -43,10 +41,7 @@ export default function InventoryPage() {
 
   const fetchInventory = async () => {
     try {
-      const uri = `/inventory?limit=${limit}&page=${page}&search=${searchQuery}`;
-      const response = await http.get(uri, {
-        withCredentials: true,
-      });
+      const response = await http.get(`/inventory?limit=${limit}&page=${page}&search=${searchQuery}`);
 
       console.log(response.data);
       setMetadata(response.data);
@@ -71,7 +66,7 @@ export default function InventoryPage() {
       <div className="w-7xl">
         <div className="flex flex-row items-center px-5 pt-5 justify-between w-full ">
           <div className="flex flex-row justify-between items-center w-full">
-            <h1 className="text-2xl font-bold">Manajemen Inventori</h1>
+            <h1 className="text-2xl font-bold">Inventory Management</h1>
             <DialogAddModal />
           </div>
         </div>
