@@ -27,22 +27,13 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
 import { InventoryItem } from "@/types";
+import { Label } from "@/components/ui/label";
 
 export default function DialogEditStock({ id }: { id: string }) {
   const [inventory, setInventory] = useState<InventoryItem>({});
+  const [stock, setStock] = useState(inventory.stock);
   const closeRef = useRef(null);
   const navigate = useNavigate();
-
-  const formSchema = z.object({
-    stock: z.number(),
-  });
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      stock: inventory?.stock,
-    },
-  });
 
   async function fetchInventoryById() {
     try {
@@ -56,16 +47,13 @@ export default function DialogEditStock({ id }: { id: string }) {
     }
   }
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmitForm() {
     try {
-      console.log(values);
+      console.log(stock);
       const { data } = await http.patch(`/inventory/${id}`, {
-        stock: values.stock,
+        stock,
       });
       console.log(data);
-      // Close the dialog after action
-      // navigate("/warehouse/inventory");
-      navigate(0)
       closeRef.current?.click();
       toast.success(data.message);
     } catch (error) {
@@ -76,53 +64,39 @@ export default function DialogEditStock({ id }: { id: string }) {
 
   return (
     <Dialog>
-      <Form {...form}>
+      <form>
         <DialogTrigger asChild>
-          <Button onClick={fetchInventoryById} className="bg-[var(--teal)]">
-            <Plus className="mr-2 h-4 w-4" /> Edit Stok
-          </Button>
+          <Button onClick={fetchInventoryById}>Edit stock</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] font-[family-name:Montserrat]">
+        <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle className="font-[family-name:Montserrat]">
-              Edit Stok untuk Lepo
-            </DialogTitle>
+            <DialogTitle>Edit stock of {inventory.name} </DialogTitle>
           </DialogHeader>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="font-[family-name:Montserrat] space-y-8"
-          >
-            <FormField
-              control={form.control}
-              name="stock"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Stok (unit)</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      defaultValue={inventory?.stock}
-                      {...field}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />{" "}
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="neutral">Close</Button>
-              </DialogClose>
-              <Button type="submit">Add Item</Button>
-            </DialogFooter>
-            {/* Hidden button to close the dialog */}
+          <div className="grid gap-4">
+            <div className="grid gap-3">
+              <Label htmlFor="name-1">Stock</Label>
+              <Input
+                id="name-1"
+                type="number"
+                name="name"
+                onChange={(e) => setStock(Number(e.target.value))}
+                value={stock}
+                defaultValue={inventory.stock}
+              />
+            </div>
+          </div>
+          <DialogFooter>
             <DialogClose asChild>
-              <button type="button" ref={closeRef} className="hidden" />
+              <div>
+                <Button variant="neutral">Cancel</Button>
+                <Button onClick={onSubmitForm} ref={closeRef}>
+                  Save changes
+                </Button>
+              </div>
             </DialogClose>
-          </form>
+          </DialogFooter>
         </DialogContent>
-      </Form>
+      </form>
     </Dialog>
   );
 }

@@ -43,7 +43,7 @@ export default function DialogAddInventory() {
 
   return (
     <Dialog>
-      <form onSubmit={onSubmitForm}>
+      <form>
         <DialogTrigger asChild>
           <Button>Add Inventory Item</Button>
         </DialogTrigger>
