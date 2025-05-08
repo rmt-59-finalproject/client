@@ -12,11 +12,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { http } from "@/helpers/axios";
 import { Trash2 } from "lucide-react";
-import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 export default function DialogDeleteModal({ id }: { id: string }) {
-  const navigate = useNavigate();
   async function handleDelete() {
     try {
       const data = await http.delete(`/inventory/${id}`, {
@@ -40,16 +38,16 @@ export default function DialogDeleteModal({ id }: { id: string }) {
         </AlertDialogTrigger>
         <AlertDialogContent className="font-[family-name:Montserrat]">
           <AlertDialogHeader>
-            <AlertDialogTitle>Anda yakin?</AlertDialogTitle>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              Tindakan ini tidak dapat dibatalkan. Tindakan ini akan menghapus
-              data produk secara permanen.
+              This action cannot be undone. This action will permanently delete
+              the product data.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Kembali</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleDelete}>
-              Lanjutkan Hapus
+              Continue
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
