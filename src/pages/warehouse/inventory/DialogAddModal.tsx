@@ -25,13 +25,10 @@ export default function DialogAddInventory() {
   async function onSubmitForm() {
     try {
       const body = { name, stock: Number(stock), unit, category };
-      console.log(body);
 
       const data = await http.post("/inventory", body, {
         withCredentials: true,
       });
-
-      console.log(data);
 
       if (data.status === 201) {
         toast.success(
@@ -40,7 +37,6 @@ export default function DialogAddInventory() {
       }
       closeRef.current?.click();
     } catch (error) {
-      console.log(error);
       toast.error((error as Error).response.data.message);
     }
   }
