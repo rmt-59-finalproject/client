@@ -8,24 +8,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { http } from "@/helpers/axios";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { useNavigate } from "react-router";
 import { InventoryItem } from "@/types";
 import { Label } from "@/components/ui/label";
 
@@ -33,7 +20,6 @@ export default function DialogEditStock({ id }: { id: string }) {
   const [inventory, setInventory] = useState<InventoryItem>({});
   const [stock, setStock] = useState(inventory.stock);
   const closeRef = useRef(null);
-  const navigate = useNavigate();
 
   async function fetchInventoryById() {
     try {
