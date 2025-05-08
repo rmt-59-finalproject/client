@@ -14,9 +14,9 @@ import { Badge } from "@/components/ui/badge";
 import { Search, RefreshCw } from "lucide-react";
 import { InventoryItem } from "@/types";
 import { http } from "@/helpers/axios";
-import DialogAddModal from "./DialogAddModal";
 import DialogDeleteModal from "./DialogDeleteModal";
 import DialogEditStock from "./DialogEditStock";
+import DialogAddInventory from "./DialogAddModal";
 
 type Metadata = {
   data: InventoryItem[];
@@ -41,7 +41,9 @@ export default function InventoryPage() {
 
   const fetchInventory = async () => {
     try {
-      const response = await http.get(`/inventory?limit=${limit}&page=${page}&search=${searchQuery}`);
+      const response = await http.get(
+        `/inventory?limit=${limit}&page=${page}&search=${searchQuery}`
+      );
 
       console.log(response.data);
       setMetadata(response.data);
@@ -67,7 +69,7 @@ export default function InventoryPage() {
         <div className="flex flex-row items-center px-5 pt-5 justify-between w-full ">
           <div className="flex flex-row justify-between items-center w-full">
             <h1 className="text-2xl font-bold">Inventory Management</h1>
-            <DialogAddModal />
+            <DialogAddInventory />
           </div>
         </div>
         <div className="container mx-auto py-8">

@@ -8,62 +8,29 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { http } from "@/helpers/axios";
-import { useNavigate } from "react-router";
 import { toast } from "sonner";
+import { Label } from "@/components/ui/label";
+import { http } from "@/helpers/axios";
 
-export default function DialogEditStock() {
+export default function DialogAddInventory() {
+  const [name, setName] = useState("");
+  const [stock, setStock] = useState("");
+  const [unit, setUnit] = useState("");
+  const [category, setCategory] = useState("");
   const closeRef = useRef(null);
-  const navigate = useNavigate();
-  const formSchema = z.object({
-    name: z.string(),
-    stock: z.string(),
-    unit: z.string(),
-    category: z.string(),
-  });
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "0",
-      stock: "0",
-      unit: "0",
-      category: "0",
-    },
-  });
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmitForm() {
     try {
-      console.log(values);
-      const { name, stock, unit, category } = values;
-      const data = await http.post(
-        "/inventory",
-        {
-          name,
-          stock: Number(stock),
-          unit,
-          category,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      closeRef.current?.click();
+      const body = { name, stock: Number(stock), unit, category };
+      console.log(body);
+
+      const data = await http.post("/inventory", body, {
+        withCredentials: true,
+      });
+
       console.log(data);
 
       if (data.status === 201) {
@@ -71,7 +38,7 @@ export default function DialogEditStock() {
           `${data.data.name} with stock ${data.data.stock} ${data.data.unit} created successfully`
         );
       }
-      navigate("/inventories");
+      closeRef.current?.click();
     } catch (error) {
       console.log(error);
       toast.error((error as Error).response.data.message);
@@ -80,91 +47,76 @@ export default function DialogEditStock() {
 
   return (
     <Dialog>
-      <Form {...form}>
+      <form onSubmit={onSubmitForm}>
         <DialogTrigger asChild>
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />Item
-          </Button>
+          <Button>Add Inventory Item</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle className="font-[family-name:Montserrat]">
-              Tambah Item Inventori
-            </DialogTitle>
+            <DialogTitle>Add Inventory Item</DialogTitle>
           </DialogHeader>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="font-[family-name:Montserrat] space-y-8"
-          >
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nama Barang</FormLabel>
-                  <FormControl>
-                    <Input type="text" {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />{" "}
-            <FormField
-              control={form.control}
-              name="stock"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Stok (unit)</FormLabel>
-                  <FormControl>
-                    <Input type="number" {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />{" "}
-            <FormField
-              control={form.control}
-              name="unit"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Unit (unit)</FormLabel>
-                  <FormControl>
-                    <Input type="text" {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />{" "}
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Kategori</FormLabel>
-                  <FormControl>
-                    <Input type="text" {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />{" "}
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="neutral">Keluar</Button>
-              </DialogClose>
-              <Button type="submit">Tambah Item</Button>
-            </DialogFooter>
-            {/* Hidden button to close the dialog */}
+          <div className="grid gap-4">
+            <div className="grid gap-3">
+              <Label htmlFor="name-1">Name Product</Label>
+              <Input
+                id="name-1"
+                type="text"
+                name="name"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+                value={name}
+                placeholder="Add name product here..."
+              />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="username-1">Stock</Label>
+              <Input
+                id="username-1"
+                type="number"
+                onChange={(e) => setStock(e.target.value)}
+                value={stock}
+                name="username"
+                placeholder="Add stock here..."
+              />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="username-1">Unit</Label>
+              <Input
+                id="username-1"
+                type="text"
+                onChange={(e) => {
+                  setUnit(e.target.value);
+                }}
+                value={unit}
+                name="username"
+                placeholder="Add unit here..."
+              />
+            </div>
+            <div className="grid gap-3">
+              <Label htmlFor="username-1">Category</Label>
+              <Input
+                id="username-1"
+                type="text"
+                name="username"
+                onChange={(e) => setCategory(e.target.value)}
+                value={category}
+                placeholder="Add category here..."
+              />
+            </div>
+          </div>
+          <DialogFooter>
             <DialogClose asChild>
-              <button type="button" ref={closeRef} className="hidden" />
+              <div>
+                <Button variant="neutral">Cancel</Button>
+                <Button onClick={onSubmitForm} ref={closeRef}>
+                  Save changes
+                </Button>
+              </div>
             </DialogClose>
-          </form>
+          </DialogFooter>
         </DialogContent>
-      </Form>
+      </form>
     </Dialog>
   );
 }
