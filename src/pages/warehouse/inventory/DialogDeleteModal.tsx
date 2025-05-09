@@ -24,8 +24,12 @@ export default function DialogDeleteModal({ id }: { id: string }) {
       console.log(data);
       toast.success(data.data.message);
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
+      if (error instanceof Error) {
+        // Safely access the error message
+        toast.error((error as any)?.response?.data?.message || error.message);
+      } else {
+        toast.error("An unknown error occurred.");
+      }
     }
   }
   return (

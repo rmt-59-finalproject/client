@@ -20,7 +20,7 @@ export default function DialogAddInventory() {
   const [stock, setStock] = useState("");
   const [unit, setUnit] = useState("");
   const [category, setCategory] = useState("");
-  const closeRef = useRef(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   async function onSubmitForm() {
     try {
@@ -37,7 +37,12 @@ export default function DialogAddInventory() {
       }
       closeRef.current?.click();
     } catch (error) {
-      toast.error((error as Error).response.data.message);
+      if (error instanceof Error) {
+        // Safely access the error message
+        toast.error((error as any)?.response?.data?.message || error.message);
+      } else {
+        toast.error("An unknown error occurred.");
+      }
     }
   }
 

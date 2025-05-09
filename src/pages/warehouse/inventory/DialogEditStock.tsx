@@ -17,9 +17,17 @@ import { InventoryItem } from "@/types";
 import { Label } from "@/components/ui/label";
 
 export default function DialogEditStock({ id }: { id: string }) {
-  const [inventory, setInventory] = useState<InventoryItem>({});
+  const [inventory, setInventory] = useState<InventoryItem>({
+    _id: "",
+    name: "",
+    category: "",
+    stock: 0,
+    unit: "",
+    createdAt: "",
+    updatedAt: "",
+  });
   const [stock, setStock] = useState(inventory.stock);
-  const closeRef = useRef(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   async function fetchInventoryById() {
     try {
@@ -43,8 +51,12 @@ export default function DialogEditStock({ id }: { id: string }) {
       closeRef.current?.click();
       toast.success(data.message);
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
+      if (error instanceof Error) {
+        // Safely access the error message
+        toast.error((error as any)?.response?.data?.message || error.message);
+      } else {
+        toast.error("An unknown error occurred.");
+      }
     }
   }
 
