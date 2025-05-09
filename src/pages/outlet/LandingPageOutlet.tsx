@@ -63,7 +63,7 @@ export default function LandingPageOutlet() {
                       : () => navigate(`/outlet/verify/${el._id}`)
                   }
                   nameButton={
-                    filter !== "delivery" ? "Detail Order" : "Cek Item"
+                    filter !== "delivery" ? "Order Detail" : "Check Order Item"
                   }
                   el={el}
                 />

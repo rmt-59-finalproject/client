@@ -31,7 +31,7 @@ export default function SummaryOrderPage() {
       const orders = totalOrder.map((el) => {
         if (el.quantity > el.stock) {
           throw new Error(
-            `Maaf tidak bisa membeli barang lebih dari jumlah stok yang tersedia!`
+            `Sorry, we cannot request more items than the available stock!`
           );
         }
         console.log(el, "<----persiapan buat validasi disini");
@@ -88,8 +88,7 @@ export default function SummaryOrderPage() {
                         <div className="flex flex-col ">
                           <h1 className="font-bold">{item.name}</h1>
                           <h1 className="text-[12px]">
-                            {item.category} • Stok tersedia: {item.stock}{" "}
-                            {item.unit}
+                            {item.category} • In stock: {item.stock} {item.unit}
                           </h1>
                         </div>
                       </CardContent>
@@ -119,7 +118,7 @@ export default function SummaryOrderPage() {
           variant={"neutral"}
           className="w-full max-w-6xl"
         >
-          Kembali
+          Back
         </Button>
         <Button
           onClick={submitOrder}

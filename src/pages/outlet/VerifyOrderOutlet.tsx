@@ -268,7 +268,7 @@ export default function VerifyOrderOutlet() {
             <CardContent>
               <div>
                 <div className="w-full flex justify-between items-center">
-                  <h1>Penerima Order</h1>
+                  <h1>Order Receipent</h1>
                   <h1>{detail?.orderId}</h1>
                 </div>
                 <h1 className="py-2.5 text-2xl">{detail?.outlet?.name}</h1>
@@ -277,7 +277,7 @@ export default function VerifyOrderOutlet() {
           </Card>
         </div>
 
-        <div className="p-5 w-full">
+        <div className="p-5 w-full gap-2 flex flex-col">
           {detail?.items?.map((el) => {
             const verifiedItem = verifiedItems[el?._id];
             const isItemVerified = verifiedItem?.isChecked || false;
@@ -363,7 +363,7 @@ export default function VerifyOrderOutlet() {
       <div className="font-[family-name:Montserrat] fixed bottom-4 flex justify-center items-center left-0 right-0 px-4 pt-10">
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button disabled={!allVerified}>
+            <Button className="max-w-6xl m-auto" disabled={!allVerified}>
               <CheckCircle2 className="mr-2 h-4 w-4" />
               Complete check
             </Button>
@@ -454,8 +454,8 @@ export default function VerifyOrderOutlet() {
                     <Textarea
                       placeholder={
                         orderStatus === "rejected"
-                          ? "Jelaskan alasan penolakan pesanan..."
-                          : "Tambahkan catatan jika diperlukan..."
+                          ? "Explain rejection reason..."
+                          : "Add notes if necessary..."
                       }
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
@@ -547,7 +547,7 @@ export default function VerifyOrderOutlet() {
                 )}
               </Button>
               <DialogClose asChild>
-                <Button variant="neutral">Cancek</Button>
+                <Button variant="neutral">Cancel</Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>
