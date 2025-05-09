@@ -76,7 +76,7 @@ export default function RegisterPage() {
                 <Input
                   id="Name"
                   type="text"
-                  placeholder="Masukkan nama lengkap disini"
+                  placeholder="Name here"
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
@@ -85,7 +85,7 @@ export default function RegisterPage() {
                 <Input
                   id="username"
                   type="text"
-                  placeholder="Masukkan username baru disini"
+                  placeholder="New Username"
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
