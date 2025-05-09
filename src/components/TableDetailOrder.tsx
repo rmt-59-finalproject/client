@@ -15,13 +15,13 @@ export default function TableDetailOrder({ data }: { data: ItemOrder[] }) {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Nama Produk</TableHead>
+          <TableHead>Product Name</TableHead>
           <TableHead>Qty</TableHead>
           <TableHead>Unit</TableHead>
-          <TableHead>Status Cek Driver</TableHead>
-          <TableHead>Status Cek Outlet</TableHead>
-          <TableHead>Tanggal Cek Driver</TableHead>
-          <TableHead>Tanggal Cek Outlet</TableHead>
+          <TableHead>Driver Check Status</TableHead>
+          <TableHead>Outlet Check Status</TableHead>
+          <TableHead>Driver Check Time</TableHead>
+          <TableHead>Outlet Check Time</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

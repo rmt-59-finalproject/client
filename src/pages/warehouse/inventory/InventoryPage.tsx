@@ -96,11 +96,11 @@ export default function InventoryPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Nama</TableHead>
-                      <TableHead>Kategori</TableHead>
-                      <TableHead>Stok</TableHead>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Category</TableHead>
+                      <TableHead>Stock</TableHead>
                       <TableHead>Unit</TableHead>
-                      <TableHead className="text-right">Aksi</TableHead>
+                      <TableHead className="text-right">Action</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -131,7 +131,7 @@ export default function InventoryPage() {
                           colSpan={5}
                           className="text-center py-4 text-muted-foreground"
                         >
-                          Item inventori tidak ditemukan
+                          Inventory item not found
                         </TableCell>
                       </TableRow>
                     )}

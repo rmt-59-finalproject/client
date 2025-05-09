@@ -63,7 +63,7 @@ export default function SummaryStatusPageOutlet() {
               <h1 className="text-2xl font-bold"> Order {data?.status}.</h1>
               <div className="flex flex-row justify-between items-center w-full">
                 <h1 className="text-lg opacity-70">
-                  Ini adalah rangkuman order Anda.
+                  This is your order summary.
                 </h1>
               </div>
             </div>
@@ -91,7 +91,7 @@ export default function SummaryStatusPageOutlet() {
               </div>
             </CardContent>
           </Card>
-          <h2 className="text-xl font-bold mb-4">Item yang telah dicek</h2>
+          <h2 className="text-xl font-bold mb-4">Verified items</h2>
           <Card className="border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <CardContent className="p-0">
               <div
@@ -149,7 +149,7 @@ export default function SummaryStatusPageOutlet() {
               <Card>
                 <CardContent>
                   <div>
-                    <h1 className="pb-5">Catatan untuk orderan ini</h1>
+                    <h1 className="pb-5">Note for this order</h1>
                     <Textarea disabled value={data?.notes} />
                   </div>
                 </CardContent>

@@ -73,7 +73,7 @@ export default function LandingPageOutlet() {
         ) : (
           // GAADA ORDERAN
           <div className="min-h-20 opacity-70 flex justify-center items-center">
-            <h1>Ga ada orderan nih, santuy dulu aja...</h1>
+            <h1>Okay, enough for today</h1>
           </div>
         )}
       </div>

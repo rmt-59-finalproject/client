@@ -34,7 +34,7 @@ export default function AllOrderDriver() {
         <div className="flex flex-col max-w-6xl justify-center items-center w-full">
           <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
             <div>
-              <h1 className="text-2xl font-bold">Histori Orderan</h1>
+              <h1 className="text-2xl font-bold">Order History</h1>
             </div>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function AllOrderDriver() {
             // GAADA ORDERAN
             <>
               <div className="min-h-20 opacity-70 flex justify-center items-center">
-                <h1>Ga ada orderan nih, santuy dulu aja...</h1>
+                <h1>Okay, enough for today!</h1>
               </div>
             </>
           )}

@@ -42,7 +42,6 @@ export default function DetailOrderPage() {
       const data = await http.get(`/orders/${orderId}`, {
         withCredentials: true,
       });
-      console.log(data.data, "<-- fetchDetail");
       const responseData: OrderType = data?.data;
       setDetail(responseData);
     } catch (error) {
@@ -64,19 +63,19 @@ export default function DetailOrderPage() {
       <div className="p-2.5 w-full max-w-7xl">
         <div className=" p-2.5 rounded-2xl border border-gray-400 bg-gray-300">
           <div className="px-5 pt-5">
-            <h1>Order Id</h1>
+            <h1>Order ID</h1>
             <h1 className="text-lg font-bold">{detail?.orderId}</h1>
           </div>
           <div className="px-5 pt-5">
-            <h1>Nama Outlet</h1>
+            <h1>Outlet Name</h1>
             <h1 className="text-lg font-bold">{detail?.outlet?.name}</h1>
           </div>
           <div className="px-5 pt-5">
-            <h1>Orderan ini diberikan kepada:</h1>
+            <h1>This order assigned to:</h1>
             <h1 className="text-lg font-bold">{detail?.driver?.name}</h1>
           </div>
           <div className="px-5 pt-5">
-            <h1>Tanggal Pembuatan Order</h1>
+            <h1>Order Created Date:</h1>
             <h1 className="text-lg font-bold">
               {formatDate(detail?.createdAt)}
             </h1>
@@ -86,7 +85,7 @@ export default function DetailOrderPage() {
             <BadgeStatusColor status={detail?.status as OrderStatus} />
           </div>
           <div className="p-1">
-            <h1 className="px-5 pt-5 pb-5">Item Orderan</h1>
+            <h1 className="px-5 pt-5 pb-5">Order Items</h1>
             <div className="flex flex-col gap-2">
               <TableDetailOrder data={detail?.items || []} />
             </div>
@@ -94,7 +93,7 @@ export default function DetailOrderPage() {
           {detail?.notes && (
             <div className="p-5 w-full">
               <div className="border border-gray p-5 rounded-2xl">
-                <h1 className="pb-5">Catatan untuk orderan ini</h1>
+                <h1 className="pb-5">Notes for this request order:</h1>
                 <div className="p-5 bg-gray-400 rounded-2xl">
                   {detail?.notes}
                 </div>

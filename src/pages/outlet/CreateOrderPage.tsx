@@ -84,7 +84,7 @@ export default function CreateOrderPage() {
         {/*  */}
       </div>
       <div className=" px-5 py-2.5 max-w-6xl font-bold text-lg w-full">
-        <h1>Inventori Barang Warehouse</h1>
+        <h1>Inventories</h1>
         <Input onChange={(e) => setSearch(e.target.value)} />
       </div>
       <ScrollArea className="h-80 max-w-6xl w-full">
@@ -97,15 +97,12 @@ export default function CreateOrderPage() {
                     <div className="flex flex-col">
                       <h1 className="font-bold">{item.name}</h1>
                       <h1 className="text-[12px]">
-                        {item.category} • Stok tersedia: {item.stock}{" "}
-                        {item.unit}
+                        {item.category} • In stock: {item.stock} {item.unit}
                       </h1>
                     </div>
                   </CardContent>
                   <CardContent>
-                    <Button onClick={() => handleAdd(item)}>
-                      Tambahkan Order
-                    </Button>
+                    <Button onClick={() => handleAdd(item)}>Add Order</Button>
                   </CardContent>
                 </div>
               </Card>
@@ -143,7 +140,7 @@ export default function CreateOrderPage() {
                   </CardContent>
                   <CardContent>
                     <Button onClick={() => handleRemove(item._id)}>
-                      Buang
+                      Remove
                     </Button>
                   </CardContent>
                 </div>
@@ -156,7 +153,7 @@ export default function CreateOrderPage() {
       {orderItems.length === 0 && (
         <>
           <div className="flex flex-row justify-center items-center p-5 w-full">
-            <h1>Keranjang orderan kosong.</h1>
+            <h1>Your bag is empty</h1>
           </div>
         </>
       )}

@@ -112,7 +112,7 @@ export default function SummaryStatusPageDriver() {
                       </td>
                       <td className="px-4 py-3 text-center">
                         <span className="inline-flex items-center gap-1 text-green-500">
-                          <Check className="h-4 w-4" /> Proses antar
+                          <Check className="h-4 w-4" /> Delivery process
                         </span>
                       </td>
                     </tr>

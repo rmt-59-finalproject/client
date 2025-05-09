@@ -65,8 +65,8 @@ export default function RegisterPage() {
     <div className="flex flex-col justify-center bg-[url('data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2032%2032%27%20width=%2732%27%20height=%2732%27%20fill=%27none%27%20stroke=%27rgb(0%200%200%20/%200.2)%27%3e%3cpath%20d=%27M0%20.5H31.5V32%27/%3e%3c/svg%3e')] items-center min-h-dvh w-full bg-gray-200">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle>Register ke Stockify</CardTitle>
-          <CardDescription>Register akun tim baru anda.</CardDescription>
+          <CardTitle>Register to Stockify</CardTitle>
+          <CardDescription>Lets register your new account team</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={submitLogin}>

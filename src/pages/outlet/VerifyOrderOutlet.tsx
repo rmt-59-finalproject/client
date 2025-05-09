@@ -247,7 +247,7 @@ export default function VerifyOrderOutlet() {
       <div className="flex flex-col max-w-6xl justify-center items-center w-full">
         <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
           <div className="w-full">
-            <h1 className="text-2xl font-bold">Cek Item Orderan</h1>
+            <h1 className="text-2xl font-bold">Check Order Items</h1>
           </div>
         </div>
 
@@ -255,11 +255,10 @@ export default function VerifyOrderOutlet() {
         <div className="p-5 w-full">
           <Alert>
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Perhatian</AlertTitle>
+            <AlertTitle>Attention</AlertTitle>
             <AlertDescription>
-              Pastikan jumlah Actual Quantity sama dengan Expected Quantity
-              untuk verifikasi yang valid. Jika ada perbedaan, Anda dapat
-              menolak pesanan.
+              Please ensure that the actual quantity is equal to the expected
+              quantity for the purpose of valid verification!
             </AlertDescription>
           </Alert>
         </div>
@@ -310,7 +309,7 @@ export default function VerifyOrderOutlet() {
 
                     {isItemVerified && (
                       <Badge className="bg-green-500 text-white px-3 py-1 rounded-md flex items-center gap-1">
-                        <Check className="h-4 w-4" /> Terverifikasi
+                        <Check className="h-4 w-4" /> Verified
                       </Badge>
                     )}
                   </div>
@@ -349,7 +348,7 @@ export default function VerifyOrderOutlet() {
                       </div>
                       {!isQuantityMatch && (
                         <p className="text-red-500 text-sm mt-1">
-                          Berbeda dengan expected: {el?.quantity} {el?.unit}
+                          Different check, expected: {el?.quantity} {el?.unit}
                         </p>
                       )}
                     </div>
@@ -366,7 +365,7 @@ export default function VerifyOrderOutlet() {
           <DialogTrigger asChild>
             <Button disabled={!allVerified}>
               <CheckCircle2 className="mr-2 h-4 w-4" />
-              Selesaikan pengecekan
+              Complete check
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-lg">
@@ -375,7 +374,7 @@ export default function VerifyOrderOutlet() {
                 Order Verification
               </DialogTitle>
               <DialogDescription className="font-[family-name:Montserrat]">
-                Pilih status pesanan dan tambahkan catatan jika diperlukan.
+                Select the order status, and add the notes if necessary.
               </DialogDescription>
             </DialogHeader>
 
@@ -384,7 +383,7 @@ export default function VerifyOrderOutlet() {
                 <CardHeader className="border-b-4 border-black ">
                   <CardTitle className="font-[family-name:Montserrat] text-xl flex items-center gap-2">
                     <Store className="h-5 w-5" />
-                    Penerima Orderan
+                    Order Recipient
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="font-[family-name:Montserrat]">
@@ -427,7 +426,7 @@ export default function VerifyOrderOutlet() {
                       >
                         <CheckCircle2 className="h-5 w-5 text-green-600" />
                         <span className="font-medium">
-                          Terima Pesanan (Completed)
+                          Receive this Order (Completed)
                         </span>
                       </Label>
                     </div>
@@ -439,7 +438,7 @@ export default function VerifyOrderOutlet() {
                       >
                         <XCircle className="h-5 w-5 text-red-600" />
                         <span className="font-[family-name:Montserrat] font-medium">
-                          Tolak Pesanan (Rejected)
+                          Reject this Order (Rejected)
                         </span>
                       </Label>
                     </div>
@@ -447,7 +446,7 @@ export default function VerifyOrderOutlet() {
 
                   <div className="mt-4">
                     <h3 className="font-medium mb-2">
-                      Catatan{" "}
+                      Notes{" "}
                       {orderStatus === "rejected"
                         ? "(Wajib diisi jika menolak)"
                         : ""}
@@ -468,7 +467,7 @@ export default function VerifyOrderOutlet() {
                     />
                     {orderStatus === "rejected" && !notes && (
                       <p className="text-red-500 text-sm mt-1">
-                        Catatan wajib diisi jika menolak pesanan
+                        The notes is required while order status is rejected.
                       </p>
                     )}
                   </div>
@@ -476,11 +475,9 @@ export default function VerifyOrderOutlet() {
               </Card>
 
               <div className="font-[family-name:Montserrat] mb-6">
-                <h2 className="text-xl font-bold mb-4">
-                  Item yang telah dicek
-                </h2>
+                <h2 className="text-xl font-bold mb-4">Verified items:</h2>
                 <p className="text-muted-foreground mb-4">
-                  Berikut adalah daftar item yang telah dicek:
+                  Here is a list of items that have been checked:
                 </p>
 
                 <Card className="pt-0 pb-0">
@@ -540,17 +537,17 @@ export default function VerifyOrderOutlet() {
                 {orderStatus === "completed" ? (
                   <>
                     <CheckCircle2 className="mr-2 h-4 w-4" />
-                    Terima Pesanan
+                    Receive this order
                   </>
                 ) : (
                   <>
                     <XCircle className="mr-2 h-4 w-4" />
-                    Tolak Pesanan
+                    Reject this order
                   </>
                 )}
               </Button>
               <DialogClose asChild>
-                <Button variant="neutral">Batal</Button>
+                <Button variant="neutral">Cancek</Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>

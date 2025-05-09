@@ -67,9 +67,9 @@ export default function SummaryOrderPage() {
       <div className="flex flex-col max-w-6xl justify-center items-center w-full">
         <div className="border border-gray-300 rounded-2xl flex flex-row items-center w-full p-5 justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Rangkuman Orderan</h1>
+            <h1 className="text-2xl font-bold">Order Summary</h1>
             <h1 className="text-lg opacity-50">
-              Review dulu orderannmu sebelum disubmit
+              Lets review your request before submitting.
             </h1>
           </div>
           {/* <div className="flex gap-2">
@@ -108,7 +108,7 @@ export default function SummaryOrderPage() {
             </>
           ) : (
             <div className="p-5 ">
-              <h1>Belum ada yang diorder nih.</h1>
+              <h1>Oops, your bag is still empty</h1>
             </div>
           )}
         </div>
