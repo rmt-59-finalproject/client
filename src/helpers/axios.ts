@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const http = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND,
+  baseURL: "https://stockify-rest.zen-geohub.tech/api",
   withCredentials: true,
 });
