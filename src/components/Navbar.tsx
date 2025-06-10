@@ -12,7 +12,7 @@ export default function Navbar() {
         <div>
           <img
             className="w-[50px] border-5 rounded-lg border-black"
-            src={"/public/stockify.png"}
+            src={"/stockify.png"}
             alt="image"
           />
         </div>
